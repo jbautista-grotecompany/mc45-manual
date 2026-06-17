@@ -831,3 +831,12 @@ body,
     display: none;
   }
 }
+/* ============================================================
+   21. HOME PAGE MACHINE IMAGE
+   Remove black background on the cover image.
+   mix-blend-mode: multiply makes black pixels transparent.
+   ============================================================ */
+.md-content img[src*="Grote_MC45"] {
+  mix-blend-mode: multiply;
+  background-color: transparent;
+}
