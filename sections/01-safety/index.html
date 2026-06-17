@@ -780,20 +780,26 @@
 
 <h1 id="1-safety">1  Safety<a class="headerlink" href="#1-safety" title="Permanent link">&para;</a></h1>
 <h2 id="11-emergency-stop-devices">1.1 Emergency Stop Devices<a class="headerlink" href="#11-emergency-stop-devices" title="Permanent link">&para;</a></h2>
-<p>Three emergency stop devices are installed on the Applicator: one on the OI enclosure,
-one on the ELCTRICAL ENCLOSURE and one the FEED-Z CONVEYOR. </p>
-<p>When pressed, the device removes all motion from the Applicator. To reset, 
-pull the actuator to release.</p>
+<p>Three emergency stop devices are installed on the Depositor: one on the OI
+enclosure, one on the ELECTRICAL ENCLOSURE, and one on the FEED-Z CONVEYOR
+(option). When pressed, the device removes all motion from the Depositor.
+To reset, pull the actuator to release.</p>
 <figure>
-<div class="figure-placeholder">Figure 1.1  Emergency Stop Locations</div>
-<figcaption>Figure 1.1  Emergency Stop Locations</figcaption>
+<p><img alt="Emergency stop location 1" src="../assets/images/Figure_1_1_EstopLocation_01.svg" width="600" />
+  </p>
+<figcaption>Figure 1.1a  Emergency Stop Locations</figcaption>
+</figure>
+<figure>
+<p><img alt="Emergency stop location 2" src="../assets/images/Figure_1_1_EstopLocation_02.svg" width="600" />
+  </p>
+<figcaption>Figure 1.1b  Emergency Stop Locations</figcaption>
 </figure>
 <p>For the status of all emergency stop devices and guard switches, navigate to
 the Safety PLC screen on the OI. See
 <a href="../12-oi-reference/#safety-plc-screen">Section 12: OI Reference</a>.</p>
 <hr />
 <h2 id="12-guard-switches">1.2 Guard Switches<a class="headerlink" href="#12-guard-switches" title="Permanent link">&para;</a></h2>
-<p>Seven safety guard switches are monitored by the safety PLC. The Applicator
+<p>Seven safety guard switches are monitored by the safety PLC. The Depositor
 will not run if any guard is open or removed.</p>
 <table>
 <thead>
@@ -840,17 +846,18 @@ will not run if any guard is open or removed.</p>
 <hr />
 <h2 id="13-safe-state-definition">1.3 Safe State Definition<a class="headerlink" href="#13-safe-state-definition" title="Permanent link">&para;</a></h2>
 <p>Pressing an emergency stop device or opening any guard switch places the
-Applicator in a safe state. The following occur automatically:</p>
+Depositor in a safe state. The following occur automatically:</p>
 <ul>
 <li>All motion commands are removed. Motors coast to stop.</li>
 <li>The RETRACTABLE CONVEYOR servo drive is disabled.</li>
+<li>Pneumatic air supply to the BUCKET cylinder is removed.</li>
 </ul>
 <p>The MACHINE ENABLE circuit must be reset before operation can resume.
-  See <a href="../03-startup/">Section 3: Startup</a>.</p>
+See <a href="../03-startup/">Section 3: Startup</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Emergency stop devices are for emergency conditions only. For normal shutdown, 
-use the STOP control on the HOME screen.</p>
+<p>Emergency stop devices are for emergency conditions only. For normal
+shutdown, use the STOP control on the HOME screen.</p>
 </div>
 
 
