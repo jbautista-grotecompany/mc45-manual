@@ -1,6 +1,6 @@
 ## Operations Manual { .cover-subtitle }
 
-<div class="figure-placeholder">Figure — MC-45 Spot Depositor / TruTop Topping Applicator</div>
+![MC-45 Spot Depositor](assets/images/Grote_MC45-w-feeder.png){ width="500" }
 
 # MC-45 SPOT DEPOSITOR / TRUTOP TOPPING APPLICATOR
 
