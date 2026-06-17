@@ -49,8 +49,12 @@ nav:
   - "5. Recipe Setup": sections/05-recipe-setup.md
   - "6. How It Works": sections/06-how-it-works.md
   - "7. Motor Speed Scaling": sections/07-motor-speed-scaling.md
-  - "8. OI Reference": sections/08-oi-reference.md
-  - "9. Troubleshooting": sections/09-troubleshooting.md
+  - "8. Kollmorgen Servo Setup": sections/08-kollmorgen-servo-setup.md
+  - "9. Linmot Servo Setup": sections/09-linmot-servo-setup.md
+  - "10. Load Cell Calibration": sections/10-load-cell-calibration.md
+  - "11. Retractable Conveyor Limits": sections/11-retractable-conveyor-limits.md
+  - "12. OI Reference": sections/12-oi-reference.md
+  - "13. Troubleshooting": sections/13-troubleshooting.md
   - "Appendix A. Recipe Starting Points": sections/appendix-a.md
   - "Appendix B. Glossary": sections/appendix-b.md
   - About: sections/About.md

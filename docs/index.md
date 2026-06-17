@@ -14,9 +14,13 @@ This manual covers the electrical systems, controls, and operation of the MC-45 
 | [4. Operating Modes](sections/04-operating-modes.md) | Run, Stop, Prime, Empty, Local/Remote. |
 | [5. Recipe Setup](sections/05-recipe-setup.md) | Loading, editing, and saving recipes. |
 | [6. How It Works](sections/06-how-it-works.md) | Deposit sequence, target tracking, carpet trigger logic. |
-| [7. Motor Speed Scaling](sections/07-motor-speed-scaling.md) | VFD and servo drive scaling parameters. |
-| [8. OI Reference](sections/08-oi-reference.md) | Every screen, control, and display field documented. |
-| [9. Troubleshooting](sections/09-troubleshooting.md) | Fault conditions and corrective actions. |
+| [7. Motor Speed Scaling](sections/07-motor-speed-scaling.md) | PowerFlex 525 VFD scaling parameters. |
+| [8. Kollmorgen Servo Setup](sections/08-kollmorgen-servo-setup.md) | AKD drive setup for PORTION CONVEYOR and FEED CONVEYOR (option). |
+| [9. Linmot Servo Setup](sections/09-linmot-servo-setup.md) | E1250 drive setup for RETRACTABLE CONVEYOR. |
+| [10. Load Cell Calibration](sections/10-load-cell-calibration.md) | Belt weight sensor calibration. |
+| [11. Retractable Conveyor Limits](sections/11-retractable-conveyor-limits.md) | Overtravel switches and software position setup. |
+| [12. OI Reference](sections/12-oi-reference.md) | Every screen, control, and display field documented. |
+| [13. Troubleshooting](sections/13-troubleshooting.md) | Fault conditions and corrective actions. |
 | [Appendix A](sections/appendix-a.md) | Recipe starting points by product type. |
 | [Appendix B](sections/appendix-b.md) | Glossary. |
 
