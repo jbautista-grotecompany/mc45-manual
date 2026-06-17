@@ -2,29 +2,29 @@
 
 ## 1.1 Emergency Stop Devices
 
-The MC-45 Spot Depositor has two E-STOP push buttons located on the machine frame.
-An additional E-STOP is located on the FEED-Z CONVEYOR (option). When pressed, any
-E-STOP removes power from all devices capable of motion.
+Three emergency stop devices are installed on the Applicator: two on the
+machine frame and one on the FEED-Z CONVEYOR (option). When pressed, any
+device removes all motion from the Applicator. To reset, twist the actuator
+clockwise 90 degrees until it releases.
 
-!!! warning
-    **E-STOP is for emergencies only.**
-    Repeated use of the E-STOP as a normal stop degrades electronic components. Use
-    the STOP button on the OI to stop the Applicator during normal operation.
+After an emergency stop, wait a minimum of 1 minute before restoring control
+power to allow all drive protection circuits to reset.
 
-To reset an E-STOP: twist the button head clockwise 90 degrees until it releases.
+<figure markdown>
+  <div class="figure-placeholder">Figure 1.1  Emergency Stop Locations</div>
+  <figcaption>Figure 1.1  Emergency Stop Locations</figcaption>
+</figure>
 
-After an E-STOP, wait a minimum of 1 minute before restoring control power to allow
-all drive protection circuits to reset.
-
-For E-STOP and guard switch status, refer to the **Safety PLC screen** in the OI.
-See [Section 12: OI Reference](12-oi-reference.md#safety-plc-screen).
+For the status of all emergency stop devices and guard switches, navigate to
+the Safety PLC screen on the OI. See
+[Section 12: OI Reference](12-oi-reference.md#safety-plc-screen).
 
 ---
 
 ## 1.2 Guard Switches
 
-The Applicator has seven safety guard switches monitored by the safety PLC. The
-machine will not run if any guard is open or removed.
+Seven safety guard switches are monitored by the safety PLC. The Applicator
+will not run if any guard is open or removed.
 
 | **Switch** | **Location** |
 |---|---|
@@ -36,32 +36,29 @@ machine will not run if any guard is open or removed.
 | SPINNER | Spinner area |
 | HOPPER | Hopper area |
 
+<figure markdown>
+  <div class="figure-placeholder">Figure 1.2  Guard Switch Locations</div>
+  <figcaption>Figure 1.2  Guard Switch Locations</figcaption>
+</figure>
+
+---
+
+## 1.3 Safe State Definition
+
+Pressing an emergency stop device or opening any guard switch places the
+Applicator in a safe state. The following occur automatically:
+
+- All motion commands are removed. Motors coast to stop.
+- The RETRACTABLE CONVEYOR servo drive is disabled.
+- The MACHINE ENABLE circuit must be reset before operation can resume.
+  See [Section 3: Startup](03-startup.md).
+
 !!! warning
-    **Never bypass a guard switch.**
-    Guards protect operators from moving belts, the retractable conveyor, and rotating
-    assemblies. Always use Lock-out/Tag-out procedures before removing any guard for
-    maintenance.
+    **Emergency stop devices are for emergency conditions only.**
+    Repeated use as a normal stop degrades electronic components and drive
+    protection circuits. For normal shutdown, use the STOP button on the OI.
 
----
-
-## 1.3 Lockout / Tagout
-
-Before performing any maintenance, cleaning, or guard removal:
-
-1. Press the E-STOP button.
-2. Turn the ELECTRICAL DISCONNECT to the OFF position.
-3. Lock the disconnect with a personal padlock.
-4. Close the pneumatic isolation valve and lock it.
-5. Verify all motion has stopped before proceeding.
-
----
-
-## 1.4 General Safety Precautions
-
-- Keep hands away from moving conveyor belts and rotating assemblies at all times.
-- Load product in small amounts (3–5 kg / 6–11 lb) to avoid back injury.
-- Use two people or mechanical assistance to lift heavy assemblies such as the BUCKET
-  and SPINNER MOTOR.
-- Do not stand or climb on the machine.
-- The RETRACTABLE CONVEYOR moves at high velocity during operation. Never reach into
-  the machine while it is enabled.
+!!! note
+    Always use Lock-out/Tag-out procedures before removing any guard for
+    maintenance or cleaning. See the machine safety placard for site-specific
+    LOTO requirements.
