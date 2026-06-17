@@ -1,0 +1,9 @@
+MC-45 SPOT DEPOSITOR / TRUTOP TOPPING APPLICATOR
+Operations Manual — MkDocs Revision Log
+========================================
+
+v1.0 — June 2026
+  - Initial project created from Waterfall Applicator MkDocs v1.1 template
+  - Section structure: 9 sections + 2 appendices
+  - Repo: https://github.com/jbautista-grotecompany/mc45-manual
+  - Live site: https://jbautista-grotecompany.github.io/mc45-manual/
