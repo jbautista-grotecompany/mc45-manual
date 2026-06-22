@@ -89,6 +89,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#4-operating-modes" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -338,6 +343,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Operating Modes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -355,6 +380,119 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-depositor-control-local-and-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Depositor Control: LOCAL and REMOTE
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-mode-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Mode Selection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-prime-run-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 PRIME / RUN Mode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 PRIME / RUN Mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prime-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRIME Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RUN Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-empty-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 EMPTY Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#45-bypass-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 BYPASS Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#46-conserve-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 CONSERVE Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -701,9 +839,133 @@
 
 
 
-  <h1>4. Operating Modes</h1>
-
-
+<h1 id="4-operating-modes">4  Operating Modes<a class="headerlink" href="#4-operating-modes" title="Permanent link">&para;</a></h1>
+<p>Sections 4.3 through 4.6 describe the four operator-selected modes. PRIME
+and CONSERVE are automatic states. The Depositor enters PRIME and CONSERVE
+modes based on operating conditions.</p>
+<h2 id="41-depositor-control-local-and-remote">4.1 Depositor Control: LOCAL and REMOTE<a class="headerlink" href="#41-depositor-control-local-and-remote" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="LOCAL and REMOTE control flowchart showing start/stop source selection" src="../../assets/images/fig_4_1_local_remote.svg" />
+  </p>
+<figcaption>Figure 4.1  LOCAL and REMOTE control flowchart</figcaption>
+</figure>
+<ol>
+<li><strong>LOCAL control:</strong> Start and stop the Depositor from the HOME screen
+   using PRESS TO START and STOP. The Depositor runs independently of any
+   upstream or downstream equipment.</li>
+<li><strong>REMOTE control:</strong> An external line signal starts and stops the
+   Depositor. A dry-contact output (Upstream Interlock) sends the
+   Depositor's run status to upstream equipment.</li>
+</ol>
+<hr />
+<h2 id="42-mode-selection">4.2 Mode Selection<a class="headerlink" href="#42-mode-selection" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="Operating mode selection flowchart showing RUN, EMPTY, BYPASS, and PRIME paths" src="../../assets/images/fig_4_2_mode_selection.svg" />
+  </p>
+<figcaption>Figure 4.2  Operating mode selection flowchart</figcaption>
+</figure>
+<ol>
+<li><strong>Run Production.</strong> Select RUN mode for normal topping application.
+   The Depositor verifies priming criteria before starting. If not met,
+   the OI prompts the operator to complete PRIME mode first.</li>
+<li><strong>Empty Depositor.</strong> Select EMPTY mode to clear topping from the
+   Depositor.</li>
+<li><strong>Bypass Depositor (Pass-Thru).</strong> Select BYPASS mode to run the PRODUCT
+   CONVEYOR without applying topping.</li>
+</ol>
+<hr />
+<h2 id="43-prime-run-mode">4.3 PRIME / RUN Mode<a class="headerlink" href="#43-prime-run-mode" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="PRIME and RUN mode flowchart showing priming sequence and transition to RUN" src="../../assets/images/fig_4_3_prime_run.svg" />
+  </p>
+<figcaption>Figure 4.3  PRIME and RUN mode flowchart</figcaption>
+</figure>
+<h3 id="prime-mode">PRIME Mode<a class="headerlink" href="#prime-mode" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Select PRIME mode. Press and hold PRESS TO START for three seconds.</li>
+<li>The RAKE moves to the recipe position. Allow travel to complete before
+   loading topping.</li>
+<li>Load topping manually at the HOPPER.</li>
+<li>Priming continues until PORTION CONVEYOR weight exceeds 75% of TARGET
+   LEVEL for 10 continuous seconds.</li>
+<li>When complete, the Depositor automatically transitions to RUN mode.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>PRIME mode is available only in LOCAL control. Selecting RUN mode before
+priming is complete prompts the OI to require PRIME mode to finish first.</p>
+</div>
+<h3 id="run-mode">RUN Mode<a class="headerlink" href="#run-mode" title="Permanent link">&para;</a></h3>
+<p>When priming is complete, the Depositor transitions to RUN mode
+automatically. The PRODUCT CONVEYOR runs continuously. The RAKE, SPINNER,
+PORTION CONVEYOR, and FEED-Z CONVEYOR start when a target is detected.</p>
+<p>The STATUS BANNER displays <strong>MACHINE RUNNING</strong>.</p>
+<hr />
+<h2 id="44-empty-mode">4.4 EMPTY Mode<a class="headerlink" href="#44-empty-mode" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="EMPTY mode flowchart showing conveyor run directions and stop condition" src="../../assets/images/fig_4_4_empty.svg" />
+  </p>
+<figcaption>Figure 4.4  EMPTY mode flowchart</figcaption>
+</figure>
+<ol>
+<li>Select EMPTY mode. Press and hold PRESS TO START for three seconds. All
+   conveyor drives run to clear topping from the system. Watch the HOPPER
+   and RAKE area. When topping no longer recirculates and the belt surfaces
+   are clear, press STOP.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>EMPTY mode does not stop automatically. Press STOP when emptying is
+complete. EMPTY mode is available in LOCAL control only.</p>
+</div>
+<hr />
+<h2 id="45-bypass-mode">4.5 BYPASS Mode<a class="headerlink" href="#45-bypass-mode" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="BYPASS mode flowchart showing PRODUCT CONVEYOR running without topping application" src="../assets/images/fig_4_5_bypass.svg" />
+  </p>
+<figcaption>Figure 4.5  BYPASS mode flowchart</figcaption>
+</figure>
+<ol>
+<li>Select BYPASS mode. Start the Depositor. The PRODUCT CONVEYOR operates
+   without topping application.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When equipped with a safety PLC, BYPASS mode allows guards to remain
+open. Contact <a href="../About/#contact">Grote Service</a> before running BYPASS
+with a guard open if the installed safety circuit type is not known.</p>
+</div>
+<hr />
+<h2 id="46-conserve-mode">4.6 CONSERVE Mode<a class="headerlink" href="#46-conserve-mode" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="CONSERVE mode flowchart showing timer trigger, motor stop, and auto-recovery" src="../assets/images/fig_4_6_conserve.svg" />
+  </p>
+<figcaption>Figure 4.6  CONSERVE mode flowchart</figcaption>
+</figure>
+<ol>
+<li>During RUN mode, the Depositor monitors the TARGET SENSOR.</li>
+<li>If no target is detected, the CONSERVE timer starts. A target arriving
+   before the timer expires resets the timer and operation continues
+   normally.</li>
+<li>If the timer expires, the Depositor enters CONSERVE mode.</li>
+<li>All operations except the PRODUCT CONVEYOR pause: the RAKE, SPINNER,
+   PORTION CONVEYOR, and FEED-Z CONVEYOR stop.</li>
+<li>The STATUS BANNER displays <strong>MACHINE RUNNING CONSERVE MODE ACTIVE</strong>.</li>
+<li>When a target is detected, CONSERVE mode clears automatically and all
+   stopped motors restart.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Topping Loading.</strong>
+Topping must not be added directly to the RAKE area when the Depositor
+is stopped. Load topping at the HOPPER only.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Set the CONSERVE timer at MACHINE OPTIONS → CONSERVE MODE TIME [MS],
+in milliseconds. The value should be based on travel time from the
+TARGET SENSOR to the drop point at the expected line speed.</p>
+</div>
 
 
 
