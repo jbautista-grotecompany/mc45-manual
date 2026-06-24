@@ -89,6 +89,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#5-recipe-setup" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -365,6 +370,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Recipe Setup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -382,6 +407,86 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#51-recipe-screen-field-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Recipe Screen: Field Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-loading-and-saving-recipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Loading and Saving Recipes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53-skip-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Skip Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54-rake-height-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Rake Height Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.4 Rake Height Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#topping-compaction-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Topping Compaction Assessment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -701,9 +806,213 @@
 
 
 
-  <h1>5. Recipe Setup</h1>
+<h1 id="5-recipe-setup">5  Recipe Setup<a class="headerlink" href="#5-recipe-setup" title="Permanent link">&para;</a></h1>
+<h2 id="51-recipe-screen-field-reference">5.1 Recipe Screen: Field Reference<a class="headerlink" href="#51-recipe-screen-field-reference" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="RECIPE screen showing all editable production parameter fields" src="../../assets/images/fig_5_1_recipe_screen.svg" width="700" />
+  </p>
+<figcaption>Figure 5.1  RECIPE screen</figcaption>
+</figure>
+<p>All production parameters are stored in the active recipe. Editable fields
+have a yellow background with green text. See
+<a href="../12-oi-reference/">Section 12: OI Reference</a> for screen layout and
+<a href="../appendix-a/">Appendix A: Recipe Starting Points</a> for starting values.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Field</strong></th>
+<th><strong>Range</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RAKE SPEED</strong></td>
+<td>10–100 %</td>
+<td>RAKE motor speed.</td>
+</tr>
+<tr>
+<td><strong>SPINNER SPEED</strong></td>
+<td>10–100 %</td>
+<td>SPINNER motor speed.</td>
+</tr>
+<tr>
+<td><strong>PRODUCT CONV</strong></td>
+<td>0–60 FPM</td>
+<td>PRODUCT CONVEYOR speed.</td>
+</tr>
+<tr>
+<td><strong>LINE RATE</strong></td>
+<td>0–48 PPM</td>
+<td>Target throughput in portions per minute. Used by the PLC to calculate PORTION CONVEYOR move speed.</td>
+</tr>
+<tr>
+<td><strong>FEED-Z CONV</strong></td>
+<td>10–30 FPM</td>
+<td>FEED-Z CONVEYOR speed. (Option)</td>
+</tr>
+<tr>
+<td><strong>FEED CONV</strong></td>
+<td>0–100 FPM</td>
+<td>FEED CONVEYOR speed. (Option)</td>
+</tr>
+<tr>
+<td><strong>HOPPER LOW WEIGHT</strong></td>
+<td>0–40 lb</td>
+<td>PORTION CONVEYOR load cell lower threshold. FEED-Z CONVEYOR starts when weight falls below this value.</td>
+</tr>
+<tr>
+<td><strong>HOPPER HIGH WEIGHT</strong></td>
+<td>0–40 lb</td>
+<td>PORTION CONVEYOR load cell upper threshold. FEED-Z CONVEYOR stops when weight exceeds this value.</td>
+</tr>
+<tr>
+<td><strong>BUCKET OPEN TIME</strong></td>
+<td>0–1000 ms</td>
+<td>Time the BUCKET remains open on each deposit cycle.</td>
+</tr>
+<tr>
+<td><strong>BUCKET FALL TIME</strong></td>
+<td>0–1000 ms</td>
+<td>Time allowed for topping to fall from the BUCKET to the target before the CARPET retracts.</td>
+</tr>
+<tr>
+<td><strong>MASK OFFSET</strong></td>
+<td>0–14 in</td>
+<td>CARPET retracted position offset from home. Sets the starting position before each extend move.</td>
+</tr>
+<tr>
+<td><strong>STROKE LENGTH</strong></td>
+<td>0–16 in</td>
+<td>CARPET extend distance from the retracted position.</td>
+</tr>
+<tr>
+<td><strong>TARGET DELAY</strong></td>
+<td>0–3000 ms</td>
+<td>Time between TARGET SENSOR detection and CARPET trigger.</td>
+</tr>
+<tr>
+<td><strong>EXTEND RATIO</strong></td>
+<td>0–2.0</td>
+<td>Ratio of CARPET extend speed to retract speed.</td>
+</tr>
+<tr>
+<td><strong>PORTION CONV MOVE LENGTH</strong></td>
+<td>in</td>
+<td>Distance the PORTION CONVEYOR advances per machine cycle.</td>
+</tr>
+<tr>
+<td><strong>PORTION CONV TIME</strong></td>
+<td>0–10000 ms</td>
+<td>Time window available for the PORTION CONVEYOR to complete its move.</td>
+</tr>
+<tr>
+<td><strong>SKIP MODE</strong></td>
+<td>ON / OFF</td>
+<td>When active, the Depositor deposits on every other target. See <a href="#53-skip-mode">Section 5.3</a>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="52-loading-and-saving-recipes">5.2 Loading and Saving Recipes<a class="headerlink" href="#52-loading-and-saving-recipes" title="Permanent link">&para;</a></h2>
+<figure>
+<div class="figure-placeholder">Figure 5.2  Recipe Management Screen</div>
+<figcaption>Figure 5.2  Recipe Management Screen</figcaption>
+</figure>
+<ol>
+<li>Navigate to the RECIPE MANAGEMENT screen on the OI.</li>
+<li>To load: enter the recipe number in RECIPE #. Press and hold LOAD RECIPE
+   for three seconds.</li>
+<li>To create a new recipe: enter a recipe number and name. Enter all
+   parameters. Press and hold SAVE RECIPE for three seconds.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Depositor stores up to 128 recipes. Saving to an existing recipe
+number overwrites it without confirmation. Verify the recipe number
+before saving.</p>
+</div>
+<hr />
+<h2 id="53-skip-mode">5.3 Skip Mode<a class="headerlink" href="#53-skip-mode" title="Permanent link">&para;</a></h2>
+<p>Skip Mode deposits topping on every other target. When active, the Depositor
+alternates between depositing and skipping each successive target.</p>
+<p>To enable Skip Mode, set the SKIP MODE field to ON in the active recipe and
+save. The SKIP MODE indicator on the OI illuminates when active.</p>
+<p>If the skip phase is out of sync with the line — depositing on targets that
+should be skipped — press SYNC on the OI. Each press shifts the skip phase
+by one target.</p>
+<hr />
+<h2 id="54-rake-height-setup">5.4 Rake Height Setup<a class="headerlink" href="#54-rake-height-setup" title="Permanent link">&para;</a></h2>
+<p>RAKE HEIGHT is set manually using the hand-crank adjustment on the machine
+frame. The RAKE HEIGHT INDICATOR shows the current setting as a relative
+position number. This number has no engineering unit. It is a reference only.</p>
+<p>Start from the baseline value in <a href="../appendix-a/">Appendix A: Recipe Starting Points</a>
+for the topping type. Adjust in small increments. Allow approximately 100
+targets to pass through before evaluating the bed after each adjustment.</p>
+<h3 id="topping-compaction-assessment">Topping Compaction Assessment<a class="headerlink" href="#topping-compaction-assessment" title="Permanent link">&para;</a></h3>
+<p>Before adjusting RAKE HEIGHT, assess the topping's compaction behavior:</p>
+<ol>
+<li>Collect a representative sample sufficient to fill one hand.</li>
+<li>Apply light pressure and open your hand. Poke the sample. If it separates
+   freely, the topping is loose.</li>
+<li>Squeeze moderately and open your hand. Poke the sample. Does it fall apart
+   or hold its shape?</li>
+<li>Squeeze firmly and open your hand. Try to break the sample apart. If
+   shreds pull apart cleanly, compaction is not at the damage threshold. If
+   the sample holds together and will not separate without tearing, that is
+   the damage threshold. The bed must stay below this pressure level.</li>
+<li>Adjust RAKE HEIGHT in small increments. Allow approximately 100 targets
+   to pass before evaluating.</li>
+<li>When the bed is uniform with no voids, save the recipe.</li>
+</ol>
+<div style="text-align:center; margin: 1.5em 0;">
+  <iframe
+    width="640" height="360"
+    src="https://www.youtube.com/embed/Q00GPb4cNlM"
+    frameborder="0"
+    allowfullscreen
+    title="Compaction Assessment"
+    style="border-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,0.25);">
+  </iframe>
+  <p style="color:#F36C23; font-weight:bold; font-family:Arial; font-size:11pt; margin-top:0.5em;">
+    Compaction Assessment
+  </p>
+</div>
 
-
+<p><strong>High compaction</strong> (topping holds shape under light or moderate pressure):
+indicates high moisture or stickiness. Raise RAKE HEIGHT first to reduce tine
+engagement depth. A shallower tine bite reduces compressive force on the pile.
+Reduce HOPPER HIGH WEIGHT only if raising RAKE HEIGHT alone does not resolve
+compaction.</p>
+<p><strong>Low compaction</strong> (topping crumbles freely under firm pressure): start from
+the <a href="../appendix-a/">Appendix A</a> baseline values. If the bed has voids, raise
+RAKE HEIGHT in small increments.</p>
+<p>Both over-fill and under-fill produce the same symptom: voids and uneven
+coverage. If raising RAKE HEIGHT does not resolve voids, evaluate whether
+HOPPER HIGH WEIGHT is too high or too low before making further height
+adjustments.</p>
+<p>Typical HOPPER HIGH WEIGHT ranges:</p>
+<ul>
+<li>Shredded cheese (standard): 15–20 lb.</li>
+<li>IQF / frozen product: 12–18 lb.</li>
+<li>Mixed or vegetable toppings with varied piece sizes: similar to cheese
+  range, with RAKE SPEED reduced.</li>
+</ul>
+<p>Long or sticky shreds tend to bridge across the RAKE tines. The tines are
+staggered in two offset rows. A long shred can span the gap between tines and
+drag laterally as the RAKE turns. That dragging pulls material away and leaves
+a void in the bed. Raise RAKE HEIGHT to reduce tine engagement depth so shreds
+release rather than drag. Do not raise HOPPER HIGH WEIGHT to compensate: a
+heavier pile increases compaction pressure, which worsens the problem on sticky
+material. If voids persist after raising RAKE HEIGHT, reduce RAKE SPEED. RAKE
+SPEED should not exceed 60%.</p>
+<p>Fine or short shreds behave more freely. The pile can be lighter, and RAKE
+HEIGHT can run lower.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Repeat the assessment when the topping lot changes, after extended idle
+periods, or when ambient conditions differ significantly from normal.</p>
+</div>
 
 
 
