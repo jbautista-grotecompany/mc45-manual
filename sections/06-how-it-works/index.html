@@ -1003,7 +1003,7 @@ supply.</p>
     </div>
 
     <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Targets / min <span style="font-size:11px;color:#7D868C">(per machine)</span> <span id="tv" style="font-size:16px;font-weight:700;color:#24211C">22</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Targets / min <span style="font-size:11px;color:#7D868C">(per machine)</span> <span id="tv" style="font-size:16px;font-weight:700;color:#24211C">22</span></div>
       <div style="display:flex;align-items:center;gap:6px">
         <button onclick="nudge('tpm',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
         <input type="range" id="tpm" min="5" max="48" step="1" value="22" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
@@ -1027,7 +1027,6 @@ supply.</p>
       </div>
     </div>
 
-    <!-- HOPPER WEIGHT thresholds -->
     <div style="padding-top:10px;border-top:0.5px solid rgba(0,0,0,0.12)">
       <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:8px">HOPPER Weight Thresholds</div>
       <div style="margin-bottom:8px">
@@ -1038,7 +1037,7 @@ supply.</p>
           <button onclick="nudge('hiw',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
         </div>
       </div>
-      <div style="margin-bottom:8px">
+      <div>
         <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:4px">LOW WEIGHT (lb) <span id="lowv" style="font-size:15px;font-weight:700;color:#24211C">10</span></div>
         <div style="display:flex;align-items:center;gap:6px">
           <button onclick="nudge('low',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
@@ -1047,7 +1046,6 @@ supply.</p>
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- RIGHT: FEED-Z Supply -->
@@ -1064,13 +1062,13 @@ supply.</p>
     </div>
 
     <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">lb / flight <span id="flv" style="font-size:16px;font-weight:700;color:#24211C">1.25</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Max lb / flight <span id="flv" style="font-size:16px;font-weight:700;color:#24211C">1.25</span></div>
       <div style="display:flex;align-items:center;gap:6px">
         <button onclick="nudge('flb',-0.05)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
         <input type="range" id="flb" min="0.5" max="2.0" step="0.05" value="1.25" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
         <button onclick="nudge('flb',0.05)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
-      <div style="font-size:11px;color:#7D868C;margin-top:3px">0.5 lb = light/fine product &nbsp;|&nbsp; 2.0 lb = dense product</div>
+      <div style="font-size:11px;color:#7D868C;margin-top:3px">0.5 lb = light / fine &nbsp;|&nbsp; 2.0 lb = dense product</div>
     </div>
 
     <div style="display:flex;gap:14px;align-items:flex-start;margin-top:10px">
@@ -1104,11 +1102,11 @@ supply.</p>
 </div>
 
 <!-- HOPPER weight gauges -->
-<div id="hopper-gauges" style="display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px">
-  <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
-    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight — Machine 1</div>
+<div style="margin-bottom:12px">
+  <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:10px">
+    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight — Machine 1</div>
     <div style="position:relative;height:28px;background:#f5f5f5;border-radius:4px;overflow:visible;border:0.5px solid rgba(0,0,0,0.12);margin-bottom:4px">
-      <div id="m1-fill" style="position:absolute;top:0;bottom:0;left:0;background:#F36C23;border-radius:4px;transition:width .4s;width:50%"></div>
+      <div id="m1-fill" style="position:absolute;top:0;bottom:0;left:0;background:#F36C23;border-radius:4px;transition:width .4s;width:37.5%"></div>
       <div id="m1-hi-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#2E7D32"></div>
       <div id="m1-lo-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#D94F3D"></div>
     </div>
@@ -1120,13 +1118,14 @@ supply.</p>
     <div style="display:flex;gap:16px;margin-top:6px;font-size:12px">
       <span style="color:#2E7D32">&#9646; HIGH</span>
       <span style="color:#D94F3D">&#9646; LOW</span>
-      <span id="m1-feedz" style="font-weight:700;margin-left:auto"></span>
+      <span id="m1-feedz" style="font-weight:700;margin-left:auto;color:#7D868C">Satisfied</span>
     </div>
   </div>
+
   <div id="m2-gauge" style="display:none;background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
-    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight — Machine 2 (Option)</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight — Machine 2 (Option)</div>
     <div style="position:relative;height:28px;background:#f5f5f5;border-radius:4px;overflow:visible;border:0.5px solid rgba(0,0,0,0.12);margin-bottom:4px">
-      <div id="m2-fill" style="position:absolute;top:0;bottom:0;left:0;background:#F36C23;border-radius:4px;transition:width .4s;width:50%"></div>
+      <div id="m2-fill" style="position:absolute;top:0;bottom:0;left:0;background:#F36C23;border-radius:4px;transition:width .4s;width:37.5%"></div>
       <div id="m2-hi-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#2E7D32"></div>
       <div id="m2-lo-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#D94F3D"></div>
     </div>
@@ -1138,7 +1137,7 @@ supply.</p>
     <div style="display:flex;gap:16px;margin-top:6px;font-size:12px">
       <span style="color:#2E7D32">&#9646; HIGH</span>
       <span style="color:#D94F3D">&#9646; LOW</span>
-      <span id="m2-feedz" style="font-weight:700;margin-left:auto"></span>
+      <span id="m2-feedz" style="font-weight:700;margin-left:auto;color:#7D868C">Satisfied</span>
     </div>
   </div>
 </div>
@@ -1185,10 +1184,10 @@ supply.</p>
   var m1On=false, m2On=false;
   var animInterval=null;
 
-  function fillPctFromHopper(h){
+  function fillPctFromLevel(h){
     if(h<=0) return 0;
-    if(h>=2) return 100;
-    return (h/2)*100;
+    if(h>=6) return 100;
+    return (h/6)*100;
   }
 
   function updateSliderFill(el){
@@ -1243,7 +1242,7 @@ supply.</p>
   function hopperNudge(step){ setHopper(hopperLevel+step); }
   window.hopperNudge=hopperNudge;
 
-  function updateGauge(prefix, weight, hiw, low){
+  function updateGauge(prefix,weight,hiw,low){
     var pct=Math.min((weight/40)*100,100);
     var hiPct=Math.min((hiw/40)*100,100);
     var loPct=Math.min((low/40)*100,100);
@@ -1258,32 +1257,38 @@ supply.</p>
     var tpm=+document.getElementById('tpm').value;
     var woz=+document.getElementById('woz').value;
     var speed=+document.getElementById('speed').value;
-    var flb=+document.getElementById('flb').value;
+    var maxFlb=+document.getElementById('flb').value;
     var hiw=+document.getElementById('hiw').value;
     var low=+document.getElementById('low').value;
 
-    if(low>=hiw){ low=hiw-1; document.getElementById('low').value=low; updateSliderFill(document.getElementById('low')); }
+    if(low>=hiw){
+      low=hiw-1;
+      document.getElementById('low').value=low;
+      updateSliderFill(document.getElementById('low'));
+    }
 
     document.getElementById('mv').textContent=machines;
     document.getElementById('tv').textContent=tpm;
     document.getElementById('wv').textContent=woz.toFixed(1);
     document.getElementById('sv').textContent=speed.toFixed(1);
-    document.getElementById('flv').textContent=flb.toFixed(2);
+    document.getElementById('flv').textContent=maxFlb.toFixed(2);
     document.getElementById('hiwv').textContent=hiw;
     document.getElementById('lowv').textContent=low;
-
     document.getElementById('m2-gauge').style.display=machines>1?'block':'none';
 
-    var fillPct=fillPctFromHopper(hopperLevel);
-    var skipFactor=skipMode?0.5:1.0;
-    var demand=machines*tpm*(woz/16)*skipFactor;
-    var lbPerFlight=flb*(fillPct/100);
+    var fillPct=fillPctFromLevel(hopperLevel);
+    var lbPerFlight=maxFlb*(fillPct/100);
     var flightsPerMin=(speed/MIN_SPEED)*FLIGHTS;
     var supply=flightsPerMin*lbPerFlight;
-    var delta=supply-demand;
-    var maxBar=Math.max(demand,supply,120)*1.15;
 
-    document.getElementById('fv-readout').textContent='Flights at '+fillPct.toFixed(0)+'% fill';
+    var skipFactor=skipMode?0.5:1.0;
+    var demandPerMachine=tpm*(woz/16)*skipFactor;
+    var totalDemand=machines*demandPerMachine;
+
+    var delta=supply-totalDemand;
+    var maxBar=Math.max(totalDemand,supply,60)*1.15;
+
+    document.getElementById('fv-readout').textContent='Belt at '+fillPct.toFixed(0)+'% fill';
     document.getElementById('flight-lb').textContent=lbPerFlight.toFixed(2)+' lb/flight \u00D7 '+flightsPerMin.toFixed(1)+' flights/min';
 
     var fl=document.getElementById('flights');
@@ -1296,7 +1301,7 @@ supply.</p>
       box.appendChild(inner); fl.appendChild(box);
     }
 
-    document.getElementById('demand-val').textContent=demand.toFixed(1)+' lb/min'+(skipMode?' (skip ½)':'');
+    document.getElementById('demand-val').textContent=totalDemand.toFixed(1)+' lb/min'+(skipMode?' (skip ½)':'');
     document.getElementById('supply-val').textContent=supply.toFixed(1)+' lb/min';
 
     var sb=document.getElementById('status-bar');
@@ -1307,7 +1312,9 @@ supply.</p>
     var barSupply=document.getElementById('bar-supply');
     var supplyColor;
 
-    if(Math.abs(delta)<=demand*0.03){
+    var balancePct=totalDemand>0?Math.abs(delta)/totalDemand:0;
+
+    if(balancePct<=0.10){
       sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #2E7D32;background:#EAFAF1';
       badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#2E7D32;color:#fff';
       badge.textContent='BALANCED';
@@ -1322,7 +1329,7 @@ supply.</p>
       deltaEl.style.color='#D94F3D'; supplyVal.style.color='#D94F3D';
       deltaEl.textContent=delta.toFixed(1)+' lb/min';
       supplyColor='#D94F3D';
-      noteEl.textContent=fillPct<100?'FEED-Z BELT LEVEL is too low. Partially loaded flights cannot meet demand. Increase belt level or reduce line rate.':'Fully loaded flights cannot meet demand at this belt speed. Increase FEED-Z belt speed or reduce line rate.';
+      noteEl.textContent=fillPct<50?'FEED-Z BELT LEVEL is too low. Partially loaded flights cannot meet demand. Raise the belt level or reduce line rate.':'Fully loaded flights cannot meet demand at this belt speed. Increase FEED-Z belt speed or reduce line rate.';
     } else {
       sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #EF7132;background:#FFF3E0';
       badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#EF7132;color:#fff';
@@ -1330,59 +1337,72 @@ supply.</p>
       deltaEl.style.color='#EF7132'; supplyVal.style.color='#EF7132';
       deltaEl.textContent='+'+delta.toFixed(1)+' lb/min';
       supplyColor='#F36C23';
-      noteEl.textContent='Supply exceeds demand. Under normal operation the FEED-Z stops when HIGH WEIGHT is reached. If this condition persists, verify HOPPER weight thresholds and load cell calibration.';
+      noteEl.textContent='Supply exceeds demand. Under normal operation the FEED-Z stops when HIGH WEIGHT is reached. If this persists, verify HOPPER weight thresholds and load cell calibration.';
     }
 
     barSupply.style.background=supplyColor;
-    var demandPct=Math.min((demand/maxBar)*100,100);
+    var demandPct=Math.min((totalDemand/maxBar)*100,100);
     var supplyPct=Math.min((supply/maxBar)*100,100);
-    setBarLabel(document.getElementById('bar-demand'),document.getElementById('lbl-demand'),document.getElementById('wrap-demand'),demandPct,demand.toFixed(1)+' lb/min');
+    setBarLabel(document.getElementById('bar-demand'),document.getElementById('lbl-demand'),document.getElementById('wrap-demand'),demandPct,totalDemand.toFixed(1)+' lb/min');
     setBarLabel(document.getElementById('bar-supply'),document.getElementById('lbl-supply'),document.getElementById('wrap-supply'),supplyPct,supply.toFixed(1)+' lb/min');
-    document.getElementById('tick-d').style.left=Math.min((demand/maxBar)*100,100)+'%';
+    document.getElementById('tick-d').style.left=Math.min((totalDemand/maxBar)*100,100)+'%';
 
     if(animInterval) clearInterval(animInterval);
-    var hiw2=hiw, low2=low, machines2=machines;
     animInterval=setInterval(function(){
       var spd=+document.getElementById('speed').value;
-      var fl2=+document.getElementById('flb').value;
-      var fp=fillPctFromHopper(hopperLevel);
-      var lbpf=fl2*(fp/100);
+      var mxfl=+document.getElementById('flb').value;
+      var fp=fillPctFromLevel(hopperLevel);
+      var lbpf=mxfl*(fp/100);
       var fpm=(spd/MIN_SPEED)*FLIGHTS;
       var sup=fpm*lbpf;
       var tpm2=+document.getElementById('tpm').value;
       var woz2=+document.getElementById('woz').value;
+      var mach=+document.getElementById('machines').value;
       var sk=skipMode?0.5:1.0;
+      var hiw2=+document.getElementById('hiw').value;
+      var low2=+document.getElementById('low').value;
       var dem1=tpm2*(woz2/16)*sk;
-      var dem2=machines2>1?tpm2*(woz2/16)*sk:0;
-      var hiw3=+document.getElementById('hiw').value;
-      var low3=+document.getElementById('low').value;
+      var dem2=mach>1?tpm2*(woz2/16)*sk:0;
 
-      // M1 simulation
-      if(m1On){ m1Weight+=(sup-dem1)/60*0.5; if(m1Weight>=hiw3){ m1Weight=hiw3; m1On=false; } }
-      else { m1Weight-=(dem1/60)*0.5; if(m1Weight<=low3){ m1Weight=low3; m1On=true; } }
+      // M1 logic — priority
+      if(m1On){
+        // FEED-Z running forward — supply goes to M1
+        m1Weight+=(sup-dem1)/60*0.5;
+        if(m1Weight>=hiw2){ m1Weight=hiw2; m1On=false; }
+      } else {
+        m1Weight-=(dem1/60)*0.5;
+        if(m1Weight<=low2){ m1Weight=low2; m1On=true; }
+      }
       m1Weight=Math.max(0,Math.min(40,m1Weight));
 
-      // M2 simulation (M1 priority — M2 only feeds when M1 satisfied)
-      if(machines2>1){
-        if(m2On && !m1On){ m2Weight+=(sup-dem2)/60*0.5; if(m2Weight>=hiw3){ m2Weight=hiw3; m2On=false; } }
-        else if(!m2On){ m2Weight-=(dem2/60)*0.5; if(m2Weight<=low3){ m2Weight=low3; m2On=true; } }
+      // M2 logic — only fed when M1 satisfied
+      if(mach>1){
+        if(m2On && !m1On){
+          // FEED-Z running reverse — supply goes to M2
+          m2Weight+=(sup-dem2)/60*0.5;
+          if(m2Weight>=hiw2){ m2Weight=hiw2; m2On=false; }
+        } else {
+          m2Weight-=(dem2/60)*0.5;
+          if(m2Weight<=low2){ m2Weight=low2; m2On=true; }
+        }
         m2Weight=Math.max(0,Math.min(40,m2Weight));
       }
 
-      updateGauge('m1',m1Weight,hiw3,low3);
-      if(machines2>1) updateGauge('m2',m2Weight,hiw3,low3);
+      updateGauge('m1',m1Weight,hiw2,low2);
+      if(mach>1) updateGauge('m2',m2Weight,hiw2,low2);
 
       var m1lbl=document.getElementById('m1-feedz');
       var m2lbl=document.getElementById('m2-feedz');
+
       if(m1On){
         m1lbl.style.color='#F36C23'; m1lbl.textContent='FEED-Z \u25BA FWD';
-        if(machines2>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Waiting — M1 priority'; }
-      } else if(machines2>1 && m2On){
+        if(mach>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Waiting — M1 priority'; }
+      } else if(mach>1 && m2On){
         m1lbl.style.color='#7D868C'; m1lbl.textContent='Satisfied';
         m2lbl.style.color='#F36C23'; m2lbl.textContent='FEED-Z \u25C4 REV';
       } else {
         m1lbl.style.color='#7D868C'; m1lbl.textContent='Satisfied';
-        if(machines2>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Satisfied'; }
+        if(mach>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Satisfied'; }
       }
     },500);
   }
