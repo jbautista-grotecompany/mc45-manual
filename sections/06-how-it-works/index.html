@@ -855,24 +855,34 @@
 <p>The MC-45 deposits topping in a repeating cycle triggered by each target
 detected by the TARGET SENSOR. The cycle runs as follows:</p>
 <ol>
-<li>The TARGET SENSOR detects a target on the PRODUCT CONVEYOR.</li>
-<li>The TARGET DELAY timer starts. When it expires, the CARPET trigger fires.</li>
-<li>The CARPET extends from the MASK OFFSET position toward the extended
-   position at a speed equal to or up to twice the PRODUCT CONVEYOR speed,
-   set by the EXTEND RATIO recipe parameter. The CARPET travels in sync with
-   the target, conforming to its surface and positioning the deposit zone
-   over the border area.</li>
+<li>The PRODUCT CONVEYOR runs continuously. The TARGET SENSOR detects a
+   target on the PRODUCT CONVEYOR.</li>
+<li>The TARGET DELAY elapses. The CARPET trigger fires.</li>
+<li>The CARPET extends from the MASK OFFSET position. It travels in sync
+   with the target at a speed proportional to the PRODUCT CONVEYOR speed,
+   set by the EXTEND RATIO recipe parameter. As the CARPET extends over
+   the target, it folds mechanically to conform to the target surface,
+   positioning the deposit zone over the border area.</li>
 <li>The CARPET retracts to the MASK OFFSET position.</li>
+<li>The PORTION CONVEYOR advances the length set by PORTION CONV MOVE
+   LENGTH, loading the next portion of topping toward the BUCKET.</li>
+<li>The BUCKET FALL TIME elapses, allowing topping to fall from the
+   PORTION CONVEYOR and reach the CARPET surface before the BUCKET opens.</li>
 <li>The BUCKET opens for the duration of BUCKET OPEN TIME. Topping falls
-   from the BUCKET through the MASK onto the CARPET surface. The SPINNER
-   runs continuously and spreads the topping across the CARPET as it lands.</li>
-<li>The BUCKET closes. Topping remains on the CARPET for the duration of
-   BUCKET FALL TIME, allowing it to settle before the next advance.</li>
-<li>The PORTION CONVEYOR advances the length set by PORTION CONV MOVE LENGTH.</li>
-<li>The cycle repeats on the next target.</li>
+   through the MASK onto the CARPET. The SPINNER runs continuously and
+   spreads the topping across the CARPET as it lands.</li>
+<li>The BUCKET closes. The CARPET is now loaded and ready for the next
+   target.</li>
+<li>The cycle repeats on the next TARGET SENSOR detection.</li>
 </ol>
-<p>In SKIP MODE, the BUCKET opens only on every other cycle. The CARPET extends
-and retracts on every target regardless of skip state.</p>
+<p>In SKIP MODE, the CARPET trigger, BUCKET, and PORTION CONVEYOR all skip
+every other target. On a skipped target, the CARPET stays at the MASK
+OFFSET position, the BUCKET stays closed, and the PORTION CONVEYOR does
+not advance.</p>
+<p>If the skip phase drifts out of alignment with the line — for example,
+when an operator removes a target to check deposit quality — press SYNC
+on the OI. Each press shifts the skip phase by one target, realigning
+the deposit pattern with the correct targets.</p>
 <figure>
 <div class="figure-placeholder">Figure 6.1  Deposit cycle sequence diagram</div>
 <figcaption>Figure 6.1  Deposit cycle sequence diagram</figcaption>
@@ -884,27 +894,22 @@ zone. It does not return to the home position between cycles. Between cycles
 it holds at the MASK OFFSET position, which is an offset from home set in
 the active recipe.</p>
 <p><strong>MASK OFFSET</strong> sets where the CARPET starts its extend move, effectively
-aligning the deposit zone with the border of the target. A larger offset
-moves the start point farther from home.</p>
-<p><strong>STROKE LENGTH</strong> controls the width of the deposit zone. For a 12-inch
-pizza with a 1-inch border, STROKE LENGTH = 10 inches (pizza diameter minus
-twice the border width).</p>
+aligning the deposit zone with the border of the target.</p>
+<p><strong>STROKE LENGTH</strong> controls the width of the deposit zone.</p>
 <p><strong>EXTEND RATIO</strong> controls how fast the CARPET travels relative to the PRODUCT
-CONVEYOR during the extend move. At 1.0 the CARPET matches conveyor speed
-exactly. At 2.0 it travels at twice the conveyor speed. Adjusting this ratio
-stretches or compresses the topping pattern on the target.</p>
-<p>The MASK is a physical cutout mounted between the BUCKET and the CARPET
-surface. It shapes the topping pattern — round masks produce round deposits,
-square cells produce square deposits — so the topping lands only within the
-border area defined by MASK OFFSET and STROKE LENGTH.</p>
+CONVEYOR during the extend move.</p>
+<p>The MASK is mounted between the BUCKET and the CARPET surface. It shapes
+the topping pattern — round masks produce round deposits, square cells
+produce square deposits — so the topping lands only within the border area
+defined by MASK OFFSET and STROKE LENGTH.</p>
 <figure>
 <div class="figure-placeholder">Figure 6.2  CARPET motion diagram showing home, offset, and extended positions</div>
 <figcaption>Figure 6.2  CARPET motion diagram — home, offset, and extended positions</figcaption>
 </figure>
 <hr />
 <h2 id="63-target-tracking">6.3 Target Tracking<a class="headerlink" href="#63-target-tracking" title="Permanent link">&para;</a></h2>
-<p>The PLC tracks each target from the moment the TARGET SENSOR detects it
-through the deposit cycle. Three tracking modes are available, selected
+<p>The Depositor tracks each target from the moment the TARGET SENSOR detects
+it through the deposit cycle. Three tracking modes are available, selected
 from the service screen on the OI.</p>
 <h3 id="time-based-tracking">Time-Based Tracking<a class="headerlink" href="#time-based-tracking" title="Permanent link">&para;</a></h3>
 <p>The PLC uses a five-timer memory chain to track the target's position after
@@ -918,9 +923,9 @@ recipe directly.</p>
 installations.</p>
 <h3 id="encoder-based-tracking">Encoder-Based Tracking<a class="headerlink" href="#encoder-based-tracking" title="Permanent link">&para;</a></h3>
 <p>When a PRODUCT CONVEYOR encoder is installed, the PLC tracks target position
-by distance rather than time. The TrackPizza AOI reads encoder counts from
-the Turck IO-Link encoder on the PRODUCT CONVEYOR shaft and fires the CARPET
-trigger when the target has traveled the distance set by TARGET DELAY.</p>
+by distance rather than time. The encoder on the PRODUCT CONVEYOR shaft
+fires the CARPET trigger when the target has traveled the distance set by
+TARGET DELAY.</p>
 <p>This mode compensates for line speed variations automatically. It is the
 preferred mode when conveyor speed changes frequently during production.</p>
 <h3 id="test-mode">Test Mode<a class="headerlink" href="#test-mode" title="Permanent link">&para;</a></h3>
@@ -938,12 +943,13 @@ motion and deposit placement without running product.</p>
 <h2 id="64-hopper-fill-control">6.4 HOPPER Fill Control<a class="headerlink" href="#64-hopper-fill-control" title="Permanent link">&para;</a></h2>
 <p>The RAKE maintains an even topping bed on the PORTION CONVEYOR. The RAKE
 runs continuously at the speed set by RAKE SPEED in the active recipe,
-leveling the bed to a consistent depth. As the PORTION CONVEYOR advances
-and the BUCKET removes topping each cycle, the bed level drops. The HOPPER
-fill system replenishes topping automatically.</p>
+leveling the bed to a consistent depth. As the BUCKET removes topping each
+cycle, the bed level drops. The HOPPER fill system replenishes topping
+automatically.</p>
 <p>Two load cells monitor topping weight: one on the PORTION CONVEYOR (HOPPER)
-and one on the FEED CONVEYOR. The HOPPER LOW WEIGHT and HOPPER HIGH WEIGHT
-recipe parameters set the start and stop thresholds for the FEED-Z CONVEYOR.</p>
+and one on the FEED CONVEYOR (when equipped). The HOPPER LOW WEIGHT and
+HOPPER HIGH WEIGHT recipe parameters set the start and stop thresholds for
+the FEED-Z CONVEYOR.</p>
 <p>When HOPPER weight drops below HOPPER LOW WEIGHT, the FEED-Z CONVEYOR starts
 and delivers topping to the HOPPER area. When HOPPER weight reaches HOPPER
 HIGH WEIGHT, the FEED-Z CONVEYOR stops.</p>
@@ -961,8 +967,8 @@ the FEED-Z CONVEYOR runs forward to serve Machine 1 first. Machine 2 waits
 until Machine 1 is satisfied or until the Machine 2 timeout expires. The
 timeout value is set from the OI.</p>
 <p>The FEED CONVEYOR has its own load cell. The FEED CONVEYOR weight thresholds
-(<code>r_FeedHopperHighWeight</code> / <code>r_FeedHopperLowWeight</code>) in the active recipe
-control FEED-Z CONVEYOR start and stop independently of the HOPPER load cell.</p>
+in the active recipe control FEED-Z CONVEYOR start and stop independently
+of the HOPPER load cell.</p>
 <hr />
 <h2 id="66-supply-and-demand-balance">6.6 Supply and Demand Balance<a class="headerlink" href="#66-supply-and-demand-balance" title="Permanent link">&para;</a></h2>
 <p>The FEED-Z CONVEYOR cycles on and off to maintain topping weight between
@@ -970,7 +976,11 @@ HOPPER LOW WEIGHT and HOPPER HIGH WEIGHT. The balance between topping
 consumption and replenishment rate determines how frequently the FEED-Z
 CONVEYOR runs and how stable the HOPPER weight stays during production.</p>
 <p>Use the controls below to explore the relationship between line demand,
-HOPPER thresholds, and FEED-Z CONVEYOR cycle behavior.</p>
+HOPPER thresholds, and FEED-Z CONVEYOR cycle behavior. The HOPPER LEVEL
+slider represents the observed topping depth in the HOPPER. There is no
+automatic level measurement on the MC-45 — the operator monitors this
+directly. Keeping HOPPER LEVEL between 3 and 5 inches produces consistent
+flight loading and stable supply.</p>
 <div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
 
 <div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
@@ -1006,77 +1016,119 @@ HOPPER thresholds, and FEED-Z CONVEYOR cycle behavior.</p>
         <button onclick="nudge('woz',0.5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Skip Mode <span id="skv" style="font-size:16px;font-weight:700;color:#24211C">OFF</span></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button onclick="toggleSkip()" id="skip-btn" style="background:#3a3733;border:none;border-radius:4px;padding:4px 14px;font-size:13px;cursor:pointer;color:#fff;font-weight:700">OFF</button>
+      </div>
+    </div>
   </div>
 
   <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
-    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Thresholds</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">FEED-Z Supply</div>
     <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">HIGH WEIGHT (lb) <span id="hiv" style="font-size:16px;font-weight:700;color:#24211C">20</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Belt speed (FPM) <span id="sv" style="font-size:16px;font-weight:700;color:#24211C">19.4</span></div>
       <div style="display:flex;align-items:center;gap:6px">
-        <button onclick="nudge('hiw',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
-        <input type="range" id="hiw" min="5" max="40" step="1" value="20" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-        <button onclick="nudge('hiw',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+        <button onclick="nudge('speed',-0.2)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+        <input type="range" id="speed" min="8" max="60" step="0.2" value="19.4" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+        <button onclick="nudge('speed',0.2)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
-    <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">LOW WEIGHT (lb) <span id="lov" style="font-size:16px;font-weight:700;color:#24211C">10</span></div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <button onclick="nudge('low',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
-        <input type="range" id="low" min="1" max="35" step="1" value="10" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-        <button onclick="nudge('low',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+
+    <div style="display:flex;gap:14px;align-items:flex-start;margin-top:10px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+        <div style="font-size:13px;color:#24211C;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;text-align:center">HOPPER LEVEL</div>
+        <div style="display:flex;gap:6px;align-items:stretch">
+          <div style="display:flex;flex-direction:column;justify-content:space-between;height:140px;font-size:11px;color:#7D868C;line-height:1">
+            <span>6</span><span>4</span><span>2</span><span>0</span>
+          </div>
+          <div id="hopper-bar" style="position:relative;width:32px;height:140px;background:#3a3733;border-radius:3px;cursor:pointer;touch-action:none;user-select:none">
+            <div id="hopper-fill" style="position:absolute;bottom:0;left:0;right:0;background:#F36C23;height:66.7%;border-radius:0 0 3px 3px;transition:height .15s"></div>
+            <div style="position:absolute;left:-3px;right:-3px;bottom:33.3%;height:1px;background:rgba(255,255,255,0.45);pointer-events:none"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:6px">
+          <button onclick="hopperNudge(-0.5)" style="background:#F36C23;border:none;border-radius:4px;width:22px;height:22px;font-size:10px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;line-height:1">&#9660;</button>
+          <span id="hv" style="font-size:14px;font-weight:700;color:#24211C;min-width:48px;text-align:center">4.0 in</span>
+          <button onclick="hopperNudge(0.5)" style="background:#F36C23;border:none;border-radius:4px;width:22px;height:22px;font-size:10px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;line-height:1">&#9650;</button>
+        </div>
       </div>
-    </div>
-    <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">FEED-Z rate (lb/min) <span id="fzv" style="font-size:16px;font-weight:700;color:#24211C">15</span></div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <button onclick="nudge('fzr',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
-        <input type="range" id="fzr" min="5" max="40" step="1" value="15" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-        <button onclick="nudge('fzr',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;color:#24211C;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Flight load</div>
+        <div id="flights" style="display:flex;gap:4px"></div>
+        <div id="flight-lb" style="font-size:13px;color:#24211C;margin-top:4px"></div>
+        <div id="fv-readout" style="font-size:12px;color:#7D868C;margin-top:2px"></div>
       </div>
     </div>
   </div>
 
 </div>
 
-<div id="hopper-display" style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
-  <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight</div>
-  <div style="display:flex;align-items:flex-end;gap:16px">
-    <div style="flex:1">
-      <div style="position:relative;height:120px;background:#f5f5f5;border-radius:4px;overflow:hidden;border:0.5px solid rgba(0,0,0,0.12)">
-        <div id="hopper-fill" style="position:absolute;bottom:0;left:0;right:0;background:#F36C23;transition:height .5s;height:50%"></div>
-        <div id="hi-line" style="position:absolute;left:0;right:0;height:2px;background:#2E7D32;opacity:0.8"></div>
-        <div id="lo-line" style="position:absolute;left:0;right:0;height:2px;background:#D94F3D;opacity:0.8"></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:12px;color:#7D868C">
-        <span>0 lb</span><span id="hw-label" style="font-weight:700;color:#24211C">15.0 lb</span><span>40 lb</span>
-      </div>
-    </div>
-    <div style="min-width:160px">
-      <div id="feedz-status" style="font-size:14px;font-weight:700;padding:8px 12px;border-radius:4px;margin-bottom:8px;text-align:center">FEED-Z OFF</div>
-      <div id="demand-readout" style="font-size:13px;color:#24211C;margin-bottom:4px"></div>
-      <div id="cycle-readout" style="font-size:13px;color:#24211C"></div>
-    </div>
+<div id="status-bar" style="border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid transparent">
+  <div id="badge" style="font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap"></div>
+  <div style="flex:1;display:flex;gap:20px;flex-wrap:wrap">
+    <div><div style="font-size:13px;font-weight:700;color:#24211C;text-transform:uppercase;letter-spacing:.05em">Demand</div><div id="demand-val" style="font-size:21px;font-weight:700;color:#24211C;line-height:1.2"></div></div>
+    <div><div style="font-size:13px;font-weight:700;color:#24211C;text-transform:uppercase;letter-spacing:.05em">Supply</div><div id="supply-val" style="font-size:21px;font-weight:700;line-height:1.2"></div></div>
+    <div><div style="font-size:13px;font-weight:700;color:#24211C;text-transform:uppercase;letter-spacing:.05em">Balance</div><div id="delta-val" style="font-size:21px;font-weight:700;line-height:1.2"></div></div>
   </div>
 </div>
 
-<div id="status-bar" style="border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #2E7D32;background:#EAFAF1">
-  <div id="badge" style="font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#2E7D32;color:#fff">BALANCED</div>
-  <div id="note-text" style="font-size:14px;color:#24211C;line-height:1.5"></div>
+<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <div style="font-size:14px;font-weight:700;color:#24211C;width:68px;text-align:right;flex-shrink:0">Demand</div>
+    <div style="flex:1;background:#f5f5f5;border-radius:3px;height:22px;position:relative" id="wrap-demand">
+      <div id="bar-demand" style="height:100%;border-radius:3px;position:absolute;top:0;left:0;background:#24211C;transition:width .3s"></div>
+      <div id="lbl-demand" style="position:absolute;top:50%;font-size:12px;font-weight:700;white-space:nowrap;transition:left .3s,color .3s"></div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <div style="font-size:14px;font-weight:700;color:#24211C;width:68px;text-align:right;flex-shrink:0">Supply</div>
+    <div style="flex:1;background:#f5f5f5;border-radius:3px;height:22px;position:relative" id="wrap-supply">
+      <div id="bar-supply" style="height:100%;border-radius:3px;position:absolute;top:0;left:0;transition:width .3s,background .3s"></div>
+      <div id="lbl-supply" style="position:absolute;top:50%;font-size:12px;font-weight:700;white-space:nowrap;transition:left .3s,color .3s"></div>
+      <div id="tick-d" style="position:absolute;top:0;height:100%;width:2px;background:#F36C23;opacity:.7;pointer-events:none"></div>
+    </div>
+  </div>
+  <div id="note-text" style="margin-top:10px;font-size:14px;color:#24211C;line-height:1.5;padding-top:8px;border-top:0.5px solid rgba(0,0,0,0.12)"></div>
 </div>
 
 </div>
 
 <script>
 (function(){
+  var FLIGHTS=46,MIN_SPEED=18,MAX_LB_PER_FLIGHT=2.2;
   var TRACK_DARK='#3a3733',TRACK_ORANGE='#F36C23';
-  var hopperWeight=15.0;
-  var feedzOn=false;
-  var animInterval=null;
+  var THRESHOLD=22;
+  var hopperLevel=4.0;
+  var skipMode=false;
+
+  function fillPctFromHopper(h){
+    if(h<=0) return 0;
+    if(h>=2) return 100;
+    return (h/2)*100;
+  }
 
   function updateSliderFill(el){
     var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
     var pct=((val-min)/(max-min))*100;
     el.style.background='linear-gradient(to right,'+TRACK_ORANGE+' 0%,'+TRACK_ORANGE+' '+pct+'%,'+TRACK_DARK+' '+pct+'%,'+TRACK_DARK+' 100%)';
+  }
+
+  function setBarLabel(fillEl,lblEl,wrapEl,pct,text){
+    var wrapW=wrapEl.offsetWidth||300;
+    var fillPx=pct/100*wrapW;
+    fillEl.style.width=pct+'%';
+    if(fillPx>THRESHOLD+80){
+      lblEl.style.left=(fillPx-6)+'px';
+      lblEl.style.transform='translateY(-50%) translateX(-100%)';
+      lblEl.style.color='#fff';
+    } else {
+      lblEl.style.left=(fillPx+6)+'px';
+      lblEl.style.transform='translateY(-50%)';
+      lblEl.style.color='#24211C';
+    }
+    lblEl.textContent=text;
   }
 
   function nudge(id,step){
@@ -1089,101 +1141,135 @@ HOPPER thresholds, and FEED-Z CONVEYOR cycle behavior.</p>
   }
   window.nudge=nudge;
 
+  function toggleSkip(){
+    skipMode=!skipMode;
+    var btn=document.getElementById('skip-btn');
+    var lbl=document.getElementById('skv');
+    if(skipMode){
+      btn.style.background='#F36C23';
+      btn.textContent='ON';
+      lbl.textContent='ON';
+    } else {
+      btn.style.background='#3a3733';
+      btn.textContent='OFF';
+      lbl.textContent='OFF';
+    }
+    calc();
+  }
+  window.toggleSkip=toggleSkip;
+
+  function setHopper(level){
+    hopperLevel=Math.max(0,Math.min(6,Math.round(level*10)/10));
+    var pct=(hopperLevel/6)*100;
+    document.getElementById('hopper-fill').style.height=pct+'%';
+    document.getElementById('hv').textContent=hopperLevel.toFixed(1)+' in';
+    calc();
+  }
+  function hopperNudge(step){ setHopper(hopperLevel+step); }
+  window.hopperNudge=hopperNudge;
+
   function calc(){
     var machines=+document.getElementById('machines').value;
     var tpm=+document.getElementById('tpm').value;
     var woz=+document.getElementById('woz').value;
-    var hiw=+document.getElementById('hiw').value;
-    var low=+document.getElementById('low').value;
-    var fzr=+document.getElementById('fzr').value;
-
-    if(low>=hiw){
-      low=hiw-1;
-      document.getElementById('low').value=low;
-      updateSliderFill(document.getElementById('low'));
-    }
+    var speed=+document.getElementById('speed').value;
+    var fillPct=fillPctFromHopper(hopperLevel);
+    var skipFactor=skipMode?0.5:1.0;
+    var demand=machines*tpm*(woz/16)*skipFactor;
+    var lbPerFlight=MAX_LB_PER_FLIGHT*(fillPct/100);
+    var flightsPerMin=(speed/MIN_SPEED)*FLIGHTS;
+    var supply=flightsPerMin*lbPerFlight;
+    var delta=supply-demand;
+    var maxBar=Math.max(demand,supply,120)*1.15;
 
     document.getElementById('mv').textContent=machines;
     document.getElementById('tv').textContent=tpm;
     document.getElementById('wv').textContent=woz.toFixed(1);
-    document.getElementById('hiv').textContent=hiw;
-    document.getElementById('lov').textContent=low;
-    document.getElementById('fzv').textContent=fzr;
+    document.getElementById('sv').textContent=speed.toFixed(1);
+    document.getElementById('fv-readout').textContent='Flights at '+fillPct.toFixed(0)+'% fill';
+    document.getElementById('flight-lb').textContent=lbPerFlight.toFixed(2)+' lb/flight \u00D7 '+flightsPerMin.toFixed(1)+' flights/min';
 
-    var demandLbMin=machines*tpm*(woz/16);
-    var netFillRate=fzr-demandLbMin;
-    var drainRate=demandLbMin;
+    var fl=document.getElementById('flights');
+    fl.innerHTML='';
+    for(var i=0;i<7;i++){
+      var box=document.createElement('div');
+      box.style.cssText='flex:1;height:14px;border-radius:2px;background:#f5f5f5;overflow:hidden;border:0.5px solid rgba(0,0,0,0.12)';
+      var inner=document.createElement('div');
+      inner.style.cssText='height:100%;border-radius:2px;background:#F36C23;transition:width .3s;width:'+fillPct+'%';
+      box.appendChild(inner);fl.appendChild(box);
+    }
 
-    var hiPct=(hiw/40)*100;
-    var loPct=(low/40)*100;
-    document.getElementById('hi-line').style.bottom=hiPct+'%';
-    document.getElementById('lo-line').style.bottom=loPct+'%';
-
-    document.getElementById('demand-readout').textContent='Demand: '+demandLbMin.toFixed(1)+' lb/min';
+    document.getElementById('demand-val').textContent=demand.toFixed(1)+' lb/min'+(skipMode?' (skip ½)':'');
+    document.getElementById('supply-val').textContent=supply.toFixed(1)+' lb/min';
 
     var sb=document.getElementById('status-bar');
     var badge=document.getElementById('badge');
+    var deltaEl=document.getElementById('delta-val');
+    var supplyVal=document.getElementById('supply-val');
     var noteEl=document.getElementById('note-text');
+    var barSupply=document.getElementById('bar-supply');
+    var supplyColor;
 
-    if(fzr<=demandLbMin){
-      sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #D94F3D;background:#FFEEEE';
-      badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#D94F3D;color:#fff';
-      badge.textContent='UNDERFILL RISK';
-      noteEl.textContent='FEED-Z delivery rate cannot keep up with demand. HOPPER weight will fall continuously. Increase FEED-Z conveyor speed or reduce line rate.';
-      document.getElementById('cycle-readout').textContent='FEED-Z runs continuously';
-    } else {
-      var fillTime=(hiw-low)/netFillRate;
-      var drainTime=(hiw-low)/drainRate;
-      var cycleTime=fillTime+drainTime;
-      var dutyPct=(fillTime/cycleTime*100).toFixed(0);
+    if(Math.abs(delta)<=demand*0.03){
       sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #2E7D32;background:#EAFAF1';
       badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#2E7D32;color:#fff';
       badge.textContent='BALANCED';
-      noteEl.textContent='FEED-Z cycles every '+cycleTime.toFixed(1)+' s (ON '+fillTime.toFixed(1)+' s / OFF '+drainTime.toFixed(1)+' s). Duty cycle: '+dutyPct+'%.';
-      document.getElementById('cycle-readout').textContent='Cycle: '+cycleTime.toFixed(1)+' s total';
+      deltaEl.style.color='#2E7D32';supplyVal.style.color='#2E7D32';
+      deltaEl.textContent='\u00B1'+Math.abs(delta).toFixed(1)+' lb/min';
+      supplyColor='#2E7D32';
+      noteEl.textContent='Supply matches demand. The FEED-Z CONVEYOR will cycle on and off at a stable interval. The HOPPER weight holds between LOW and HIGH thresholds consistently.';
+    } else if(delta<0){
+      sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #D94F3D;background:#FFEEEE';
+      badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#D94F3D;color:#fff';
+      badge.textContent='UNDERFILL';
+      deltaEl.style.color='#D94F3D';supplyVal.style.color='#D94F3D';
+      deltaEl.textContent=delta.toFixed(1)+' lb/min';
+      supplyColor='#D94F3D';
+      noteEl.textContent=fillPct<100?'HOPPER LEVEL is too low. Partially loaded flights cannot meet demand. Raise the HOPPER LEVEL or reduce line rate.':'Fully loaded flights cannot meet demand at this belt speed. Increase FEED-Z belt speed or reduce line rate.';
+    } else {
+      sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #EF7132;background:#FFF3E0';
+      badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#EF7132;color:#fff';
+      badge.textContent='OVERFILL';
+      deltaEl.style.color='#EF7132';supplyVal.style.color='#EF7132';
+      deltaEl.textContent='+'+delta.toFixed(1)+' lb/min';
+      supplyColor='#F36C23';
+      noteEl.textContent='Supply exceeds demand by '+delta.toFixed(1)+' lb/min. Topping accumulates in the HOPPER. Reduce FEED-Z belt speed or raise the HIGH WEIGHT threshold.';
     }
 
-    if(animInterval) clearInterval(animInterval);
-    animInterval=setInterval(function(){
-      var hiw2=+document.getElementById('hiw').value;
-      var low2=+document.getElementById('low').value;
-      var fzr2=+document.getElementById('fzr').value;
-      var machines2=+document.getElementById('machines').value;
-      var tpm2=+document.getElementById('tpm').value;
-      var woz2=+document.getElementById('woz').value;
-      var demand2=machines2*tpm2*(woz2/16);
-
-      if(feedzOn){
-        hopperWeight+=((fzr2-demand2)/60)*0.5;
-        if(hopperWeight>=hiw2){ hopperWeight=hiw2; feedzOn=false; }
-      } else {
-        hopperWeight-=(demand2/60)*0.5;
-        if(hopperWeight<=low2){ hopperWeight=low2; feedzOn=true; }
-      }
-      hopperWeight=Math.max(0,Math.min(40,hopperWeight));
-
-      var pct=(hopperWeight/40)*100;
-      document.getElementById('hopper-fill').style.height=pct+'%';
-      document.getElementById('hw-label').textContent=hopperWeight.toFixed(1)+' lb';
-
-      var fzEl=document.getElementById('feedz-status');
-      if(feedzOn){
-        fzEl.style.cssText='font-size:14px;font-weight:700;padding:8px 12px;border-radius:4px;margin-bottom:8px;text-align:center;background:#F36C23;color:#fff';
-        fzEl.textContent='FEED-Z ON';
-      } else {
-        fzEl.style.cssText='font-size:14px;font-weight:700;padding:8px 12px;border-radius:4px;margin-bottom:8px;text-align:center;background:#f5f5f5;color:#7D868C';
-        fzEl.textContent='FEED-Z OFF';
-      }
-    },500);
+    barSupply.style.background=supplyColor;
+    var demandPct=Math.min((demand/maxBar)*100,100);
+    var supplyPct=Math.min((supply/maxBar)*100,100);
+    setBarLabel(document.getElementById('bar-demand'),document.getElementById('lbl-demand'),document.getElementById('wrap-demand'),demandPct,demand.toFixed(1)+' lb/min');
+    setBarLabel(document.getElementById('bar-supply'),document.getElementById('lbl-supply'),document.getElementById('wrap-supply'),supplyPct,supply.toFixed(1)+' lb/min');
+    document.getElementById('tick-d').style.left=Math.min((demand/maxBar)*100,100)+'%';
   }
 
-  ['machines','tpm','woz','hiw','low','fzr'].forEach(function(id){
+  var hopperBar=document.getElementById('hopper-bar');
+  var dragging=false;
+  function setFromPointer(clientY){
+    var rect=hopperBar.getBoundingClientRect();
+    var y=clientY-rect.top;
+    var pct=1-(y/rect.height);
+    pct=Math.max(0,Math.min(1,pct));
+    setHopper(pct*6);
+  }
+  hopperBar.addEventListener('pointerdown',function(e){
+    dragging=true;
+    try{hopperBar.setPointerCapture(e.pointerId);}catch(err){}
+    setFromPointer(e.clientY);
+    e.preventDefault();
+  });
+  hopperBar.addEventListener('pointermove',function(e){ if(dragging) setFromPointer(e.clientY); });
+  hopperBar.addEventListener('pointerup',function(e){ dragging=false; });
+  hopperBar.addEventListener('pointercancel',function(e){ dragging=false; });
+
+  ['machines','tpm','woz','speed'].forEach(function(id){
     var el=document.getElementById(id);
     el.addEventListener('input',function(){updateSliderFill(this);calc();});
     updateSliderFill(el);
   });
 
-  calc();
+  setHopper(hopperLevel);
 })();
 </script>
 
