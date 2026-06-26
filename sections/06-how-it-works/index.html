@@ -977,7 +977,7 @@ consumption and replenishment rate determines how frequently the FEED-Z
 CONVEYOR runs and how stable the HOPPER weight stays during production.</p>
 <p>Use the controls below to explore the relationship between line demand,
 HOPPER thresholds, and FEED-Z CONVEYOR cycle behavior. The FEED-Z BELT
-LEVEL slider represents the observed topping depth on the incline belt.
+LEVEL bar represents the observed topping depth on the incline belt.
 Keeping the belt well loaded produces consistent flight fill and stable
 supply.</p>
 <div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
@@ -1083,11 +1083,7 @@ supply.</p>
             <div style="position:absolute;left:-3px;right:-3px;bottom:33.3%;height:1px;background:rgba(255,255,255,0.45);pointer-events:none"></div>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:4px;margin-top:6px">
-          <button onclick="hopperNudge(-0.5)" style="background:#F36C23;border:none;border-radius:4px;width:22px;height:22px;font-size:10px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;line-height:1">&#9660;</button>
-          <span id="hv" style="font-size:14px;font-weight:700;color:#24211C;min-width:48px;text-align:center">4.0 in</span>
-          <button onclick="hopperNudge(0.5)" style="background:#F36C23;border:none;border-radius:4px;width:22px;height:22px;font-size:10px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;line-height:1">&#9650;</button>
-        </div>
+        <div style="margin-top:6px;font-size:13px;font-weight:700;color:#24211C;text-align:center" id="hv">4.0 in</div>
       </div>
 
       <div style="flex:1;min-width:0">
@@ -1239,8 +1235,6 @@ supply.</p>
     document.getElementById('hv').textContent=hopperLevel.toFixed(1)+' in';
     calc();
   }
-  function hopperNudge(step){ setHopper(hopperLevel+step); }
-  window.hopperNudge=hopperNudge;
 
   function updateGauge(prefix,weight,hiw,low){
     var pct=Math.min((weight/40)*100,100);
@@ -1282,8 +1276,7 @@ supply.</p>
     var supply=flightsPerMin*lbPerFlight;
 
     var skipFactor=skipMode?0.5:1.0;
-    var demandPerMachine=tpm*(woz/16)*skipFactor;
-    var totalDemand=machines*demandPerMachine;
+    var totalDemand=machines*tpm*(woz/16)*skipFactor;
 
     var delta=supply-totalDemand;
     var maxBar=Math.max(totalDemand,supply,60)*1.15;
@@ -1311,7 +1304,6 @@ supply.</p>
     var noteEl=document.getElementById('note-text');
     var barSupply=document.getElementById('bar-supply');
     var supplyColor;
-
     var balancePct=totalDemand>0?Math.abs(delta)/totalDemand:0;
 
     if(balancePct<=0.10){
@@ -1364,9 +1356,7 @@ supply.</p>
       var dem1=tpm2*(woz2/16)*sk;
       var dem2=mach>1?tpm2*(woz2/16)*sk:0;
 
-      // M1 logic — priority
       if(m1On){
-        // FEED-Z running forward — supply goes to M1
         m1Weight+=(sup-dem1)/60*0.5;
         if(m1Weight>=hiw2){ m1Weight=hiw2; m1On=false; }
       } else {
@@ -1375,10 +1365,8 @@ supply.</p>
       }
       m1Weight=Math.max(0,Math.min(40,m1Weight));
 
-      // M2 logic — only fed when M1 satisfied
       if(mach>1){
-        if(m2On && !m1On){
-          // FEED-Z running reverse — supply goes to M2
+        if(m2On&&!m1On){
           m2Weight+=(sup-dem2)/60*0.5;
           if(m2Weight>=hiw2){ m2Weight=hiw2; m2On=false; }
         } else {
@@ -1393,11 +1381,10 @@ supply.</p>
 
       var m1lbl=document.getElementById('m1-feedz');
       var m2lbl=document.getElementById('m2-feedz');
-
       if(m1On){
         m1lbl.style.color='#F36C23'; m1lbl.textContent='FEED-Z \u25BA FWD';
-        if(mach>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Waiting — M1 priority'; }
-      } else if(mach>1 && m2On){
+        if(mach>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Waiting \u2014 M1 priority'; }
+      } else if(mach>1&&m2On){
         m1lbl.style.color='#7D868C'; m1lbl.textContent='Satisfied';
         m2lbl.style.color='#F36C23'; m2lbl.textContent='FEED-Z \u25C4 REV';
       } else {
