@@ -976,11 +976,10 @@ HOPPER LOW WEIGHT and HOPPER HIGH WEIGHT. The balance between topping
 consumption and replenishment rate determines how frequently the FEED-Z
 CONVEYOR runs and how stable the HOPPER weight stays during production.</p>
 <p>Use the controls below to explore the relationship between line demand,
-HOPPER thresholds, and FEED-Z CONVEYOR cycle behavior. The HOPPER LEVEL
-slider represents the observed topping depth in the HOPPER. There is no
-automatic level measurement on the MC-45 — the operator monitors this
-directly. Keeping HOPPER LEVEL between 3 and 5 inches produces consistent
-flight loading and stable supply.</p>
+HOPPER thresholds, and FEED-Z CONVEYOR cycle behavior. The FEED-Z BELT
+LEVEL slider represents the observed topping depth on the incline belt.
+Keeping the belt well loaded produces consistent flight fill and stable
+supply.</p>
 <div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
 
 <div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
@@ -990,8 +989,10 @@ flight loading and stable supply.</p>
 
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
 
+  <!-- LEFT: Line Demand -->
   <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
     <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">Line Demand</div>
+
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Machines <span id="mv" style="font-size:16px;font-weight:700;color:#24211C">1</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1000,32 +1001,59 @@ flight loading and stable supply.</p>
         <button onclick="nudge('machines',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
+
     <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Targets / min <span id="tv" style="font-size:16px;font-weight:700;color:#24211C">22</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Targets / min <span style="font-size:11px;color:#7D868C">(per machine)</span> <span id="tv" style="font-size:16px;font-weight:700;color:#24211C">22</span></div>
       <div style="display:flex;align-items:center;gap:6px">
         <button onclick="nudge('tpm',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
         <input type="range" id="tpm" min="5" max="48" step="1" value="22" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
         <button onclick="nudge('tpm',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
+
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Topping / target (oz) <span id="wv" style="font-size:16px;font-weight:700;color:#24211C">8.0</span></div>
       <div style="display:flex;align-items:center;gap:6px">
-        <button onclick="nudge('woz',-0.5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
-        <input type="range" id="woz" min="1" max="16" step="0.5" value="8" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-        <button onclick="nudge('woz',0.5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+        <button onclick="nudge('woz',-0.1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+        <input type="range" id="woz" min="1" max="16" step="0.1" value="8" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+        <button onclick="nudge('woz',0.1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
+
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Skip Mode <span id="skv" style="font-size:16px;font-weight:700;color:#24211C">OFF</span></div>
       <div style="display:flex;align-items:center;gap:6px">
         <button onclick="toggleSkip()" id="skip-btn" style="background:#3a3733;border:none;border-radius:4px;padding:4px 14px;font-size:13px;cursor:pointer;color:#fff;font-weight:700">OFF</button>
       </div>
     </div>
+
+    <!-- HOPPER WEIGHT thresholds -->
+    <div style="padding-top:10px;border-top:0.5px solid rgba(0,0,0,0.12)">
+      <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:8px">HOPPER Weight Thresholds</div>
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:4px">HIGH WEIGHT (lb) <span id="hiwv" style="font-size:15px;font-weight:700;color:#24211C">20</span></div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <button onclick="nudge('hiw',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+          <input type="range" id="hiw" min="5" max="40" step="1" value="20" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+          <button onclick="nudge('hiw',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+        </div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:4px">LOW WEIGHT (lb) <span id="lowv" style="font-size:15px;font-weight:700;color:#24211C">10</span></div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <button onclick="nudge('low',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+          <input type="range" id="low" min="1" max="35" step="1" value="10" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+          <button onclick="nudge('low',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
+  <!-- RIGHT: FEED-Z Supply -->
   <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
     <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">FEED-Z Supply</div>
+
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">Belt speed (FPM) <span id="sv" style="font-size:16px;font-weight:700;color:#24211C">19.4</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1035,9 +1063,19 @@ flight loading and stable supply.</p>
       </div>
     </div>
 
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#24211C;margin-bottom:6px">lb / flight <span id="flv" style="font-size:16px;font-weight:700;color:#24211C">1.25</span></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button onclick="nudge('flb',-0.05)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+        <input type="range" id="flb" min="0.5" max="2.0" step="0.05" value="1.25" style="-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+        <button onclick="nudge('flb',0.05)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+      </div>
+      <div style="font-size:11px;color:#7D868C;margin-top:3px">0.5 lb = light/fine product &nbsp;|&nbsp; 2.0 lb = dense product</div>
+    </div>
+
     <div style="display:flex;gap:14px;align-items:flex-start;margin-top:10px">
       <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-        <div style="font-size:13px;color:#24211C;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;text-align:center">HOPPER LEVEL</div>
+        <div style="font-size:13px;color:#24211C;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;text-align:center">FEED-Z BELT LEVEL</div>
         <div style="display:flex;gap:6px;align-items:stretch">
           <div style="display:flex;flex-direction:column;justify-content:space-between;height:140px;font-size:11px;color:#7D868C;line-height:1">
             <span>6</span><span>4</span><span>2</span><span>0</span>
@@ -1065,6 +1103,47 @@ flight loading and stable supply.</p>
 
 </div>
 
+<!-- HOPPER weight gauges -->
+<div id="hopper-gauges" style="display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px">
+  <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
+    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight — Machine 1</div>
+    <div style="position:relative;height:28px;background:#f5f5f5;border-radius:4px;overflow:visible;border:0.5px solid rgba(0,0,0,0.12);margin-bottom:4px">
+      <div id="m1-fill" style="position:absolute;top:0;bottom:0;left:0;background:#F36C23;border-radius:4px;transition:width .4s;width:50%"></div>
+      <div id="m1-hi-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#2E7D32"></div>
+      <div id="m1-lo-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#D94F3D"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:#7D868C">
+      <span>0 lb</span>
+      <span id="m1-weight-lbl" style="font-weight:700;color:#24211C">15.0 lb</span>
+      <span>40 lb</span>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:6px;font-size:12px">
+      <span style="color:#2E7D32">&#9646; HIGH</span>
+      <span style="color:#D94F3D">&#9646; LOW</span>
+      <span id="m1-feedz" style="font-weight:700;margin-left:auto"></span>
+    </div>
+  </div>
+  <div id="m2-gauge" style="display:none;background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
+    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight — Machine 2 (Option)</div>
+    <div style="position:relative;height:28px;background:#f5f5f5;border-radius:4px;overflow:visible;border:0.5px solid rgba(0,0,0,0.12);margin-bottom:4px">
+      <div id="m2-fill" style="position:absolute;top:0;bottom:0;left:0;background:#F36C23;border-radius:4px;transition:width .4s;width:50%"></div>
+      <div id="m2-hi-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#2E7D32"></div>
+      <div id="m2-lo-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#D94F3D"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:#7D868C">
+      <span>0 lb</span>
+      <span id="m2-weight-lbl" style="font-weight:700;color:#24211C">15.0 lb</span>
+      <span>40 lb</span>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:6px;font-size:12px">
+      <span style="color:#2E7D32">&#9646; HIGH</span>
+      <span style="color:#D94F3D">&#9646; LOW</span>
+      <span id="m2-feedz" style="font-weight:700;margin-left:auto"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Status bar -->
 <div id="status-bar" style="border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid transparent">
   <div id="badge" style="font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap"></div>
   <div style="flex:1;display:flex;gap:20px;flex-wrap:wrap">
@@ -1097,11 +1176,14 @@ flight loading and stable supply.</p>
 
 <script>
 (function(){
-  var FLIGHTS=46,MIN_SPEED=18,MAX_LB_PER_FLIGHT=2.2;
-  var TRACK_DARK='#3a3733',TRACK_ORANGE='#F36C23';
+  var FLIGHTS=46, MIN_SPEED=18;
+  var TRACK_DARK='#3a3733', TRACK_ORANGE='#F36C23';
   var THRESHOLD=22;
   var hopperLevel=4.0;
   var skipMode=false;
+  var m1Weight=15.0, m2Weight=15.0;
+  var m1On=false, m2On=false;
+  var animInterval=null;
 
   function fillPctFromHopper(h){
     if(h<=0) return 0;
@@ -1145,15 +1227,8 @@ flight loading and stable supply.</p>
     skipMode=!skipMode;
     var btn=document.getElementById('skip-btn');
     var lbl=document.getElementById('skv');
-    if(skipMode){
-      btn.style.background='#F36C23';
-      btn.textContent='ON';
-      lbl.textContent='ON';
-    } else {
-      btn.style.background='#3a3733';
-      btn.textContent='OFF';
-      lbl.textContent='OFF';
-    }
+    if(skipMode){ btn.style.background='#F36C23'; btn.textContent='ON'; lbl.textContent='ON'; }
+    else { btn.style.background='#3a3733'; btn.textContent='OFF'; lbl.textContent='OFF'; }
     calc();
   }
   window.toggleSkip=toggleSkip;
@@ -1168,24 +1243,46 @@ flight loading and stable supply.</p>
   function hopperNudge(step){ setHopper(hopperLevel+step); }
   window.hopperNudge=hopperNudge;
 
+  function updateGauge(prefix, weight, hiw, low){
+    var pct=Math.min((weight/40)*100,100);
+    var hiPct=Math.min((hiw/40)*100,100);
+    var loPct=Math.min((low/40)*100,100);
+    document.getElementById(prefix+'-fill').style.width=pct+'%';
+    document.getElementById(prefix+'-hi-tick').style.left=hiPct+'%';
+    document.getElementById(prefix+'-lo-tick').style.left=loPct+'%';
+    document.getElementById(prefix+'-weight-lbl').textContent=weight.toFixed(1)+' lb';
+  }
+
   function calc(){
     var machines=+document.getElementById('machines').value;
     var tpm=+document.getElementById('tpm').value;
     var woz=+document.getElementById('woz').value;
     var speed=+document.getElementById('speed').value;
-    var fillPct=fillPctFromHopper(hopperLevel);
-    var skipFactor=skipMode?0.5:1.0;
-    var demand=machines*tpm*(woz/16)*skipFactor;
-    var lbPerFlight=MAX_LB_PER_FLIGHT*(fillPct/100);
-    var flightsPerMin=(speed/MIN_SPEED)*FLIGHTS;
-    var supply=flightsPerMin*lbPerFlight;
-    var delta=supply-demand;
-    var maxBar=Math.max(demand,supply,120)*1.15;
+    var flb=+document.getElementById('flb').value;
+    var hiw=+document.getElementById('hiw').value;
+    var low=+document.getElementById('low').value;
+
+    if(low>=hiw){ low=hiw-1; document.getElementById('low').value=low; updateSliderFill(document.getElementById('low')); }
 
     document.getElementById('mv').textContent=machines;
     document.getElementById('tv').textContent=tpm;
     document.getElementById('wv').textContent=woz.toFixed(1);
     document.getElementById('sv').textContent=speed.toFixed(1);
+    document.getElementById('flv').textContent=flb.toFixed(2);
+    document.getElementById('hiwv').textContent=hiw;
+    document.getElementById('lowv').textContent=low;
+
+    document.getElementById('m2-gauge').style.display=machines>1?'block':'none';
+
+    var fillPct=fillPctFromHopper(hopperLevel);
+    var skipFactor=skipMode?0.5:1.0;
+    var demand=machines*tpm*(woz/16)*skipFactor;
+    var lbPerFlight=flb*(fillPct/100);
+    var flightsPerMin=(speed/MIN_SPEED)*FLIGHTS;
+    var supply=flightsPerMin*lbPerFlight;
+    var delta=supply-demand;
+    var maxBar=Math.max(demand,supply,120)*1.15;
+
     document.getElementById('fv-readout').textContent='Flights at '+fillPct.toFixed(0)+'% fill';
     document.getElementById('flight-lb').textContent=lbPerFlight.toFixed(2)+' lb/flight \u00D7 '+flightsPerMin.toFixed(1)+' flights/min';
 
@@ -1196,7 +1293,7 @@ flight loading and stable supply.</p>
       box.style.cssText='flex:1;height:14px;border-radius:2px;background:#f5f5f5;overflow:hidden;border:0.5px solid rgba(0,0,0,0.12)';
       var inner=document.createElement('div');
       inner.style.cssText='height:100%;border-radius:2px;background:#F36C23;transition:width .3s;width:'+fillPct+'%';
-      box.appendChild(inner);fl.appendChild(box);
+      box.appendChild(inner); fl.appendChild(box);
     }
 
     document.getElementById('demand-val').textContent=demand.toFixed(1)+' lb/min'+(skipMode?' (skip ½)':'');
@@ -1214,26 +1311,26 @@ flight loading and stable supply.</p>
       sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #2E7D32;background:#EAFAF1';
       badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#2E7D32;color:#fff';
       badge.textContent='BALANCED';
-      deltaEl.style.color='#2E7D32';supplyVal.style.color='#2E7D32';
+      deltaEl.style.color='#2E7D32'; supplyVal.style.color='#2E7D32';
       deltaEl.textContent='\u00B1'+Math.abs(delta).toFixed(1)+' lb/min';
       supplyColor='#2E7D32';
-      noteEl.textContent='Supply matches demand. The FEED-Z CONVEYOR will cycle on and off at a stable interval. The HOPPER weight holds between LOW and HIGH thresholds consistently.';
+      noteEl.textContent='Supply matches demand. The FEED-Z CONVEYOR cycles at a stable interval. HOPPER weight holds between LOW and HIGH thresholds consistently.';
     } else if(delta<0){
       sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #D94F3D;background:#FFEEEE';
       badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#D94F3D;color:#fff';
       badge.textContent='UNDERFILL';
-      deltaEl.style.color='#D94F3D';supplyVal.style.color='#D94F3D';
+      deltaEl.style.color='#D94F3D'; supplyVal.style.color='#D94F3D';
       deltaEl.textContent=delta.toFixed(1)+' lb/min';
       supplyColor='#D94F3D';
-      noteEl.textContent=fillPct<100?'HOPPER LEVEL is too low. Partially loaded flights cannot meet demand. Raise the HOPPER LEVEL or reduce line rate.':'Fully loaded flights cannot meet demand at this belt speed. Increase FEED-Z belt speed or reduce line rate.';
+      noteEl.textContent=fillPct<100?'FEED-Z BELT LEVEL is too low. Partially loaded flights cannot meet demand. Increase belt level or reduce line rate.':'Fully loaded flights cannot meet demand at this belt speed. Increase FEED-Z belt speed or reduce line rate.';
     } else {
       sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #EF7132;background:#FFF3E0';
       badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#EF7132;color:#fff';
-      badge.textContent='OVERFILL';
-      deltaEl.style.color='#EF7132';supplyVal.style.color='#EF7132';
+      badge.textContent='OVERFILL — CHECK PARAMETERS';
+      deltaEl.style.color='#EF7132'; supplyVal.style.color='#EF7132';
       deltaEl.textContent='+'+delta.toFixed(1)+' lb/min';
       supplyColor='#F36C23';
-      noteEl.textContent='Supply exceeds demand by '+delta.toFixed(1)+' lb/min. Topping accumulates in the HOPPER. Reduce FEED-Z belt speed or raise the HIGH WEIGHT threshold.';
+      noteEl.textContent='Supply exceeds demand. Under normal operation the FEED-Z stops when HIGH WEIGHT is reached. If this condition persists, verify HOPPER weight thresholds and load cell calibration.';
     }
 
     barSupply.style.background=supplyColor;
@@ -1242,6 +1339,52 @@ flight loading and stable supply.</p>
     setBarLabel(document.getElementById('bar-demand'),document.getElementById('lbl-demand'),document.getElementById('wrap-demand'),demandPct,demand.toFixed(1)+' lb/min');
     setBarLabel(document.getElementById('bar-supply'),document.getElementById('lbl-supply'),document.getElementById('wrap-supply'),supplyPct,supply.toFixed(1)+' lb/min');
     document.getElementById('tick-d').style.left=Math.min((demand/maxBar)*100,100)+'%';
+
+    if(animInterval) clearInterval(animInterval);
+    var hiw2=hiw, low2=low, machines2=machines;
+    animInterval=setInterval(function(){
+      var spd=+document.getElementById('speed').value;
+      var fl2=+document.getElementById('flb').value;
+      var fp=fillPctFromHopper(hopperLevel);
+      var lbpf=fl2*(fp/100);
+      var fpm=(spd/MIN_SPEED)*FLIGHTS;
+      var sup=fpm*lbpf;
+      var tpm2=+document.getElementById('tpm').value;
+      var woz2=+document.getElementById('woz').value;
+      var sk=skipMode?0.5:1.0;
+      var dem1=tpm2*(woz2/16)*sk;
+      var dem2=machines2>1?tpm2*(woz2/16)*sk:0;
+      var hiw3=+document.getElementById('hiw').value;
+      var low3=+document.getElementById('low').value;
+
+      // M1 simulation
+      if(m1On){ m1Weight+=(sup-dem1)/60*0.5; if(m1Weight>=hiw3){ m1Weight=hiw3; m1On=false; } }
+      else { m1Weight-=(dem1/60)*0.5; if(m1Weight<=low3){ m1Weight=low3; m1On=true; } }
+      m1Weight=Math.max(0,Math.min(40,m1Weight));
+
+      // M2 simulation (M1 priority — M2 only feeds when M1 satisfied)
+      if(machines2>1){
+        if(m2On && !m1On){ m2Weight+=(sup-dem2)/60*0.5; if(m2Weight>=hiw3){ m2Weight=hiw3; m2On=false; } }
+        else if(!m2On){ m2Weight-=(dem2/60)*0.5; if(m2Weight<=low3){ m2Weight=low3; m2On=true; } }
+        m2Weight=Math.max(0,Math.min(40,m2Weight));
+      }
+
+      updateGauge('m1',m1Weight,hiw3,low3);
+      if(machines2>1) updateGauge('m2',m2Weight,hiw3,low3);
+
+      var m1lbl=document.getElementById('m1-feedz');
+      var m2lbl=document.getElementById('m2-feedz');
+      if(m1On){
+        m1lbl.style.color='#F36C23'; m1lbl.textContent='FEED-Z \u25BA FWD';
+        if(machines2>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Waiting — M1 priority'; }
+      } else if(machines2>1 && m2On){
+        m1lbl.style.color='#7D868C'; m1lbl.textContent='Satisfied';
+        m2lbl.style.color='#F36C23'; m2lbl.textContent='FEED-Z \u25C4 REV';
+      } else {
+        m1lbl.style.color='#7D868C'; m1lbl.textContent='Satisfied';
+        if(machines2>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Satisfied'; }
+      }
+    },500);
   }
 
   var hopperBar=document.getElementById('hopper-bar');
@@ -1255,7 +1398,7 @@ flight loading and stable supply.</p>
   }
   hopperBar.addEventListener('pointerdown',function(e){
     dragging=true;
-    try{hopperBar.setPointerCapture(e.pointerId);}catch(err){}
+    try{ hopperBar.setPointerCapture(e.pointerId); }catch(err){}
     setFromPointer(e.clientY);
     e.preventDefault();
   });
@@ -1263,13 +1406,13 @@ flight loading and stable supply.</p>
   hopperBar.addEventListener('pointerup',function(e){ dragging=false; });
   hopperBar.addEventListener('pointercancel',function(e){ dragging=false; });
 
-  ['machines','tpm','woz','speed'].forEach(function(id){
+  ['machines','tpm','woz','speed','flb','hiw','low'].forEach(function(id){
     var el=document.getElementById(id);
-    el.addEventListener('input',function(){updateSliderFill(this);calc();});
+    el.addEventListener('input',function(){ updateSliderFill(this); calc(); });
     updateSliderFill(el);
   });
 
-  setHopper(hopperLevel);
+  calc();
 })();
 </script>
 
