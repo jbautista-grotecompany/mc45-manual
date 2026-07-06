@@ -537,7 +537,7 @@
   <a href="#65-feed-z-conveyor-two-machine-configuration-option" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.5 FEED-Z CONVEYOR — Two-Machine Configuration (Option)
+        6.5 FEED-Z CONVEYOR: Two-Machine Configuration (Option)
       
     </span>
   </a>
@@ -879,8 +879,8 @@ detected by the TARGET SENSOR. The cycle runs as follows:</p>
 every other target. On a skipped target, the CARPET stays at the MASK
 OFFSET position, the BUCKET stays closed, and the PORTION CONVEYOR does
 not advance.</p>
-<p>If the skip phase drifts out of alignment with the line — for example,
-when an operator removes a target to check deposit quality — press SYNC
+<p>If the skip phase drifts out of alignment with the line (for example,
+when an operator removes a target to check deposit quality), press SYNC
 on the OI. Each press shifts the skip phase by one target, realigning
 the deposit pattern with the correct targets.</p>
 <figure>
@@ -893,18 +893,24 @@ the deposit pattern with the correct targets.</p>
 zone. It does not return to the home position between cycles. Between cycles
 it holds at the MASK OFFSET position, which is an offset from home set in
 the active recipe.</p>
-<p><strong>MASK OFFSET</strong> sets where the CARPET starts its extend move, effectively
-aligning the deposit zone with the border of the target.</p>
+<p><strong>MASK OFFSET</strong> sets where the CARPET starts its extend move, aligning the
+deposit zone with the border of the target.</p>
 <p><strong>STROKE LENGTH</strong> controls the width of the deposit zone.</p>
 <p><strong>EXTEND RATIO</strong> controls how fast the CARPET travels relative to the PRODUCT
 CONVEYOR during the extend move.</p>
 <p>The MASK is mounted between the BUCKET and the CARPET surface. It shapes
-the topping pattern — round masks produce round deposits, square cells
-produce square deposits — so the topping lands only within the border area
+the topping pattern (round masks produce round deposits, square cells
+produce square deposits), so the topping lands only within the border area
 defined by MASK OFFSET and STROKE LENGTH.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When transitioning from PRIME or EMPTY mode to RUN mode, the CARPET
+homes automatically before moving to the MASK OFFSET position. This
+occurs without operator action.</p>
+</div>
 <figure>
 <div class="figure-placeholder">Figure 6.2  CARPET motion diagram showing home, offset, and extended positions</div>
-<figcaption>Figure 6.2  CARPET motion diagram — home, offset, and extended positions</figcaption>
+<figcaption>Figure 6.2  CARPET motion diagram (home, offset, and extended positions)</figcaption>
 </figure>
 <hr />
 <h2 id="63-target-tracking">6.3 Target Tracking<a class="headerlink" href="#63-target-tracking" title="Permanent link">&para;</a></h2>
@@ -958,7 +964,7 @@ HIGH WEIGHT, the FEED-Z CONVEYOR stops.</p>
 <figcaption>Figure 6.4  HOPPER fill control diagram</figcaption>
 </figure>
 <hr />
-<h2 id="65-feed-z-conveyor-two-machine-configuration-option">6.5 FEED-Z CONVEYOR — Two-Machine Configuration (Option)<a class="headerlink" href="#65-feed-z-conveyor-two-machine-configuration-option" title="Permanent link">&para;</a></h2>
+<h2 id="65-feed-z-conveyor-two-machine-configuration-option">6.5 FEED-Z CONVEYOR: Two-Machine Configuration (Option)<a class="headerlink" href="#65-feed-z-conveyor-two-machine-configuration-option" title="Permanent link">&para;</a></h2>
 <p>When two MC-45 Depositors share one FEED-Z CONVEYOR, the conveyor is
 bidirectional. Running forward feeds MC45 Machine 1. Running in reverse
 feeds MC45 Machine 2.</p>
@@ -1100,7 +1106,7 @@ supply.</p>
 <!-- HOPPER weight gauges -->
 <div style="margin-bottom:12px">
   <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:10px">
-    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight — Machine 1</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight: Machine 1</div>
     <div style="position:relative;height:28px;background:#f5f5f5;border-radius:4px;overflow:visible;border:0.5px solid rgba(0,0,0,0.12);margin-bottom:4px">
       <div id="m1-fill" style="position:absolute;top:0;bottom:0;left:0;background:#F36C23;border-radius:4px;transition:width .4s;width:37.5%"></div>
       <div id="m1-hi-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#2E7D32"></div>
@@ -1119,7 +1125,7 @@ supply.</p>
   </div>
 
   <div id="m2-gauge" style="display:none;background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
-    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight — Machine 2 (Option)</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">HOPPER Weight: Machine 2 (Option)</div>
     <div style="position:relative;height:28px;background:#f5f5f5;border-radius:4px;overflow:visible;border:0.5px solid rgba(0,0,0,0.12);margin-bottom:4px">
       <div id="m2-fill" style="position:absolute;top:0;bottom:0;left:0;background:#F36C23;border-radius:4px;transition:width .4s;width:37.5%"></div>
       <div id="m2-hi-tick" style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#2E7D32"></div>
@@ -1325,7 +1331,7 @@ supply.</p>
     } else {
       sb.style.cssText='border-radius:8px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px;border:2px solid #EF7132;background:#FFF3E0';
       badge.style.cssText='font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:4px;white-space:nowrap;background:#EF7132;color:#fff';
-      badge.textContent='OVERFILL — CHECK PARAMETERS';
+      badge.textContent='OVERFILL (CHECK PARAMETERS)';
       deltaEl.style.color='#EF7132'; supplyVal.style.color='#EF7132';
       deltaEl.textContent='+'+delta.toFixed(1)+' lb/min';
       supplyColor='#F36C23';
@@ -1383,7 +1389,7 @@ supply.</p>
       var m2lbl=document.getElementById('m2-feedz');
       if(m1On){
         m1lbl.style.color='#F36C23'; m1lbl.textContent='FEED-Z \u25BA FWD';
-        if(mach>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Waiting \u2014 M1 priority'; }
+        if(mach>1){ m2lbl.style.color='#7D868C'; m2lbl.textContent='Waiting (M1 priority)'; }
       } else if(mach>1&&m2On){
         m1lbl.style.color='#7D868C'; m1lbl.textContent='Satisfied';
         m2lbl.style.color='#F36C23'; m2lbl.textContent='FEED-Z \u25C4 REV';
@@ -1422,6 +1428,7 @@ supply.</p>
   calc();
 })();
 </script>
+<p></document_content></p>
 
 
 
