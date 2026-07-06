@@ -526,17 +526,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#83-feed-conveyor-belt-speed-display" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.3 FEED CONVEYOR Belt Speed Display
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -807,9 +796,11 @@ velocity, in the same units.</p>
 Values outside this range are rejected by the OI.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>ACCEL RATE determines the calculated PEAK SPEED and MOVE TIME shown
-below. DECEL RATE does not change these calculated values. Increasing
-DECEL RATE does not shorten the overall move.</p>
+<p>ACCEL RATE determines the calculated PEAK SPEED and BUCKET TIMER value
+shown below. The BUCKET TIMER assumes the decel ramp takes the same
+time as the accel ramp. If DECEL RATE is set differently than ACCEL
+RATE, the belt's actual decel time will differ from what the BUCKET
+TIMER assumes.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -821,7 +812,7 @@ occurs, reduce ACCEL RATE and retest.</p>
 
 <div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
   <div style="color:#F36C23;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Portion Conveyor Move Profile</div>
-  <div style="color:#ffffff;font-size:14px">Adjust MACHINE RATE, MOVE LENGTH, and ACCEL RATE to see the resulting velocity profile.</div>
+  <div style="color:#ffffff;font-size:14px">Adjust MACHINE RATE, MOVE LENGTH, ACCEL RATE, and DECEL RATE to see the resulting velocity profile.</div>
 </div>
 
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
@@ -842,7 +833,7 @@ occurs, reduce ACCEL RATE and retest.</p>
   </div>
 
   <div style="margin-bottom:4px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="pv-dec" style="font-size:15px;font-weight:700;color:#24211C">50</span> <span style="font-size:11px;color:#7D868C;font-weight:400">(informational, not used in calculation below)</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="pv-dec" style="font-size:15px;font-weight:700;color:#24211C">50</span></div>
     <input type="range" id="dec" min="10" max="500" step="5" value="50" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
   </div>
 
@@ -885,21 +876,27 @@ occurs, reduce ACCEL RATE and retest.</p>
     var sqrTerm=Math.sqrt(discriminant);
     var accelTime=availTime-sqrTerm;
     var peakSpeed=accelTime*acc*2;
-    var moveTimeMs=accelTime*1000;
-    var totalMoveTime=accelTime*2;
+    var bucketTimerMs=accelTime*1000;
 
-    status.style.cssText='border-radius:8px;padding:12px 16px;display:flex;gap:24px;flex-wrap:wrap;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9';
-    status.innerHTML=
+    var decelTime=peakSpeed/dec;
+    var totalVisualTime=accelTime+decelTime;
+    var mismatch=Math.abs(decelTime-accelTime)>0.01;
+
+    status.style.cssText='border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9';
+    var statsRow='<div style="display:flex;gap:24px;flex-wrap:wrap">'+
       '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Available Move Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+availTime.toFixed(2)+' s</div></div>'+
       '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Peak Speed</div><div style="font-size:18px;font-weight:700;color:#F36C23">'+peakSpeed.toFixed(1)+' in/s</div></div>'+
-      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Move Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+moveTimeMs.toFixed(0)+' ms</div></div>'+
-      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Total Move Duration</div><div style="font-size:18px;font-weight:700;color:#24211C">'+(totalMoveTime*1000).toFixed(0)+' ms</div></div>';
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Accel Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+accelTime.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Decel Time (actual)</div><div style="font-size:18px;font-weight:700;color:#24211C">'+decelTime.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Bucket Timer (PLC)</div><div style="font-size:18px;font-weight:700;color:#24211C">'+bucketTimerMs.toFixed(0)+' ms</div></div>'+
+      '</div>';
+    status.innerHTML=statsRow+(mismatch?'<div style="font-size:13px;color:#EF7132">DECEL RATE differs from ACCEL RATE. Actual decel time does not match what the BUCKET TIMER assumes.</div>':'');
 
     var padL=50, padB=30, padT=15, w=640-padL-20, h=220-padT-padB;
-    function x(t){ return padL+(t/totalMoveTime)*w; }
+    function x(t){ return padL+(t/totalVisualTime)*w; }
     function y(v){ return padT+h-(v/peakSpeed)*h; }
 
-    var d='M '+x(0)+' '+y(0)+' L '+x(accelTime)+' '+y(peakSpeed)+' L '+x(totalMoveTime)+' '+y(0);
+    var d='M '+x(0)+' '+y(0)+' L '+x(accelTime)+' '+y(peakSpeed)+' L '+x(totalVisualTime)+' '+y(0);
 
     svg.innerHTML=
       '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
@@ -919,85 +916,6 @@ occurs, reduce ACCEL RATE and retest.</p>
 <figure>
 <div class="figure-placeholder">Figure 8.2  PORTION CONVEYOR setup screen</div>
 <figcaption>Figure 8.2  PORTION CONVEYOR setup screen</figcaption>
-</figure>
-<hr />
-<h2 id="83-feed-conveyor-belt-speed-display">8.3 FEED CONVEYOR Belt Speed Display<a class="headerlink" href="#83-feed-conveyor-belt-speed-display" title="Permanent link">&para;</a></h2>
-<p>The FEED CONVEYOR setup screen is read-only. It does not accept an
-ACCEL RATE or DECEL RATE, since the FEED CONVEYOR runs at a continuous
-speed rather than a fixed-distance move.</p>
-<p>The screen displays a calculated belt speed in FPM, derived from two
-fixed values entered during commissioning: the conveyor shaft (roller)
-diameter and the gear ratio between the motor and the shaft. These two
-values do not change during normal operation and are set once when the
-Depositor is commissioned or when the motor or gearbox is replaced.</p>
-<p>The shaft diameter determines how far the belt travels for each shaft
-rotation. A larger shaft moves more belt per rotation. The gear ratio
-determines how many motor rotations produce one shaft rotation. A higher
-gear ratio means the motor spins faster relative to the shaft. Combining
-these two values with the motor's actual rotation speed gives the belt's
-linear speed, which the screen displays in FPM.</p>
-<div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
-
-<div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
-  <div style="color:#F36C23;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Feed Conveyor Belt Speed Display</div>
-  <div style="color:#ffffff;font-size:14px">Adjust shaft diameter, gear ratio, and motor speed to see the resulting belt speed.</div>
-</div>
-
-<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
-
-  <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Shaft Diameter (in) <span id="fd-shaft" style="font-size:15px;font-weight:700;color:#24211C">2.50</span></div>
-    <input type="range" id="shaft" min="1.0" max="6.0" step="0.05" value="2.5" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-  </div>
-
-  <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Gear Ratio (motor : shaft) <span id="fd-ratio" style="font-size:15px;font-weight:700;color:#24211C">10 : 1</span></div>
-    <input type="range" id="ratio" min="3" max="30" step="1" value="10" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-  </div>
-
-  <div style="margin-bottom:4px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Motor Speed (RPM) <span id="fd-rpm" style="font-size:15px;font-weight:700;color:#24211C">1200</span></div>
-    <input type="range" id="rpm" min="100" max="1800" step="10" value="1200" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-  </div>
-
-</div>
-
-<div style="background:#24211C;border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:space-between">
-  <div style="color:#ffffff;font-size:14px;text-transform:uppercase;letter-spacing:.06em">FEED CONVEYOR Belt Speed</div>
-  <div id="fd-speed" style="color:#F36C23;font-size:28px;font-weight:700">0.0 FPM</div>
-</div>
-
-</div>
-
-<script>
-(function(){
-  function calcBeltSpeed(){
-    var shaft=+document.getElementById('shaft').value;
-    var ratio=+document.getElementById('ratio').value;
-    var rpm=+document.getElementById('rpm').value;
-
-    document.getElementById('fd-shaft').textContent=shaft.toFixed(2);
-    document.getElementById('fd-ratio').textContent=ratio+' : 1';
-    document.getElementById('fd-rpm').textContent=rpm;
-
-    var shaftRpm=rpm/ratio;
-    var circumference=Math.PI*shaft;
-    var speedInPerMin=shaftRpm*circumference;
-    var speedFpm=speedInPerMin/12;
-
-    document.getElementById('fd-speed').textContent=speedFpm.toFixed(1)+' FPM';
-  }
-
-  ['shaft','ratio','rpm'].forEach(function(id){
-    document.getElementById(id).addEventListener('input',calcBeltSpeed);
-  });
-  calcBeltSpeed();
-})();
-</script>
-
-<figure>
-<div class="figure-placeholder">Figure 8.3  FEED CONVEYOR setup screen (read-only)</div>
-<figcaption>Figure 8.3  FEED CONVEYOR setup screen (read-only)</figcaption>
 </figure>
 
 
