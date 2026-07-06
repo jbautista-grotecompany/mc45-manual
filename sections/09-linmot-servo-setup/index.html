@@ -783,7 +783,13 @@
 <p>The CARPET is driven by a Linmot C1250 linear servo. Its setup screen is
 reached from MAINT → MOTOR SETUP → CARPET and allows the operator to adjust
 the extend and retract move profile.</p>
-<p>Four parameters are adjustable from this screen: VELOCITY, ACCEL RATE,
+<p>The CARPET does not run at a fixed velocity. As described in
+<a href="06-deposit-sequence.md#62-carpet-motion">Section 6.2</a>, CARPET speed
+during the extend move is set by EXTEND RATIO, a multiplier applied to
+PRODUCT CONVEYOR speed. An EXTEND RATIO of 1.0 moves the CARPET at the same
+speed as the PRODUCT CONVEYOR. An EXTEND RATIO of 0.5 moves the CARPET at
+half that speed.</p>
+<p>Four parameters are adjustable from this screen: EXTEND RATIO, ACCEL RATE,
 DECEL RATE, and MOVE TYPE. MOVE TYPE selects between a TRAPEZOIDAL move and
 an S-CURVE move. When S-CURVE is selected, a fifth parameter, JERK, becomes
 available.</p>
@@ -791,25 +797,35 @@ available.</p>
 Values outside this range are rejected by the OI.</p>
 <hr />
 <h2 id="92-trapezoidal-move">9.2 Trapezoidal Move<a class="headerlink" href="#92-trapezoidal-move" title="Permanent link">&para;</a></h2>
-<p>A trapezoidal move accelerates the CARPET at a constant rate to the set
-VELOCITY, holds that velocity, then decelerates at a constant rate to a
-stop. Acceleration changes instantly at the start and end of each phase.
-This produces the shortest possible move time for a given VELOCITY, ACCEL
-RATE, and DECEL RATE, but the abrupt change in acceleration at each
-transition places a sudden mechanical load on the CARPET belt and its
-mounting hardware.</p>
+<p>A trapezoidal move accelerates the CARPET at a constant rate to the
+velocity set by PRODUCT CONVEYOR SPEED and EXTEND RATIO, holds that
+velocity, then decelerates at a constant rate to a stop. Acceleration
+changes instantly at the start and end of each phase. This produces the
+shortest possible move time for a given velocity, ACCEL RATE, and DECEL
+RATE, but the abrupt change in acceleration at each transition places a
+sudden mechanical load on the CARPET belt and its mounting hardware.</p>
 <div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
 
 <div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
   <div style="color:#F36C23;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Carpet Trapezoidal Move</div>
-  <div style="color:#ffffff;font-size:14px">Adjust VELOCITY, ACCEL RATE, and DECEL RATE to see the resulting velocity and acceleration profile.</div>
+  <div style="color:#ffffff;font-size:14px">Adjust PRODUCT CONVEYOR SPEED and EXTEND RATIO to set velocity, then adjust ACCEL RATE and DECEL RATE.</div>
 </div>
 
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">VELOCITY (in/sec) <span id="tz-vel-v" style="font-size:15px;font-weight:700;color:#24211C">20.0</span></div>
-    <input type="range" id="tz-vel" min="2" max="40" step="0.5" value="20" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">PRODUCT CONVEYOR SPEED (in/sec) <span id="tz-conv-v" style="font-size:15px;font-weight:700;color:#24211C">20.0</span></div>
+    <input type="range" id="tz-conv" min="2" max="40" step="0.5" value="20" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">EXTEND RATIO <span id="tz-ratio-v" style="font-size:15px;font-weight:700;color:#24211C">1.00</span></div>
+    <input type="range" id="tz-ratio" min="0.1" max="2.0" step="0.05" value="1.0" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="background:#f9f9f9;border-radius:6px;padding:8px 12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:13px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Resulting CARPET Velocity</span>
+    <span id="tz-vel-v" style="font-size:16px;font-weight:700;color:#F36C23">20.0 in/sec</span>
   </div>
 
   <div style="margin-bottom:10px">
@@ -846,12 +862,16 @@ mounting hardware.</p>
 <script>
 (function(){
   function draw(){
-    var vel=+document.getElementById('tz-vel').value;
+    var convSpeed=+document.getElementById('tz-conv').value;
+    var ratio=+document.getElementById('tz-ratio').value;
+    var vel=convSpeed*ratio;
     var acc=+document.getElementById('tz-acc').value;
     var dec=+document.getElementById('tz-dec').value;
     var cruise=+document.getElementById('tz-cruise').value;
 
-    document.getElementById('tz-vel-v').textContent=vel.toFixed(1);
+    document.getElementById('tz-conv-v').textContent=convSpeed.toFixed(1);
+    document.getElementById('tz-ratio-v').textContent=ratio.toFixed(2);
+    document.getElementById('tz-vel-v').textContent=vel.toFixed(1)+' in/sec';
     document.getElementById('tz-acc-v').textContent=acc;
     document.getElementById('tz-dec-v').textContent=dec;
     document.getElementById('tz-cruise-v').textContent=cruise.toFixed(2);
@@ -886,7 +906,7 @@ mounting hardware.</p>
       '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+accH)+'" stroke="#7D868C" stroke-width="1"/>'+
       '<path d="'+ad+'" fill="none" stroke="#24211C" stroke-width="3"/>';
   }
-  ['tz-vel','tz-acc','tz-dec','tz-cruise'].forEach(function(id){
+  ['tz-conv','tz-ratio','tz-acc','tz-dec','tz-cruise'].forEach(function(id){
     document.getElementById(id).addEventListener('input',draw);
   });
   draw();
@@ -899,7 +919,7 @@ mounting hardware.</p>
 </figure>
 <hr />
 <h2 id="93-s-curve-move">9.3 S-Curve Move<a class="headerlink" href="#93-s-curve-move" title="Permanent link">&para;</a></h2>
-<p>An S-curve move reaches the same VELOCITY as a trapezoidal move, but the
+<p>An S-curve move reaches the same velocity as a trapezoidal move, but the
 acceleration itself ramps up and down smoothly instead of stepping
 instantly. JERK sets how quickly acceleration is allowed to change. A low
 JERK value produces a gradual, rounded acceleration ramp. A high JERK value
@@ -907,7 +927,7 @@ approaches the sharp, instant transitions of a trapezoidal move.</p>
 <p>This smoother acceleration transition reduces the sudden mechanical shock
 transferred to the CARPET belt at the start and end of each move phase,
 at the cost of a slightly longer total move time compared to a trapezoidal
-move with the same VELOCITY, ACCEL RATE, and DECEL RATE.</p>
+move with the same velocity, ACCEL RATE, and DECEL RATE.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>JERK is only used and displayed when MOVE TYPE is set to S-CURVE. When
@@ -923,8 +943,18 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">VELOCITY (in/sec) <span id="sc-vel-v" style="font-size:15px;font-weight:700;color:#24211C">20.0</span></div>
-    <input type="range" id="sc-vel" min="2" max="40" step="0.5" value="20" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">PRODUCT CONVEYOR SPEED (in/sec) <span id="sc-conv-v" style="font-size:15px;font-weight:700;color:#24211C">20.0</span></div>
+    <input type="range" id="sc-conv" min="2" max="40" step="0.5" value="20" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">EXTEND RATIO <span id="sc-ratio-v" style="font-size:15px;font-weight:700;color:#24211C">1.00</span></div>
+    <input type="range" id="sc-ratio" min="0.1" max="2.0" step="0.05" value="1.0" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="background:#f9f9f9;border-radius:6px;padding:8px 12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:13px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Resulting CARPET Velocity</span>
+    <span id="sc-vel-v" style="font-size:16px;font-weight:700;color:#F36C23">20.0 in/sec</span>
   </div>
 
   <div style="margin-bottom:10px">
@@ -979,53 +1009,40 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
   }
 
   function sample(vel,accPh,decPh,cruise,jerk,samplesPerPhase){
-    var pts=[]; // [t, v, a]
+    var pts=[];
     var t=0;
     function push(tt,v,a){ pts.push([tt,v,a]); }
-
-    // accel ramp up
     var n=samplesPerPhase;
+
     for(var i=0;i<=n;i++){
       var tt=(i/n)*accPh.t1;
-      var a=jerk*tt;
-      var v=0.5*jerk*tt*tt;
-      push(t+tt,v,a);
+      push(t+tt,0.5*jerk*tt*tt,jerk*tt);
     }
     t+=accPh.t1;
     var vAfterT1=0.5*jerk*accPh.t1*accPh.t1;
 
-    // constant accel plateau
     if(accPh.t2>0){
       for(var i=0;i<=n;i++){
         var tt=(i/n)*accPh.t2;
-        var a=accPh.aPeak;
-        var v=vAfterT1+accPh.aPeak*tt;
-        push(t+tt,v,a);
+        push(t+tt,vAfterT1+accPh.aPeak*tt,accPh.aPeak);
       }
       t+=accPh.t2;
     }
     var vAfterT2=vAfterT1+accPh.aPeak*accPh.t2;
 
-    // accel ramp down to 0, reaching vel
     for(var i=0;i<=n;i++){
       var tt=(i/n)*accPh.t1;
-      var a=accPh.aPeak-jerk*tt;
-      var v=vAfterT2+accPh.aPeak*tt-0.5*jerk*tt*tt;
-      push(t+tt,v,a);
+      push(t+tt,vAfterT2+accPh.aPeak*tt-0.5*jerk*tt*tt,accPh.aPeak-jerk*tt);
     }
     t+=accPh.t1;
 
-    // cruise
     push(t,vel,0);
     if(cruise>0){ push(t+cruise,vel,0); }
     t+=cruise;
 
-    // decel ramp (mirror)
     for(var i=0;i<=n;i++){
       var tt=(i/n)*decPh.t1;
-      var a=-jerk*tt;
-      var v=vel-0.5*jerk*tt*tt;
-      push(t+tt,v,a);
+      push(t+tt,vel-0.5*jerk*tt*tt,-jerk*tt);
     }
     t+=decPh.t1;
     var vAfterD1=vel-0.5*jerk*decPh.t1*decPh.t1;
@@ -1033,9 +1050,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
     if(decPh.t2>0){
       for(var i=0;i<=n;i++){
         var tt=(i/n)*decPh.t2;
-        var a=-decPh.aPeak;
-        var v=vAfterD1-decPh.aPeak*tt;
-        push(t+tt,v,a);
+        push(t+tt,vAfterD1-decPh.aPeak*tt,-decPh.aPeak);
       }
       t+=decPh.t2;
     }
@@ -1043,9 +1058,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 
     for(var i=0;i<=n;i++){
       var tt=(i/n)*decPh.t1;
-      var a=-decPh.aPeak+jerk*tt;
-      var v=vAfterD2-decPh.aPeak*tt+0.5*jerk*tt*tt;
-      push(t+tt,Math.max(v,0),a);
+      push(t+tt,Math.max(vAfterD2-decPh.aPeak*tt+0.5*jerk*tt*tt,0),-decPh.aPeak+jerk*tt);
     }
     t+=decPh.t1;
 
@@ -1053,13 +1066,17 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
   }
 
   function draw(){
-    var vel=+document.getElementById('sc-vel').value;
+    var convSpeed=+document.getElementById('sc-conv').value;
+    var ratio=+document.getElementById('sc-ratio').value;
+    var vel=convSpeed*ratio;
     var acc=+document.getElementById('sc-acc').value;
     var dec=+document.getElementById('sc-dec').value;
     var jerk=+document.getElementById('sc-jerk').value;
     var cruise=+document.getElementById('sc-cruise').value;
 
-    document.getElementById('sc-vel-v').textContent=vel.toFixed(1);
+    document.getElementById('sc-conv-v').textContent=convSpeed.toFixed(1);
+    document.getElementById('sc-ratio-v').textContent=ratio.toFixed(2);
+    document.getElementById('sc-vel-v').textContent=vel.toFixed(1)+' in/sec';
     document.getElementById('sc-acc-v').textContent=acc;
     document.getElementById('sc-dec-v').textContent=dec;
     document.getElementById('sc-jerk-v').textContent=jerk;
@@ -1099,7 +1116,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
       '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+accH)+'" stroke="#7D868C" stroke-width="1"/>'+
       '<path d="'+ad+'" fill="none" stroke="#24211C" stroke-width="3"/>';
   }
-  ['sc-vel','sc-acc','sc-dec','sc-jerk','sc-cruise'].forEach(function(id){
+  ['sc-conv','sc-ratio','sc-acc','sc-dec','sc-jerk','sc-cruise'].forEach(function(id){
     document.getElementById(id).addEventListener('input',draw);
   });
   draw();
