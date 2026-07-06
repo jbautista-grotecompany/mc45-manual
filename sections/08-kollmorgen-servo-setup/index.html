@@ -819,37 +819,37 @@ occurs, reduce ACCEL RATE and retest.</p>
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">MACHINE RATE (targets/min) <span id="pv-rate" style="font-size:15px;font-weight:700;color:#24211C">48</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">MACHINE RATE (targets/min) <span id="pv-rate" style="font-size:15px;font-weight:700;color:#24211C">22</span></div>
     <div style="display:flex;align-items:center;gap:6px">
       <button onclick="pvNudge('rate',-1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
-      <input type="range" id="rate" min="0" max="48" step="1" value="48" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <input type="range" id="rate" min="0" max="48" step="1" value="22" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
       <button onclick="pvNudge('rate',1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
     </div>
   </div>
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">MOVE LENGTH (in) <span id="pv-len" style="font-size:15px;font-weight:700;color:#24211C">5.0</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">MOVE LENGTH (in) <span id="pv-len" style="font-size:15px;font-weight:700;color:#24211C">2.0</span></div>
     <div style="display:flex;align-items:center;gap:6px">
       <button onclick="pvNudge('len',-0.1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
-      <input type="range" id="len" min="0" max="20" step="0.1" value="5" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <input type="range" id="len" min="0" max="20" step="0.1" value="2.0" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
       <button onclick="pvNudge('len',0.1)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
     </div>
   </div>
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">ACCEL RATE (in/sec²) <span id="pv-acc" style="font-size:15px;font-weight:700;color:#24211C">65</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">ACCEL RATE (in/sec²) <span id="pv-acc" style="font-size:15px;font-weight:700;color:#24211C">500</span></div>
     <div style="display:flex;align-items:center;gap:6px">
       <button onclick="pvNudge('acc',-25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
-      <input type="range" id="acc" min="50" max="1500" step="25" value="65" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <input type="range" id="acc" min="50" max="1500" step="25" value="500" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
       <button onclick="pvNudge('acc',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
     </div>
   </div>
 
   <div style="margin-bottom:4px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="pv-dec" style="font-size:15px;font-weight:700;color:#24211C">65</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="pv-dec" style="font-size:15px;font-weight:700;color:#24211C">500</span></div>
     <div style="display:flex;align-items:center;gap:6px">
       <button onclick="pvNudge('dec',-25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
-      <input type="range" id="dec" min="50" max="1500" step="25" value="65" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <input type="range" id="dec" min="50" max="1500" step="25" value="500" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
       <button onclick="pvNudge('dec',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
     </div>
   </div>
@@ -909,7 +909,6 @@ occurs, reduce ACCEL RATE and retest.</p>
     var sqrTerm=Math.sqrt(discriminant);
     var accelTimeCalc=availTime-sqrTerm;
     var calcPeakSpeed=accelTimeCalc*acc*2;
-    var bucketTimerMs=accelTimeCalc*1000;
 
     var tAcc=calcPeakSpeed/acc, dAcc=0.5*acc*tAcc*tAcc;
     var tDec=calcPeakSpeed/dec, dDec=0.5*dec*tDec*tDec;
@@ -938,7 +937,6 @@ occurs, reduce ACCEL RATE and retest.</p>
       '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Decel Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+tDec.toFixed(2)+' s</div></div>'+
       '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Total Move Time</div><div style="font-size:18px;font-weight:700;color:#F36C23">'+tTotal.toFixed(2)+' s</div></div>'+
       '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Available Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+availTime.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Bucket Timer (PLC)</div><div style="font-size:18px;font-weight:700;color:#24211C">'+bucketTimerMs.toFixed(0)+' ms</div></div>'+
       '</div>';
 
     if(!achievable){
