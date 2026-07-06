@@ -526,17 +526,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#83-feed-conveyor-belt-speed-display" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.3 FEED CONVEYOR Belt Speed Display
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -790,42 +779,54 @@ conveyor shaft size and gear ratio.</p>
 <hr />
 <h2 id="82-portion-conveyor-move-profile">8.2 PORTION CONVEYOR Move Profile<a class="headerlink" href="#82-portion-conveyor-move-profile" title="Permanent link">&para;</a></h2>
 <p>The PORTION CONVEYOR advances in a trapezoidal move: it accelerates to a
-target velocity, holds that velocity for the bulk of the move, then
-decelerates to a stop. The setup screen allows the operator to adjust two
-parameters of this profile.</p>
-<p><strong>ACCEL RATE</strong> sets how quickly the belt reaches target velocity, in
-inches per second squared (in/sec²). Higher values reach speed faster but
-increase mechanical load on the belt and drive pins.</p>
-<p><strong>DECEL RATE</strong> sets how quickly the belt slows to a stop at the end of the
-move, in the same units.</p>
-<p>Both parameters are limited to a range of 10 to 500 in/sec². Values outside
-this range are rejected by the OI.</p>
+calculated peak speed, cruises at that speed if time and distance allow,
+then decelerates to a stop. The move must complete within the time
+available between targets, which depends on MACHINE RATE.</p>
+<p><strong>MACHINE RATE</strong> is the number of targets processed per minute. A higher
+MACHINE RATE leaves less time for the PORTION CONVEYOR to complete its move
+between targets.</p>
+<p><strong>MOVE LENGTH</strong> is the fixed distance the belt advances each cycle, set
+elsewhere in the active recipe.</p>
+<p><strong>ACCEL RATE</strong> sets how quickly the belt reaches peak speed, in inches per
+second squared (in/sec²). The PLC uses MACHINE RATE, MOVE LENGTH, and
+ACCEL RATE together to calculate the peak speed needed to complete the
+move in the time available.</p>
+<p><strong>DECEL RATE</strong> sets how quickly the belt slows down after reaching peak
+speed, in the same units. DECEL RATE does not affect the calculated peak
+speed, but it does affect the shape of the move, since the belt actually
+decelerates at DECEL RATE.</p>
+<p>Both ACCEL RATE and DECEL RATE are limited to a range of 10 to 500 in/sec².
+Values outside this range are rejected by the OI.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If MOVE LENGTH is too short for the belt to reach the calculated peak
+speed given ACCEL RATE and DECEL RATE, the belt will not reach that
+speed. The move becomes a shorter triangular profile peaking below the
+calculated value instead.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The PORTION CONVEYOR is a positive pin-drive belt. Setting ACCEL RATE
-or DECEL RATE too high can cause the belt to skip on the drive pins.
-If skipping occurs, reduce ACCEL RATE and DECEL RATE and retest.</p>
+too high can cause the belt to skip on the drive pins. If skipping
+occurs, reduce ACCEL RATE and retest.</p>
 </div>
-<p>The move distance and target velocity are set by other recipe parameters
-and are not adjustable from this screen. ACCEL RATE and DECEL RATE change
-only how quickly the belt reaches and leaves that target velocity.</p>
 <div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
 
 <div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
   <div style="color:#F36C23;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Portion Conveyor Move Profile</div>
-  <div style="color:#ffffff;font-size:14px">Adjust ACCEL RATE and DECEL RATE to see the resulting velocity profile.</div>
+  <div style="color:#ffffff;font-size:14px">Adjust MACHINE RATE, MOVE LENGTH, ACCEL RATE, and DECEL RATE to see the resulting move profile.</div>
 </div>
 
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Target Velocity (in/sec) <span id="pv-vel" style="font-size:15px;font-weight:700;color:#24211C">12.0</span></div>
-    <input type="range" id="vel" min="2" max="30" step="0.5" value="12" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">MACHINE RATE (targets/min) <span id="pv-rate" style="font-size:15px;font-weight:700;color:#24211C">48</span></div>
+    <input type="range" id="rate" min="10" max="80" step="1" value="48" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
   </div>
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Move Distance (in) <span id="pv-dist" style="font-size:15px;font-weight:700;color:#24211C">8.0</span></div>
-    <input type="range" id="dist" min="2" max="20" step="0.5" value="8" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">MOVE LENGTH (in) <span id="pv-len" style="font-size:15px;font-weight:700;color:#24211C">5.0</span></div>
+    <input type="range" id="len" min="1" max="12" step="0.5" value="5" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
   </div>
 
   <div style="margin-bottom:10px">
@@ -844,75 +845,90 @@ only how quickly the belt reaches and leaves that target velocity.</p>
   <svg id="profile-svg" viewBox="0 0 640 220" style="width:100%;height:auto;display:block"></svg>
 </div>
 
-<div id="pv-status" style="border-radius:8px;padding:12px 16px;display:flex;gap:24px;flex-wrap:wrap;border:2px solid transparent"></div>
+<div id="pv-status" style="border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;border:2px solid transparent"></div>
 
 </div>
 
 <script>
 (function(){
   function calcProfile(){
-    var vel=+document.getElementById('vel').value;
-    var dist=+document.getElementById('dist').value;
+    var rate=+document.getElementById('rate').value;
+    var len=+document.getElementById('len').value;
     var acc=+document.getElementById('acc').value;
     var dec=+document.getElementById('dec').value;
 
-    document.getElementById('pv-vel').textContent=vel.toFixed(1);
-    document.getElementById('pv-dist').textContent=dist.toFixed(1);
+    document.getElementById('pv-rate').textContent=rate;
+    document.getElementById('pv-len').textContent=len.toFixed(1);
     document.getElementById('pv-acc').textContent=acc;
     document.getElementById('pv-dec').textContent=dec;
 
-    var tAcc=vel/acc;
-    var tDec=vel/dec;
-    var dAcc=0.5*acc*tAcc*tAcc;
-    var dDec=0.5*dec*tDec*tDec;
-    var dCruise=dist-dAcc-dDec;
-
     var status=document.getElementById('pv-status');
     var svg=document.getElementById('profile-svg');
-    var warn=false;
 
-    if(dCruise<0){
-      warn=true;
-      status.style.cssText='border-radius:8px;padding:12px 16px;display:flex;gap:24px;flex-wrap:wrap;border:2px solid #D94F3D;background:#FFEEEE';
-      status.innerHTML='<div style="font-size:14px;color:#D94F3D;font-weight:700">Move distance is too short to reach target velocity at this ACCEL RATE and DECEL RATE. The belt will not reach the set target velocity before decelerating.</div>';
+    var availTime=(60.0/rate)-0.5;
+    var discriminant=(availTime*availTime)-(4.0*len/acc);
+
+    if(discriminant<0 || availTime<=0){
+      status.style.cssText='border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;border:2px solid #D94F3D;background:#FFEEEE';
+      status.innerHTML='<div style="font-size:14px;color:#D94F3D;font-weight:700">Move is not possible in the time available at this MACHINE RATE, MOVE LENGTH, and ACCEL RATE. Reduce MACHINE RATE, reduce MOVE LENGTH, or increase ACCEL RATE.</div>';
+      svg.innerHTML='';
+      return;
+    }
+
+    var sqrTerm=Math.sqrt(discriminant);
+    var accelTimeCalc=availTime-sqrTerm;
+    var calcPeakSpeed=accelTimeCalc*acc*2;
+    var bucketTimerMs=accelTimeCalc*1000;
+
+    var tAcc=calcPeakSpeed/acc, dAcc=0.5*acc*tAcc*tAcc;
+    var tDec=calcPeakSpeed/dec, dDec=0.5*dec*tDec*tDec;
+
+    var peakSpeed, cruiseDist, cruiseTime, achievable=true;
+
+    if(dAcc+dDec<=len){
+      peakSpeed=calcPeakSpeed;
+      cruiseDist=len-dAcc-dDec;
+      cruiseTime=peakSpeed>0?cruiseDist/peakSpeed:0;
     } else {
-      status.style.cssText='border-radius:8px;padding:12px 16px;display:flex;gap:24px;flex-wrap:wrap;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9';
-      status.innerHTML=
-        '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Accel Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+tAcc.toFixed(2)+' s</div></div>'+
-        '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Cruise Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+((vel>0?dCruise/vel:0)).toFixed(2)+' s</div></div>'+
-        '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Decel Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+tDec.toFixed(2)+' s</div></div>'+
-        '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Total Move Time</div><div style="font-size:18px;font-weight:700;color:#F36C23">'+(tAcc+(vel>0?dCruise/vel:0)+tDec).toFixed(2)+' s</div></div>';
+      achievable=false;
+      peakSpeed=Math.sqrt(2*len/((1/acc)+(1/dec)));
+      tAcc=peakSpeed/acc;
+      tDec=peakSpeed/dec;
+      cruiseTime=0;
     }
 
-    var tCruise=warn?0:(vel>0?dCruise/vel:0);
-    var tTotal=tAcc+tCruise+tDec;
+    var tTotal=tAcc+cruiseTime+tDec;
+
+    var statHtml='<div style="display:flex;gap:24px;flex-wrap:wrap">'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Calculated Peak Speed</div><div style="font-size:18px;font-weight:700;color:#24211C">'+calcPeakSpeed.toFixed(1)+' in/s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Actual Peak Speed</div><div style="font-size:18px;font-weight:700;color:#F36C23">'+peakSpeed.toFixed(1)+' in/s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Cruise Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+cruiseTime.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Bucket Timer (PLC)</div><div style="font-size:18px;font-weight:700;color:#24211C">'+bucketTimerMs.toFixed(0)+' ms</div></div>'+
+      '</div>';
+
+    if(!achievable){
+      status.style.cssText='border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;border:2px solid #EF7132;background:#FFF3E0';
+      status.innerHTML=statHtml+'<div style="font-size:13px;color:#EF7132">MOVE LENGTH is too short to reach the calculated peak speed at these ACCEL RATE and DECEL RATE values. The belt will peak at a lower, achievable speed instead.</div>';
+    } else {
+      status.style.cssText='border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9';
+      status.innerHTML=statHtml;
+    }
+
     var padL=50, padB=30, padT=15, w=640-padL-20, h=220-padT-padB;
-    var maxT=Math.max(tTotal,0.1);
+    function x(t){ return padL+(t/tTotal)*w; }
+    function y(v){ return padT+h-(v/peakSpeed)*h; }
 
-    function x(t){ return padL+(t/maxT)*w; }
-    function y(v){ return padT+h-(v/(vel>1?vel:1))*h; }
+    var d='M '+x(0)+' '+y(0)+' L '+x(tAcc)+' '+y(peakSpeed)+' L '+x(tAcc+cruiseTime)+' '+y(peakSpeed)+' L '+x(tTotal)+' '+y(0);
 
-    var pathPts=[[0,0],[tAcc,warn?0:vel],[tAcc+tCruise,warn?0:vel],[tAcc+tCruise+tDec,0]];
-    if(warn){
-      var tPeak=dist/ (acc>0?Math.sqrt(2*dist/(1/acc+1/dec)):1);
-      pathPts=[[0,0],[tAcc*0.6,vel*0.6],[tAcc*0.6+tDec*0.6,0]];
-    }
-
-    var d='M '+x(pathPts[0][0])+' '+y(pathPts[0][1]);
-    for(var i=1;i<pathPts.length;i++){ d+=' L '+x(pathPts[i][0])+' '+y(pathPts[i][1]); }
-
-    var axisColor='#7D868C', lineColor='#F36C23';
-    var svgContent=
-      '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="'+axisColor+'" stroke-width="1"/>'+
-      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+h)+'" stroke="'+axisColor+'" stroke-width="1"/>'+
-      '<text x="'+(padL+w/2)+'" y="215" text-anchor="middle" font-size="12" fill="'+axisColor+'">Time</text>'+
-      '<text x="14" y="'+(padT+h/2)+'" text-anchor="middle" font-size="12" fill="'+axisColor+'" transform="rotate(-90 14 '+(padT+h/2)+')">Velocity</text>'+
-      '<path d="'+d+'" fill="none" stroke="'+lineColor+'" stroke-width="3"/>';
-
-    svg.innerHTML=svgContent;
+    svg.innerHTML=
+      '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<text x="'+(padL+w/2)+'" y="215" text-anchor="middle" font-size="12" fill="#7D868C">Time</text>'+
+      '<text x="14" y="'+(padT+h/2)+'" text-anchor="middle" font-size="12" fill="#7D868C" transform="rotate(-90 14 '+(padT+h/2)+')">Velocity</text>'+
+      '<path d="'+d+'" fill="none" stroke="#F36C23" stroke-width="3"/>';
   }
 
-  ['vel','dist','acc','dec'].forEach(function(id){
+  ['rate','len','acc','dec'].forEach(function(id){
     document.getElementById(id).addEventListener('input',calcProfile);
   });
   calcProfile();
@@ -922,85 +938,6 @@ only how quickly the belt reaches and leaves that target velocity.</p>
 <figure>
 <div class="figure-placeholder">Figure 8.2  PORTION CONVEYOR setup screen</div>
 <figcaption>Figure 8.2  PORTION CONVEYOR setup screen</figcaption>
-</figure>
-<hr />
-<h2 id="83-feed-conveyor-belt-speed-display">8.3 FEED CONVEYOR Belt Speed Display<a class="headerlink" href="#83-feed-conveyor-belt-speed-display" title="Permanent link">&para;</a></h2>
-<p>The FEED CONVEYOR setup screen is read-only. It does not accept an
-ACCEL RATE or DECEL RATE, since the FEED CONVEYOR runs at a continuous
-speed rather than a fixed-distance move.</p>
-<p>The screen displays a calculated belt speed in FPM, derived from two
-fixed values entered during commissioning: the conveyor shaft (roller)
-diameter and the gear ratio between the motor and the shaft. These two
-values do not change during normal operation and are set once when the
-Depositor is commissioned or when the motor or gearbox is replaced.</p>
-<p>The shaft diameter determines how far the belt travels for each shaft
-rotation. A larger shaft moves more belt per rotation. The gear ratio
-determines how many motor rotations produce one shaft rotation. A higher
-gear ratio means the motor spins faster relative to the shaft. Combining
-these two values with the motor's actual rotation speed gives the belt's
-linear speed, which the screen displays in FPM.</p>
-<div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
-
-<div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
-  <div style="color:#F36C23;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Feed Conveyor Belt Speed Display</div>
-  <div style="color:#ffffff;font-size:14px">Adjust shaft diameter, gear ratio, and motor speed to see the resulting belt speed.</div>
-</div>
-
-<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
-
-  <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Shaft Diameter (in) <span id="fd-shaft" style="font-size:15px;font-weight:700;color:#24211C">2.50</span></div>
-    <input type="range" id="shaft" min="1.0" max="6.0" step="0.05" value="2.5" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-  </div>
-
-  <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Gear Ratio (motor : shaft) <span id="fd-ratio" style="font-size:15px;font-weight:700;color:#24211C">10 : 1</span></div>
-    <input type="range" id="ratio" min="3" max="30" step="1" value="10" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-  </div>
-
-  <div style="margin-bottom:4px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">Motor Speed (RPM) <span id="fd-rpm" style="font-size:15px;font-weight:700;color:#24211C">1200</span></div>
-    <input type="range" id="rpm" min="100" max="1800" step="10" value="1200" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-  </div>
-
-</div>
-
-<div style="background:#24211C;border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:space-between">
-  <div style="color:#ffffff;font-size:14px;text-transform:uppercase;letter-spacing:.06em">FEED CONVEYOR Belt Speed</div>
-  <div id="fd-speed" style="color:#F36C23;font-size:28px;font-weight:700">0.0 FPM</div>
-</div>
-
-</div>
-
-<script>
-(function(){
-  function calcBeltSpeed(){
-    var shaft=+document.getElementById('shaft').value;
-    var ratio=+document.getElementById('ratio').value;
-    var rpm=+document.getElementById('rpm').value;
-
-    document.getElementById('fd-shaft').textContent=shaft.toFixed(2);
-    document.getElementById('fd-ratio').textContent=ratio+' : 1';
-    document.getElementById('fd-rpm').textContent=rpm;
-
-    var shaftRpm=rpm/ratio;
-    var circumference=Math.PI*shaft;
-    var speedInPerMin=shaftRpm*circumference;
-    var speedFpm=speedInPerMin/12;
-
-    document.getElementById('fd-speed').textContent=speedFpm.toFixed(1)+' FPM';
-  }
-
-  ['shaft','ratio','rpm'].forEach(function(id){
-    document.getElementById(id).addEventListener('input',calcBeltSpeed);
-  });
-  calcBeltSpeed();
-})();
-</script>
-
-<figure>
-<div class="figure-placeholder">Figure 8.3  FEED CONVEYOR setup screen (read-only)</div>
-<figcaption>Figure 8.3  FEED CONVEYOR setup screen (read-only)</figcaption>
 </figure>
 
 
