@@ -89,6 +89,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#9-linmot-carpet-servo-setup" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -473,6 +478,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Linmot Servo Setup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -490,6 +515,58 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#91-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-trapezoidal-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Trapezoidal Move
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-s-curve-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 S-Curve Move
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -701,9 +778,338 @@
 
 
 
-  <h1>9. Linmot Servo Setup</h1>
+<h1 id="9-linmot-carpet-servo-setup">9  Linmot Carpet Servo Setup<a class="headerlink" href="#9-linmot-carpet-servo-setup" title="Permanent link">&para;</a></h1>
+<h2 id="91-overview">9.1 Overview<a class="headerlink" href="#91-overview" title="Permanent link">&para;</a></h2>
+<p>The CARPET is driven by a Linmot C1250 linear servo. Its setup screen is
+reached from MAINT → MOTOR SETUP → CARPET and allows the operator to adjust
+the extend and retract move profile.</p>
+<p>Four parameters are adjustable from this screen: VELOCITY, ACCEL RATE,
+DECEL RATE, and MOVE TYPE. MOVE TYPE selects between a TRAPEZOIDAL move and
+an S-CURVE move. When S-CURVE is selected, a fifth parameter, JERK, becomes
+available.</p>
+<p>ACCEL RATE and DECEL RATE are limited to a range of 10 to 1500 in/sec².
+Values outside this range are rejected by the OI.</p>
+<hr />
+<h2 id="92-trapezoidal-move">9.2 Trapezoidal Move<a class="headerlink" href="#92-trapezoidal-move" title="Permanent link">&para;</a></h2>
+<p>A trapezoidal move accelerates the CARPET at a constant rate to the set
+VELOCITY, holds that velocity, then decelerates at a constant rate to a
+stop. Acceleration changes instantly at the start and end of each phase.
+This produces the shortest possible move time for a given VELOCITY, ACCEL
+RATE, and DECEL RATE, but the abrupt change in acceleration at each
+transition places a sudden mechanical load on the CARPET belt and its
+mounting hardware.</p>
+<div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
 
+<div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
+  <div style="color:#F36C23;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Carpet Trapezoidal Move</div>
+  <div style="color:#ffffff;font-size:14px">Adjust VELOCITY, ACCEL RATE, and DECEL RATE to see the resulting velocity and acceleration profile.</div>
+</div>
 
+<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">VELOCITY (in/sec) <span id="tz-vel-v" style="font-size:15px;font-weight:700;color:#24211C">20.0</span></div>
+    <input type="range" id="tz-vel" min="2" max="40" step="0.5" value="20" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">ACCEL RATE (in/sec²) <span id="tz-acc-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
+    <input type="range" id="tz-acc" min="10" max="1500" step="10" value="300" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="tz-dec-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
+    <input type="range" id="tz-dec" min="10" max="1500" step="10" value="300" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="margin-bottom:4px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">CRUISE TIME (sec) <span id="tz-cruise-v" style="font-size:15px;font-weight:700;color:#24211C">0.30</span></div>
+    <input type="range" id="tz-cruise" min="0" max="1.5" step="0.05" value="0.3" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+</div>
+
+<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:8px">
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Velocity vs Time</div>
+  <svg id="tz-vel-svg" viewBox="0 0 640 150" style="width:100%;height:auto;display:block"></svg>
+</div>
+
+<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Acceleration vs Time</div>
+  <svg id="tz-acc-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
+</div>
+
+<div id="tz-status" style="border-radius:8px;padding:12px 16px;display:flex;gap:24px;flex-wrap:wrap;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9"></div>
+
+</div>
+
+<script>
+(function(){
+  function draw(){
+    var vel=+document.getElementById('tz-vel').value;
+    var acc=+document.getElementById('tz-acc').value;
+    var dec=+document.getElementById('tz-dec').value;
+    var cruise=+document.getElementById('tz-cruise').value;
+
+    document.getElementById('tz-vel-v').textContent=vel.toFixed(1);
+    document.getElementById('tz-acc-v').textContent=acc;
+    document.getElementById('tz-dec-v').textContent=dec;
+    document.getElementById('tz-cruise-v').textContent=cruise.toFixed(2);
+
+    var tAcc=vel/acc, tDec=vel/dec, tTotal=tAcc+cruise+tDec;
+
+    document.getElementById('tz-status').innerHTML=
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Accel Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+tAcc.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Decel Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+tDec.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Total Move Time</div><div style="font-size:18px;font-weight:700;color:#F36C23">'+tTotal.toFixed(2)+' s</div></div>';
+
+    var padL=45,padB=25,padT=10,w=640-padL-15,velH=150-padT-padB,accH=130-padT-padB;
+    function x(t,tot){ return padL+(t/tot)*w; }
+
+    var velPts=[[0,0],[tAcc,vel],[tAcc+cruise,vel],[tTotal,0]];
+    var vd='M '+x(velPts[0][0],tTotal)+' '+(padT+velH-velPts[0][1]/vel*velH);
+    velPts.slice(1).forEach(function(p){ vd+=' L '+x(p[0],tTotal)+' '+(padT+velH-p[1]/vel*velH); });
+
+    var accPts=[[0,acc],[tAcc,acc],[tAcc,0],[tAcc+cruise,0],[tAcc+cruise,-dec],[tTotal,-dec]];
+    var maxAcc=Math.max(acc,dec);
+    function ay(a){ return padT+accH/2-(a/maxAcc)*(accH/2); }
+    var ad='M '+x(accPts[0][0],tTotal)+' '+ay(accPts[0][1]);
+    accPts.slice(1).forEach(function(p){ ad+=' L '+x(p[0],tTotal)+' '+ay(p[1]); });
+
+    document.getElementById('tz-vel-svg').innerHTML=
+      '<line x1="'+padL+'" y1="'+(padT+velH)+'" x2="'+(padL+w)+'" y2="'+(padT+velH)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+velH)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<path d="'+vd+'" fill="none" stroke="#F36C23" stroke-width="3"/>';
+
+    document.getElementById('tz-acc-svg').innerHTML=
+      '<line x1="'+padL+'" y1="'+ay(0)+'" x2="'+(padL+w)+'" y2="'+ay(0)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+accH)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<path d="'+ad+'" fill="none" stroke="#24211C" stroke-width="3"/>';
+  }
+  ['tz-vel','tz-acc','tz-dec','tz-cruise'].forEach(function(id){
+    document.getElementById(id).addEventListener('input',draw);
+  });
+  draw();
+})();
+</script>
+
+<figure>
+<div class="figure-placeholder">Figure 9.2  CARPET trapezoidal move setup screen</div>
+<figcaption>Figure 9.2  CARPET trapezoidal move setup screen</figcaption>
+</figure>
+<hr />
+<h2 id="93-s-curve-move">9.3 S-Curve Move<a class="headerlink" href="#93-s-curve-move" title="Permanent link">&para;</a></h2>
+<p>An S-curve move reaches the same VELOCITY as a trapezoidal move, but the
+acceleration itself ramps up and down smoothly instead of stepping
+instantly. JERK sets how quickly acceleration is allowed to change. A low
+JERK value produces a gradual, rounded acceleration ramp. A high JERK value
+approaches the sharp, instant transitions of a trapezoidal move.</p>
+<p>This smoother acceleration transition reduces the sudden mechanical shock
+transferred to the CARPET belt at the start and end of each move phase,
+at the cost of a slightly longer total move time compared to a trapezoidal
+move with the same VELOCITY, ACCEL RATE, and DECEL RATE.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>JERK is only used and displayed when MOVE TYPE is set to S-CURVE. When
+MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
+</div>
+<div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
+
+<div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
+  <div style="color:#F36C23;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Carpet S-Curve Move</div>
+  <div style="color:#ffffff;font-size:14px">Adjust JERK to see how the acceleration ramp smooths compared to a trapezoidal move.</div>
+</div>
+
+<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">VELOCITY (in/sec) <span id="sc-vel-v" style="font-size:15px;font-weight:700;color:#24211C">20.0</span></div>
+    <input type="range" id="sc-vel" min="2" max="40" step="0.5" value="20" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">ACCEL RATE (in/sec²) <span id="sc-acc-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
+    <input type="range" id="sc-acc" min="10" max="1500" step="10" value="300" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="sc-dec-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
+    <input type="range" id="sc-dec" min="10" max="1500" step="10" value="300" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">JERK (in/sec³) <span id="sc-jerk-v" style="font-size:15px;font-weight:700;color:#24211C">800</span></div>
+    <input type="range" id="sc-jerk" min="50" max="3000" step="25" value="800" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="font-size:11px;color:#7D868C;margin-top:3px">Low JERK = rounded ramp &nbsp;|&nbsp; High JERK = approaches trapezoidal</div>
+  </div>
+
+  <div style="margin-bottom:4px">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">CRUISE TIME (sec) <span id="sc-cruise-v" style="font-size:15px;font-weight:700;color:#24211C">0.30</span></div>
+    <input type="range" id="sc-cruise" min="0" max="1.5" step="0.05" value="0.3" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+  </div>
+
+</div>
+
+<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:8px">
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Velocity vs Time</div>
+  <svg id="sc-vel-svg" viewBox="0 0 640 150" style="width:100%;height:auto;display:block"></svg>
+</div>
+
+<div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Acceleration vs Time</div>
+  <svg id="sc-acc-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
+</div>
+
+<div id="sc-status" style="border-radius:8px;padding:12px 16px;display:flex;gap:24px;flex-wrap:wrap;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9"></div>
+
+</div>
+
+<script>
+(function(){
+  function phase(vel,aMax,jerk){
+    var t1=aMax/jerk;
+    var vRamp=0.5*aMax*t1;
+    if(2*vRamp>=vel){
+      t1=Math.sqrt(vel/jerk);
+      return {t1:t1,t2:0,aPeak:jerk*t1};
+    }
+    var remaining=vel-2*vRamp;
+    var t2=remaining/aMax;
+    return {t1:t1,t2:t2,aPeak:aMax};
+  }
+
+  function sample(vel,accPh,decPh,cruise,jerk,samplesPerPhase){
+    var pts=[]; // [t, v, a]
+    var t=0;
+    function push(tt,v,a){ pts.push([tt,v,a]); }
+
+    // accel ramp up
+    var n=samplesPerPhase;
+    for(var i=0;i<=n;i++){
+      var tt=(i/n)*accPh.t1;
+      var a=jerk*tt;
+      var v=0.5*jerk*tt*tt;
+      push(t+tt,v,a);
+    }
+    t+=accPh.t1;
+    var vAfterT1=0.5*jerk*accPh.t1*accPh.t1;
+
+    // constant accel plateau
+    if(accPh.t2>0){
+      for(var i=0;i<=n;i++){
+        var tt=(i/n)*accPh.t2;
+        var a=accPh.aPeak;
+        var v=vAfterT1+accPh.aPeak*tt;
+        push(t+tt,v,a);
+      }
+      t+=accPh.t2;
+    }
+    var vAfterT2=vAfterT1+accPh.aPeak*accPh.t2;
+
+    // accel ramp down to 0, reaching vel
+    for(var i=0;i<=n;i++){
+      var tt=(i/n)*accPh.t1;
+      var a=accPh.aPeak-jerk*tt;
+      var v=vAfterT2+accPh.aPeak*tt-0.5*jerk*tt*tt;
+      push(t+tt,v,a);
+    }
+    t+=accPh.t1;
+
+    // cruise
+    push(t,vel,0);
+    if(cruise>0){ push(t+cruise,vel,0); }
+    t+=cruise;
+
+    // decel ramp (mirror)
+    for(var i=0;i<=n;i++){
+      var tt=(i/n)*decPh.t1;
+      var a=-jerk*tt;
+      var v=vel-0.5*jerk*tt*tt;
+      push(t+tt,v,a);
+    }
+    t+=decPh.t1;
+    var vAfterD1=vel-0.5*jerk*decPh.t1*decPh.t1;
+
+    if(decPh.t2>0){
+      for(var i=0;i<=n;i++){
+        var tt=(i/n)*decPh.t2;
+        var a=-decPh.aPeak;
+        var v=vAfterD1-decPh.aPeak*tt;
+        push(t+tt,v,a);
+      }
+      t+=decPh.t2;
+    }
+    var vAfterD2=vAfterD1-decPh.aPeak*decPh.t2;
+
+    for(var i=0;i<=n;i++){
+      var tt=(i/n)*decPh.t1;
+      var a=-decPh.aPeak+jerk*tt;
+      var v=vAfterD2-decPh.aPeak*tt+0.5*jerk*tt*tt;
+      push(t+tt,Math.max(v,0),a);
+    }
+    t+=decPh.t1;
+
+    return {pts:pts,total:t};
+  }
+
+  function draw(){
+    var vel=+document.getElementById('sc-vel').value;
+    var acc=+document.getElementById('sc-acc').value;
+    var dec=+document.getElementById('sc-dec').value;
+    var jerk=+document.getElementById('sc-jerk').value;
+    var cruise=+document.getElementById('sc-cruise').value;
+
+    document.getElementById('sc-vel-v').textContent=vel.toFixed(1);
+    document.getElementById('sc-acc-v').textContent=acc;
+    document.getElementById('sc-dec-v').textContent=dec;
+    document.getElementById('sc-jerk-v').textContent=jerk;
+    document.getElementById('sc-cruise-v').textContent=cruise.toFixed(2);
+
+    var accPh=phase(vel,acc,jerk);
+    var decPh=phase(vel,dec,jerk);
+    var result=sample(vel,accPh,decPh,cruise,jerk,24);
+    var pts=result.pts, tTotal=result.total;
+
+    var tAccSide=2*accPh.t1+accPh.t2;
+    var tDecSide=2*decPh.t1+decPh.t2;
+
+    document.getElementById('sc-status').innerHTML=
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Accel Phase Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+tAccSide.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Decel Phase Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+tDecSide.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Total Move Time</div><div style="font-size:18px;font-weight:700;color:#F36C23">'+tTotal.toFixed(2)+' s</div></div>';
+
+    var padL=45,padB=25,padT=10,w=640-padL-15,velH=150-padT-padB,accH=130-padT-padB;
+    function x(t){ return padL+(t/tTotal)*w; }
+
+    var vd='M '+x(pts[0][0])+' '+(padT+velH-pts[0][1]/vel*velH);
+    pts.forEach(function(p){ vd+=' L '+x(p[0])+' '+(padT+velH-p[1]/vel*velH); });
+
+    var maxAcc=Math.max(accPh.aPeak,decPh.aPeak);
+    function ay(a){ return padT+accH/2-(a/maxAcc)*(accH/2); }
+    var ad='M '+x(pts[0][0])+' '+ay(pts[0][2]);
+    pts.forEach(function(p){ ad+=' L '+x(p[0])+' '+ay(p[2]); });
+
+    document.getElementById('sc-vel-svg').innerHTML=
+      '<line x1="'+padL+'" y1="'+(padT+velH)+'" x2="'+(padL+w)+'" y2="'+(padT+velH)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+velH)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<path d="'+vd+'" fill="none" stroke="#F36C23" stroke-width="3"/>';
+
+    document.getElementById('sc-acc-svg').innerHTML=
+      '<line x1="'+padL+'" y1="'+ay(0)+'" x2="'+(padL+w)+'" y2="'+ay(0)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+accH)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<path d="'+ad+'" fill="none" stroke="#24211C" stroke-width="3"/>';
+  }
+  ['sc-vel','sc-acc','sc-dec','sc-jerk','sc-cruise'].forEach(function(id){
+    document.getElementById(id).addEventListener('input',draw);
+  });
+  draw();
+})();
+</script>
+
+<figure>
+<div class="figure-placeholder">Figure 9.3  CARPET S-curve move setup screen</div>
+<figcaption>Figure 9.3  CARPET S-curve move setup screen</figcaption>
+</figure>
 
 
 
