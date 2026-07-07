@@ -89,6 +89,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#11-carpet-limits" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -527,6 +532,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Retractable Conveyor Limits
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -544,6 +569,69 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#111-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-overtravel-limit-switches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 Overtravel Limit Switches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#113-hard-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 Hard Limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#114-homing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 Homing
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -701,9 +789,46 @@
 
 
 
-  <h1>11. Retractable Conveyor Limits</h1>
-
-
+<h1 id="11-carpet-limits">11  Carpet Limits<a class="headerlink" href="#11-carpet-limits" title="Permanent link">&para;</a></h1>
+<h2 id="111-overview">11.1 Overview<a class="headerlink" href="#111-overview" title="Permanent link">&para;</a></h2>
+<p>The CARPET takes its name from the classic tale of a flying carpet, since
+the assembly extends and retracts over the target much like a carpet
+gliding into place.</p>
+<p>This section covers the CARPET's overtravel limit switches, hard travel
+limits, and homing behavior.</p>
+<hr />
+<h2 id="112-overtravel-limit-switches">11.2 Overtravel Limit Switches<a class="headerlink" href="#112-overtravel-limit-switches" title="Permanent link">&para;</a></h2>
+<p>The CARPET has two overtravel limit switches: one for the extend
+direction (POSITIVE OT) and one for the retract direction (NEGATIVE OT).</p>
+<p>Both switches are normally closed. Under normal operation, each switch
+stays energized. If the CARPET travels far enough to reach a switch, the
+switch opens. This wiring is fail-safe: a damaged wire or lost connection
+reads the same as an actual overtravel condition, rather than reading as
+normal.</p>
+<p>When the machine is enabled, a tripped overtravel switch raises the
+corresponding CARPET OVERTRAVEL alarm. This alarm is part of the
+Depositor's overall alarm system.</p>
+<hr />
+<h2 id="113-hard-limits">11.3 Hard Limits<a class="headerlink" href="#113-hard-limits" title="Permanent link">&para;</a></h2>
+<p>Beyond the two overtravel switches, the CARPET assembly has mechanical
+hard stops at each end of travel. These exist as a backup in case an
+overtravel switch fails to trip.</p>
+<p>If the CARPET reaches a hard stop, the Linmot drive detects the condition
+as an axis fault. The PLC reads this fault from the drive and raises a
+CARPET FAULT alarm. Clear the fault using the fault reset control on the
+OI once the cause has been corrected.</p>
+<hr />
+<h2 id="114-homing">11.4 Homing<a class="headerlink" href="#114-homing" title="Permanent link">&para;</a></h2>
+<p>The CARPET homes automatically once the machine finishes powering up and
+the axis is enabled. A short startup window allows the drive to complete
+its own startup sequence before the OI reports a NOT HOMED condition, so
+a normal power-up does not raise a false alarm.</p>
+<p>If the axis is enabled but has not yet homed, or is not yet enabled, the
+OI displays NOT HOMED or NOT ENABLED accordingly once the startup window
+has elapsed.</p>
+<p>The CARPET can also be homed manually from the OI using the AXIS HOME
+control, available when the axis is enabled and the machine is not
+running.</p>
 
 
 

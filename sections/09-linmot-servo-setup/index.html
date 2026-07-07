@@ -793,17 +793,18 @@ half that speed.</p>
 DECEL RATE, and MOVE TYPE. MOVE TYPE selects between a TRAPEZOIDAL move and
 an S-CURVE move. When S-CURVE is selected, a fifth parameter, JERK, becomes
 available.</p>
-<p>ACCEL RATE and DECEL RATE are limited to a range of 10 to 1500 in/sec².
-Values outside this range are rejected by the OI.</p>
+<p>ACCEL RATE and DECEL RATE are limited to a range of 50 to 1500 in/sec².
+JERK is limited to a range of 50 to 1500 in/sec³. Values outside these
+ranges are rejected by the OI.</p>
 <hr />
 <h2 id="92-trapezoidal-move">9.2 Trapezoidal Move<a class="headerlink" href="#92-trapezoidal-move" title="Permanent link">&para;</a></h2>
 <p>A trapezoidal move accelerates the CARPET at a constant rate to the
-velocity set by PRODUCT CONVEYOR SPEED and EXTEND RATIO, holds that
-velocity, then decelerates at a constant rate to a stop. Acceleration
-changes instantly at the start and end of each phase. This produces the
-shortest possible move time for a given velocity, ACCEL RATE, and DECEL
-RATE, but the abrupt change in acceleration at each transition places a
-sudden mechanical load on the CARPET belt and its mounting hardware.</p>
+velocity set by PRODUCT CONVEYOR SPEED and EXTEND RATIO, then decelerates
+at a constant rate back to a stop. Acceleration changes instantly at the
+start and end of each phase. This produces the shortest possible move time
+for a given velocity, ACCEL RATE, and DECEL RATE, but the abrupt change in
+acceleration at each transition places a sudden mechanical load on the
+CARPET belt and its mounting hardware.</p>
 <div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
 
 <div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
@@ -814,13 +815,21 @@ sudden mechanical load on the CARPET belt and its mounting hardware.</p>
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">PRODUCT CONVEYOR SPEED (in/sec) <span id="tz-conv-v" style="font-size:15px;font-weight:700;color:#24211C">20.0</span></div>
-    <input type="range" id="tz-conv" min="2" max="40" step="0.5" value="20" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">PRODUCT CONVEYOR SPEED (FPM) <span id="tz-conv-v" style="font-size:15px;font-weight:700;color:#24211C">100</span></div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="tzNudge('tz-conv',-5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="tz-conv" min="10" max="120" step="5" value="100" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="tzNudge('tz-conv',5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
   </div>
 
   <div style="margin-bottom:10px">
     <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">EXTEND RATIO <span id="tz-ratio-v" style="font-size:15px;font-weight:700;color:#24211C">1.00</span></div>
-    <input type="range" id="tz-ratio" min="0.1" max="2.0" step="0.05" value="1.0" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="tzNudge('tz-ratio',-0.01)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="tz-ratio" min="0" max="2.00" step="0.01" value="1.00" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="tzNudge('tz-ratio',0.01)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
   </div>
 
   <div style="background:#f9f9f9;border-radius:6px;padding:8px 12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
@@ -830,17 +839,20 @@ sudden mechanical load on the CARPET belt and its mounting hardware.</p>
 
   <div style="margin-bottom:10px">
     <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">ACCEL RATE (in/sec²) <span id="tz-acc-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
-    <input type="range" id="tz-acc" min="10" max="1500" step="10" value="300" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-  </div>
-
-  <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="tz-dec-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
-    <input type="range" id="tz-dec" min="10" max="1500" step="10" value="300" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="tzNudge('tz-acc',-25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="tz-acc" min="50" max="1500" step="25" value="300" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="tzNudge('tz-acc',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
   </div>
 
   <div style="margin-bottom:4px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">CRUISE TIME (sec) <span id="tz-cruise-v" style="font-size:15px;font-weight:700;color:#24211C">0.30</span></div>
-    <input type="range" id="tz-cruise" min="0" max="1.5" step="0.05" value="0.3" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="tz-dec-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="tzNudge('tz-dec',-25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="tz-dec" min="50" max="1500" step="25" value="300" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="tzNudge('tz-dec',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
   </div>
 
 </div>
@@ -861,22 +873,29 @@ sudden mechanical load on the CARPET belt and its mounting hardware.</p>
 
 <script>
 (function(){
+  function tzNudge(id,step){
+    var el=document.getElementById(id);
+    var val=parseFloat(el.value)+step;
+    val=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat(val.toFixed(10))));
+    el.value=val;
+    draw();
+  }
+  window.tzNudge=tzNudge;
+
   function draw(){
-    var convSpeed=+document.getElementById('tz-conv').value;
+    var convFpm=+document.getElementById('tz-conv').value;
     var ratio=+document.getElementById('tz-ratio').value;
-    var vel=convSpeed*ratio;
+    var vel=convFpm*0.2*ratio;
     var acc=+document.getElementById('tz-acc').value;
     var dec=+document.getElementById('tz-dec').value;
-    var cruise=+document.getElementById('tz-cruise').value;
 
-    document.getElementById('tz-conv-v').textContent=convSpeed.toFixed(1);
+    document.getElementById('tz-conv-v').textContent=convFpm;
     document.getElementById('tz-ratio-v').textContent=ratio.toFixed(2);
     document.getElementById('tz-vel-v').textContent=vel.toFixed(1)+' in/sec';
     document.getElementById('tz-acc-v').textContent=acc;
     document.getElementById('tz-dec-v').textContent=dec;
-    document.getElementById('tz-cruise-v').textContent=cruise.toFixed(2);
 
-    var tAcc=vel/acc, tDec=vel/dec, tTotal=tAcc+cruise+tDec;
+    var tAcc=acc>0?vel/acc:0, tDec=dec>0?vel/dec:0, tTotal=tAcc+tDec;
 
     document.getElementById('tz-status').innerHTML=
       '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Accel Time</div><div style="font-size:18px;font-weight:700;color:#24211C">'+tAcc.toFixed(2)+' s</div></div>'+
@@ -884,14 +903,14 @@ sudden mechanical load on the CARPET belt and its mounting hardware.</p>
       '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Total Move Time</div><div style="font-size:18px;font-weight:700;color:#F36C23">'+tTotal.toFixed(2)+' s</div></div>';
 
     var padL=45,padB=25,padT=10,w=640-padL-15,velH=150-padT-padB,accH=130-padT-padB;
-    function x(t,tot){ return padL+(t/tot)*w; }
+    function x(t,tot){ return padL+(t/(tot>0?tot:1))*w; }
 
-    var velPts=[[0,0],[tAcc,vel],[tAcc+cruise,vel],[tTotal,0]];
-    var vd='M '+x(velPts[0][0],tTotal)+' '+(padT+velH-velPts[0][1]/vel*velH);
-    velPts.slice(1).forEach(function(p){ vd+=' L '+x(p[0],tTotal)+' '+(padT+velH-p[1]/vel*velH); });
+    var velPts=[[0,0],[tAcc,vel],[tTotal,0]];
+    var vd='M '+x(velPts[0][0],tTotal)+' '+(padT+velH-(vel>0?velPts[0][1]/vel:0)*velH);
+    velPts.slice(1).forEach(function(p){ vd+=' L '+x(p[0],tTotal)+' '+(padT+velH-(vel>0?p[1]/vel:0)*velH); });
 
-    var accPts=[[0,acc],[tAcc,acc],[tAcc,0],[tAcc+cruise,0],[tAcc+cruise,-dec],[tTotal,-dec]];
-    var maxAcc=Math.max(acc,dec);
+    var accPts=[[0,acc],[tAcc,acc],[tAcc,-dec],[tTotal,-dec]];
+    var maxAcc=Math.max(acc,dec,1);
     function ay(a){ return padT+accH/2-(a/maxAcc)*(accH/2); }
     var ad='M '+x(accPts[0][0],tTotal)+' '+ay(accPts[0][1]);
     accPts.slice(1).forEach(function(p){ ad+=' L '+x(p[0],tTotal)+' '+ay(p[1]); });
@@ -906,7 +925,7 @@ sudden mechanical load on the CARPET belt and its mounting hardware.</p>
       '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+accH)+'" stroke="#7D868C" stroke-width="1"/>'+
       '<path d="'+ad+'" fill="none" stroke="#24211C" stroke-width="3"/>';
   }
-  ['tz-conv','tz-ratio','tz-acc','tz-dec','tz-cruise'].forEach(function(id){
+  ['tz-conv','tz-ratio','tz-acc','tz-dec'].forEach(function(id){
     document.getElementById(id).addEventListener('input',draw);
   });
   draw();
@@ -943,13 +962,21 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
 
   <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">PRODUCT CONVEYOR SPEED (in/sec) <span id="sc-conv-v" style="font-size:15px;font-weight:700;color:#24211C">20.0</span></div>
-    <input type="range" id="sc-conv" min="2" max="40" step="0.5" value="20" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">PRODUCT CONVEYOR SPEED (FPM) <span id="sc-conv-v" style="font-size:15px;font-weight:700;color:#24211C">100</span></div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="scNudge('sc-conv',-5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="sc-conv" min="10" max="120" step="5" value="100" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="scNudge('sc-conv',5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
   </div>
 
   <div style="margin-bottom:10px">
     <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">EXTEND RATIO <span id="sc-ratio-v" style="font-size:15px;font-weight:700;color:#24211C">1.00</span></div>
-    <input type="range" id="sc-ratio" min="0.1" max="2.0" step="0.05" value="1.0" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="scNudge('sc-ratio',-0.01)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="sc-ratio" min="0" max="2.00" step="0.01" value="1.00" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="scNudge('sc-ratio',0.01)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
   </div>
 
   <div style="background:#f9f9f9;border-radius:6px;padding:8px 12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
@@ -959,23 +986,30 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 
   <div style="margin-bottom:10px">
     <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">ACCEL RATE (in/sec²) <span id="sc-acc-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
-    <input type="range" id="sc-acc" min="10" max="1500" step="10" value="300" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="scNudge('sc-acc',-25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="sc-acc" min="50" max="1500" step="25" value="300" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="scNudge('sc-acc',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
   </div>
 
   <div style="margin-bottom:10px">
     <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">DECEL RATE (in/sec²) <span id="sc-dec-v" style="font-size:15px;font-weight:700;color:#24211C">300</span></div>
-    <input type="range" id="sc-dec" min="10" max="1500" step="10" value="300" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-  </div>
-
-  <div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">JERK (in/sec³) <span id="sc-jerk-v" style="font-size:15px;font-weight:700;color:#24211C">800</span></div>
-    <input type="range" id="sc-jerk" min="50" max="3000" step="25" value="800" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
-    <div style="font-size:11px;color:#7D868C;margin-top:3px">Low JERK = rounded ramp &nbsp;|&nbsp; High JERK = approaches trapezoidal</div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="scNudge('sc-dec',-25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="sc-dec" min="50" max="1500" step="25" value="300" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="scNudge('sc-dec',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
   </div>
 
   <div style="margin-bottom:4px">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">CRUISE TIME (sec) <span id="sc-cruise-v" style="font-size:15px;font-weight:700;color:#24211C">0.30</span></div>
-    <input type="range" id="sc-cruise" min="0" max="1.5" step="0.05" value="0.3" style="width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#24211C;margin-bottom:6px">JERK (in/sec³) <span id="sc-jerk-v" style="font-size:15px;font-weight:700;color:#24211C">800</span></div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="scNudge('sc-jerk',-25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
+      <input type="range" id="sc-jerk" min="50" max="1500" step="25" value="800" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
+      <button onclick="scNudge('sc-jerk',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
+    </div>
+    <div style="font-size:11px;color:#7D868C;margin-top:3px">Low JERK = rounded ramp &nbsp;|&nbsp; High JERK = approaches trapezoidal</div>
   </div>
 
 </div>
@@ -996,6 +1030,15 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 
 <script>
 (function(){
+  function scNudge(id,step){
+    var el=document.getElementById(id);
+    var val=parseFloat(el.value)+step;
+    val=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat(val.toFixed(10))));
+    el.value=val;
+    draw();
+  }
+  window.scNudge=scNudge;
+
   function phase(vel,aMax,jerk){
     var t1=aMax/jerk;
     var vRamp=0.5*aMax*t1;
@@ -1008,7 +1051,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
     return {t1:t1,t2:t2,aPeak:aMax};
   }
 
-  function sample(vel,accPh,decPh,cruise,jerk,samplesPerPhase){
+  function sample(vel,accPh,decPh,jerk,samplesPerPhase){
     var pts=[];
     var t=0;
     function push(tt,v,a){ pts.push([tt,v,a]); }
@@ -1036,10 +1079,6 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
     }
     t+=accPh.t1;
 
-    push(t,vel,0);
-    if(cruise>0){ push(t+cruise,vel,0); }
-    t+=cruise;
-
     for(var i=0;i<=n;i++){
       var tt=(i/n)*decPh.t1;
       push(t+tt,vel-0.5*jerk*tt*tt,-jerk*tt);
@@ -1066,25 +1105,30 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
   }
 
   function draw(){
-    var convSpeed=+document.getElementById('sc-conv').value;
+    var convFpm=+document.getElementById('sc-conv').value;
     var ratio=+document.getElementById('sc-ratio').value;
-    var vel=convSpeed*ratio;
+    var vel=convFpm*0.2*ratio;
     var acc=+document.getElementById('sc-acc').value;
     var dec=+document.getElementById('sc-dec').value;
     var jerk=+document.getElementById('sc-jerk').value;
-    var cruise=+document.getElementById('sc-cruise').value;
 
-    document.getElementById('sc-conv-v').textContent=convSpeed.toFixed(1);
+    document.getElementById('sc-conv-v').textContent=convFpm;
     document.getElementById('sc-ratio-v').textContent=ratio.toFixed(2);
     document.getElementById('sc-vel-v').textContent=vel.toFixed(1)+' in/sec';
     document.getElementById('sc-acc-v').textContent=acc;
     document.getElementById('sc-dec-v').textContent=dec;
     document.getElementById('sc-jerk-v').textContent=jerk;
-    document.getElementById('sc-cruise-v').textContent=cruise.toFixed(2);
+
+    if(vel<=0){
+      document.getElementById('sc-status').innerHTML='<div style="font-size:14px;color:#7D868C">No velocity to calculate at this PRODUCT CONVEYOR SPEED and EXTEND RATIO.</div>';
+      document.getElementById('sc-vel-svg').innerHTML='';
+      document.getElementById('sc-acc-svg').innerHTML='';
+      return;
+    }
 
     var accPh=phase(vel,acc,jerk);
     var decPh=phase(vel,dec,jerk);
-    var result=sample(vel,accPh,decPh,cruise,jerk,24);
+    var result=sample(vel,accPh,decPh,jerk,24);
     var pts=result.pts, tTotal=result.total;
 
     var tAccSide=2*accPh.t1+accPh.t2;
@@ -1116,7 +1160,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
       '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+accH)+'" stroke="#7D868C" stroke-width="1"/>'+
       '<path d="'+ad+'" fill="none" stroke="#24211C" stroke-width="3"/>';
   }
-  ['sc-conv','sc-ratio','sc-acc','sc-dec','sc-jerk','sc-cruise'].forEach(function(id){
+  ['sc-conv','sc-ratio','sc-acc','sc-dec','sc-jerk'].forEach(function(id){
     document.getElementById(id).addEventListener('input',draw);
   });
   draw();

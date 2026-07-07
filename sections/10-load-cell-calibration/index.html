@@ -89,6 +89,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#10-load-cell-calibration" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -500,6 +505,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Load Cell Calibration
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -517,6 +542,47 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#101-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-calibration-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Calibration Procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -701,9 +767,57 @@
 
 
 
-  <h1>10. Load Cell Calibration</h1>
-
-
+<h1 id="10-load-cell-calibration">10  Load Cell Calibration<a class="headerlink" href="#10-load-cell-calibration" title="Permanent link">&para;</a></h1>
+<h2 id="101-overview">10.1 Overview<a class="headerlink" href="#101-overview" title="Permanent link">&para;</a></h2>
+<p>Load cell calibration maps the load cell signal (Volts) to the weight
+display on the OI (lb). The PORTION CONVEYOR HOPPER LOAD CELL and the
+FEED CONVEYOR HOPPER LOAD CELL (Option) are each calibrated as a single
+input from MAINT → CALIBRATION → [load cell name].</p>
+<p>The calibration screen shows the raw input and scaled output values. Enter
+reference values in the MIN and MAX fields, then press and hold TEACH MIN
+or TEACH MAX for three seconds.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Verify calibration at commissioning and after replacing any load
+cell component. Calibrate only with the belt empty and the load cell
+area completely clean of topping material.</p>
+</div>
+<hr />
+<h2 id="102-calibration-procedure">10.2 Calibration Procedure<a class="headerlink" href="#102-calibration-procedure" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>At the load cell amplifier, located inside the DC enclosure, use the
+   coarse and fine adjustment screws to zero the raw signal. The belt
+   must be empty and clean. Empty means the belt surface is free of all
+   topping material, not just the visible pile.</p>
+</li>
+<li>
+<p>Enter 0.0 in the SCALE MIN value input field.</p>
+</li>
+<li>
+<p>Press and hold TEACH MIN for three seconds.</p>
+</li>
+<li>
+<p>Place calibration weights on the scale following the load cell
+   manufacturer's instructions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use weights appropriate for the expected operating range of the
+load cell being calibrated. For specific recommended weights,
+contact Grote Service.</p>
+</div>
+</li>
+<li>
+<p>Enter the calibration weight value in the SCALE MAX value input field.</p>
+</li>
+<li>
+<p>Press and hold TEACH MAX for three seconds.</p>
+</li>
+<li>
+<p>Confirm the SCALED OUTPUT VALUE matches the calibration weight. If not,
+   repeat from Step 1.</p>
+</li>
+</ol>
 
 
 
