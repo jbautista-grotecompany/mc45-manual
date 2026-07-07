@@ -800,32 +800,24 @@ limits, and homing behavior.</p>
 <h2 id="112-overtravel-limit-switches">11.2 Overtravel Limit Switches<a class="headerlink" href="#112-overtravel-limit-switches" title="Permanent link">&para;</a></h2>
 <p>The CARPET has two overtravel limit switches: one for the extend
 direction (POSITIVE OT) and one for the retract direction (NEGATIVE OT).</p>
-<p>Both switches are normally closed. Under normal operation, each switch
-stays energized. If the CARPET travels far enough to reach a switch, the
-switch opens. This wiring is fail-safe: a damaged wire or lost connection
-reads the same as an actual overtravel condition, rather than reading as
-normal.</p>
-<p>When the machine is enabled, a tripped overtravel switch raises the
-corresponding CARPET OVERTRAVEL alarm. This alarm is part of the
-Depositor's overall alarm system.</p>
+<p>Both switches are normally closed. Each stays energized during normal
+operation and opens when the CARPET reaches it. This wiring is fail-safe:
+a damaged wire reads the same as an actual overtravel condition.</p>
+<p>When the machine is enabled, a tripped switch raises the corresponding
+CARPET OVERTRAVEL alarm.</p>
 <hr />
 <h2 id="113-hard-limits">11.3 Hard Limits<a class="headerlink" href="#113-hard-limits" title="Permanent link">&para;</a></h2>
 <p>Beyond the two overtravel switches, the CARPET assembly has mechanical
-hard stops at each end of travel. These exist as a backup in case an
-overtravel switch fails to trip.</p>
+hard stops at each end of travel as a backup if an overtravel switch
+fails to trip.</p>
 <p>If the CARPET reaches a hard stop, the Linmot drive detects the condition
-as an axis fault. The PLC reads this fault from the drive and raises a
-CARPET FAULT alarm. Clear the fault using the fault reset control on the
-OI once the cause has been corrected.</p>
+as an axis fault. The PLC reads this fault and raises a CARPET FAULT
+alarm. Clear the fault using the fault reset control on the OI.</p>
 <hr />
 <h2 id="114-homing">11.4 Homing<a class="headerlink" href="#114-homing" title="Permanent link">&para;</a></h2>
 <p>The CARPET homes automatically once the machine finishes powering up and
-the axis is enabled. A short startup window allows the drive to complete
-its own startup sequence before the OI reports a NOT HOMED condition, so
-a normal power-up does not raise a false alarm.</p>
-<p>If the axis is enabled but has not yet homed, or is not yet enabled, the
-OI displays NOT HOMED or NOT ENABLED accordingly once the startup window
-has elapsed.</p>
+the axis is enabled. A startup window gives the drive time to complete
+its own startup sequence before the OI reports NOT HOMED or NOT ENABLED.</p>
 <p>The CARPET can also be homed manually from the OI using the AXIS HOME
 control, available when the axis is enabled and the machine is not
 running.</p>
