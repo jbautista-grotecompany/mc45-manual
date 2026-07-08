@@ -873,11 +873,20 @@ CARPET belt and its mounting hardware.</p>
 
 <script>
 (function(){
+  var TRACK_ORANGE='#F36C23', TRACK_DARK='#3a3733';
+
+  function updateSliderFill(el){
+    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    var pct=((val-min)/(max-min))*100;
+    el.style.background='linear-gradient(to right,'+TRACK_ORANGE+' 0%,'+TRACK_ORANGE+' '+pct+'%,'+TRACK_DARK+' '+pct+'%,'+TRACK_DARK+' 100%)';
+  }
+
   function tzNudge(id,step){
     var el=document.getElementById(id);
     var val=parseFloat(el.value)+step;
     val=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat(val.toFixed(10))));
     el.value=val;
+    updateSliderFill(el);
     draw();
   }
   window.tzNudge=tzNudge;
@@ -903,17 +912,21 @@ CARPET belt and its mounting hardware.</p>
       '<div><div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Total Move Time</div><div style="font-size:18px;font-weight:700;color:#F36C23">'+tTotal.toFixed(2)+' s</div></div>';
 
     var padL=45,padB=25,padT=10,w=640-padL-15,velH=150-padT-padB,accH=130-padT-padB;
-    function x(t,tot){ return padL+(t/(tot>0?tot:1))*w; }
+    function x(t){ return padL+(tTotal>0?(t/tTotal)*w:0); }
 
-    var velPts=[[0,0],[tAcc,vel],[tTotal,0]];
-    var vd='M '+x(velPts[0][0],tTotal)+' '+(padT+velH-(vel>0?velPts[0][1]/vel:0)*velH);
-    velPts.slice(1).forEach(function(p){ vd+=' L '+x(p[0],tTotal)+' '+(padT+velH-(vel>0?p[1]/vel:0)*velH); });
+    // Velocity: ramps up then down
+    var vd='M '+x(0)+' '+(padT+velH)+
+           ' L '+x(tAcc)+' '+padT+
+           ' L '+x(tTotal)+' '+(padT+velH);
 
-    var accPts=[[0,acc],[tAcc,acc],[tAcc,-dec],[tTotal,-dec]];
-    var maxAcc=Math.max(acc,dec,1);
-    function ay(a){ return padT+accH/2-(a/maxAcc)*(accH/2); }
-    var ad='M '+x(accPts[0][0],tTotal)+' '+ay(accPts[0][1]);
-    accPts.slice(1).forEach(function(p){ ad+=' L '+x(p[0],tTotal)+' '+ay(p[1]); });
+    // Acceleration: constant positive block, vertical drop, constant negative block
+    var accMid=padT+accH/2;
+    var accTop=padT;
+    var accBot=padT+accH;
+    var ad='M '+x(0)+' '+accTop+
+           ' L '+x(tAcc)+' '+accTop+
+           ' L '+x(tAcc)+' '+accBot+
+           ' L '+x(tTotal)+' '+accBot;
 
     document.getElementById('tz-vel-svg').innerHTML=
       '<line x1="'+padL+'" y1="'+(padT+velH)+'" x2="'+(padL+w)+'" y2="'+(padT+velH)+'" stroke="#7D868C" stroke-width="1"/>'+
@@ -921,12 +934,15 @@ CARPET belt and its mounting hardware.</p>
       '<path d="'+vd+'" fill="none" stroke="#F36C23" stroke-width="3"/>';
 
     document.getElementById('tz-acc-svg').innerHTML=
-      '<line x1="'+padL+'" y1="'+ay(0)+'" x2="'+(padL+w)+'" y2="'+ay(0)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<line x1="'+padL+'" y1="'+accMid+'" x2="'+(padL+w)+'" y2="'+accMid+'" stroke="#7D868C" stroke-width="1"/>'+
       '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+accH)+'" stroke="#7D868C" stroke-width="1"/>'+
       '<path d="'+ad+'" fill="none" stroke="#24211C" stroke-width="3"/>';
   }
+
   ['tz-conv','tz-ratio','tz-acc','tz-dec'].forEach(function(id){
-    document.getElementById(id).addEventListener('input',draw);
+    var el=document.getElementById(id);
+    el.addEventListener('input',function(){ updateSliderFill(this); draw(); });
+    updateSliderFill(el);
   });
   draw();
 })();
@@ -1030,11 +1046,20 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 
 <script>
 (function(){
+  var TRACK_ORANGE='#F36C23', TRACK_DARK='#3a3733';
+
+  function updateSliderFill(el){
+    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    var pct=((val-min)/(max-min))*100;
+    el.style.background='linear-gradient(to right,'+TRACK_ORANGE+' 0%,'+TRACK_ORANGE+' '+pct+'%,'+TRACK_DARK+' '+pct+'%,'+TRACK_DARK+' 100%)';
+  }
+
   function scNudge(id,step){
     var el=document.getElementById(id);
     var val=parseFloat(el.value)+step;
     val=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat(val.toFixed(10))));
     el.value=val;
+    updateSliderFill(el);
     draw();
   }
   window.scNudge=scNudge;
@@ -1051,15 +1076,13 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
     return {t1:t1,t2:t2,aPeak:aMax};
   }
 
-  function sample(vel,accPh,decPh,jerk,samplesPerPhase){
+  function sample(vel,accPh,decPh,jerk,n){
     var pts=[];
     var t=0;
-    function push(tt,v,a){ pts.push([tt,v,a]); }
-    var n=samplesPerPhase;
 
     for(var i=0;i<=n;i++){
       var tt=(i/n)*accPh.t1;
-      push(t+tt,0.5*jerk*tt*tt,jerk*tt);
+      pts.push([t+tt,0.5*jerk*tt*tt,jerk*tt]);
     }
     t+=accPh.t1;
     var vAfterT1=0.5*jerk*accPh.t1*accPh.t1;
@@ -1067,7 +1090,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
     if(accPh.t2>0){
       for(var i=0;i<=n;i++){
         var tt=(i/n)*accPh.t2;
-        push(t+tt,vAfterT1+accPh.aPeak*tt,accPh.aPeak);
+        pts.push([t+tt,vAfterT1+accPh.aPeak*tt,accPh.aPeak]);
       }
       t+=accPh.t2;
     }
@@ -1075,13 +1098,13 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 
     for(var i=0;i<=n;i++){
       var tt=(i/n)*accPh.t1;
-      push(t+tt,vAfterT2+accPh.aPeak*tt-0.5*jerk*tt*tt,accPh.aPeak-jerk*tt);
+      pts.push([t+tt,vAfterT2+accPh.aPeak*tt-0.5*jerk*tt*tt,accPh.aPeak-jerk*tt]);
     }
     t+=accPh.t1;
 
     for(var i=0;i<=n;i++){
       var tt=(i/n)*decPh.t1;
-      push(t+tt,vel-0.5*jerk*tt*tt,-jerk*tt);
+      pts.push([t+tt,vel-0.5*jerk*tt*tt,-jerk*tt]);
     }
     t+=decPh.t1;
     var vAfterD1=vel-0.5*jerk*decPh.t1*decPh.t1;
@@ -1089,7 +1112,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
     if(decPh.t2>0){
       for(var i=0;i<=n;i++){
         var tt=(i/n)*decPh.t2;
-        push(t+tt,vAfterD1-decPh.aPeak*tt,-decPh.aPeak);
+        pts.push([t+tt,vAfterD1-decPh.aPeak*tt,-decPh.aPeak]);
       }
       t+=decPh.t2;
     }
@@ -1097,7 +1120,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 
     for(var i=0;i<=n;i++){
       var tt=(i/n)*decPh.t1;
-      push(t+tt,Math.max(vAfterD2-decPh.aPeak*tt+0.5*jerk*tt*tt,0),-decPh.aPeak+jerk*tt);
+      pts.push([t+tt,Math.max(vAfterD2-decPh.aPeak*tt+0.5*jerk*tt*tt,0),-decPh.aPeak+jerk*tt]);
     }
     t+=decPh.t1;
 
@@ -1145,7 +1168,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
     var vd='M '+x(pts[0][0])+' '+(padT+velH-pts[0][1]/vel*velH);
     pts.forEach(function(p){ vd+=' L '+x(p[0])+' '+(padT+velH-p[1]/vel*velH); });
 
-    var maxAcc=Math.max(accPh.aPeak,decPh.aPeak);
+    var maxAcc=Math.max(accPh.aPeak,decPh.aPeak,1);
     function ay(a){ return padT+accH/2-(a/maxAcc)*(accH/2); }
     var ad='M '+x(pts[0][0])+' '+ay(pts[0][2]);
     pts.forEach(function(p){ ad+=' L '+x(p[0])+' '+ay(p[2]); });
@@ -1160,8 +1183,11 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
       '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+accH)+'" stroke="#7D868C" stroke-width="1"/>'+
       '<path d="'+ad+'" fill="none" stroke="#24211C" stroke-width="3"/>';
   }
+
   ['sc-conv','sc-ratio','sc-acc','sc-dec','sc-jerk'].forEach(function(id){
-    document.getElementById(id).addEventListener('input',draw);
+    var el=document.getElementById(id);
+    el.addEventListener('input',function(){ updateSliderFill(this); draw(); });
+    updateSliderFill(el);
   });
   draw();
 })();

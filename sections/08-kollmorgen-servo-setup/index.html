@@ -866,11 +866,20 @@ occurs, reduce ACCEL RATE and retest.</p>
 
 <script>
 (function(){
+  var TRACK_DARK='#3a3733', TRACK_ORANGE='#F36C23';
+
+  function updateSliderFill(el){
+    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    var pct=((val-min)/(max-min))*100;
+    el.style.background='linear-gradient(to right,'+TRACK_ORANGE+' 0%,'+TRACK_ORANGE+' '+pct+'%,'+TRACK_DARK+' '+pct+'%,'+TRACK_DARK+' 100%)';
+  }
+
   function pvNudge(id,step){
     var el=document.getElementById(id);
     var val=parseFloat(el.value)+step;
     val=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat(val.toFixed(10))));
     el.value=val;
+    updateSliderFill(el);
     calcProfile();
   }
   window.pvNudge=pvNudge;
@@ -962,8 +971,11 @@ occurs, reduce ACCEL RATE and retest.</p>
   }
 
   ['rate','len','acc','dec'].forEach(function(id){
-    document.getElementById(id).addEventListener('input',calcProfile);
+    var el=document.getElementById(id);
+    el.addEventListener('input',function(){ updateSliderFill(this); calcProfile(); });
+    updateSliderFill(el);
   });
+
   calcProfile();
 })();
 </script>
