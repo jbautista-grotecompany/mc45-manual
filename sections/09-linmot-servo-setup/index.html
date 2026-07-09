@@ -874,7 +874,6 @@ CARPET belt and mounting hardware.</p>
 
   <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
     <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">Extend Profile</div>
-
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">ACCEL RATE (in/sec²) <span id="tz-acc-v" style="font-weight:700;color:#24211C">300</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -883,7 +882,6 @@ CARPET belt and mounting hardware.</p>
         <button onclick="tzNudge('tz-acc',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
-
     <div style="margin-bottom:16px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">DECEL RATE (in/sec²) <span id="tz-dec-v" style="font-weight:700;color:#24211C">300</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -892,9 +890,7 @@ CARPET belt and mounting hardware.</p>
         <button onclick="tzNudge('tz-dec',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
-
     <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">Return Profile</div>
-
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">ACCEL RATE (in/sec²) <span id="tz-racc-v" style="font-weight:700;color:#24211C">500</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -903,7 +899,6 @@ CARPET belt and mounting hardware.</p>
         <button onclick="tzNudge('tz-racc',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
-
     <div style="margin-bottom:0">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">DECEL RATE (in/sec²) <span id="tz-rdec-v" style="font-weight:700;color:#24211C">500</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -920,198 +915,112 @@ CARPET belt and mounting hardware.</p>
   <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Extend — Velocity vs Time</div>
   <svg id="tz-ext-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
 </div>
-
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:8px">
   <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Return — Velocity vs Time</div>
   <svg id="tz-ret-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
 </div>
-
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
   <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Position vs Time</div>
   <svg id="tz-pos-svg" viewBox="0 0 640 200" style="width:100%;height:auto;display:block"></svg>
 </div>
-
 <div id="tz-status" style="border-radius:8px;padding:12px 16px;display:flex;gap:20px;flex-wrap:wrap;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9"></div>
 
 </div>
 
 <script>
 (function(){
-  var TRACK_ORANGE='#F36C23', TRACK_DARK='#3a3733';
-
-  function updateSliderFill(el){
-    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
-    var pct=((val-min)/(max-min))*100;
-    el.style.background='linear-gradient(to right,'+TRACK_ORANGE+' 0%,'+TRACK_ORANGE+' '+pct+'%,'+TRACK_DARK+' '+pct+'%,'+TRACK_DARK+' 100%)';
-  }
-
-  function tzNudge(id,step){
-    var el=document.getElementById(id);
-    var val=parseFloat(el.value)+step;
-    val=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat(val.toFixed(10))));
-    el.value=val;
-    updateSliderFill(el);
-    tzDraw();
-  }
+  var TO='#F36C23',TD='#3a3733';
+  function slFill(el){var mn=parseFloat(el.min),mx=parseFloat(el.max),v=parseFloat(el.value),p=((v-mn)/(mx-mn))*100;el.style.background='linear-gradient(to right,'+TO+' 0%,'+TO+' '+p+'%,'+TD+' '+p+'%,'+TD+' 100%)';}
+  function tzNudge(id,s){var el=document.getElementById(id);var v=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat((parseFloat(el.value)+s).toFixed(10))));el.value=v;slFill(el);tzDraw();}
   window.tzNudge=tzNudge;
 
   function trapProfile(vel,acc,dec,stroke){
-    if(vel<=0) return {peakVel:0,tAcc:0,tCruise:0,tDec:0,tTotal:0.001,achievable:true};
-    var tAcc=vel/acc, tDec=vel/dec;
-    var dAcc=0.5*acc*tAcc*tAcc, dDec=0.5*dec*tDec*tDec;
-    if(dAcc+dDec<=stroke){
-      var tCruise=(stroke-dAcc-dDec)/vel;
-      return {peakVel:vel,tAcc:tAcc,tCruise:tCruise,tDec:tDec,tTotal:tAcc+tCruise+tDec,achievable:true};
-    }
-    var pv=Math.sqrt(2*stroke/((1/acc)+(1/dec)));
-    tAcc=pv/acc; tDec=pv/dec;
-    return {peakVel:pv,tAcc:tAcc,tCruise:0,tDec:tDec,tTotal:tAcc+tDec,achievable:false};
+    if(vel<=0)return{pv:0,tA:0,tC:0,tD:0,tT:0.001,ok:true};
+    var tA=vel/acc,tD=vel/dec,dA=0.5*acc*tA*tA,dD=0.5*dec*tD*tD;
+    if(dA+dD<=stroke){var tC=(stroke-dA-dD)/vel;return{pv:vel,tA:tA,tC:tC,tD:tD,tT:tA+tC+tD,ok:true};}
+    var pv=Math.sqrt(2*stroke/((1/acc)+(1/dec)));tA=pv/acc;tD=pv/dec;return{pv:pv,tA:tA,tC:0,tD:tD,tT:tA+tD,ok:false};
   }
 
-  function drawVelSvg(svgId,prof,color){
-    var padL=45,padB=20,padT=10,w=640-padL-15,h=130-padT-padB;
-    var tT=prof.tTotal;
-    function x(t){ return padL+(tT>0?(t/tT)*w:0); }
-    function y(v){ return padT+h-(prof.peakVel>0?(v/prof.peakVel)*h:0); }
-    var t1=prof.tAcc,t2=prof.tAcc+prof.tCruise,t3=prof.tTotal;
-    var d='M '+x(0)+' '+y(0)+' L '+x(t1)+' '+y(prof.peakVel)+' L '+x(t2)+' '+y(prof.peakVel)+' L '+x(t3)+' '+y(0);
-    document.getElementById(svgId).innerHTML=
-      '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="3"/>';
+  function tzVelAt(t,p){
+    if(t<=p.tA)return p.pv>0?p.pv*(t/Math.max(p.tA,1e-9)):0;
+    if(t<=p.tA+p.tC)return p.pv;
+    var dt=t-p.tA-p.tC;return p.pv*(1-dt/Math.max(p.tD,1e-9));
   }
 
-  // Build trapezoidal position samples [time, position]
-  function tzPosSamples(startPos, sign, prof, N){
-    var pts=[], pos=startPos;
-    pts.push([0, startPos]);
-    for(var i=1;i<=N;i++){
-      var t=(i/N)*prof.tTotal;
-      var tp=((i-1)/N)*prof.tTotal;
-      var dt=t-tp;
-      var v;
-      if(t<=prof.tAcc){ v=prof.peakVel*(t/Math.max(prof.tAcc,0.0001)); }
-      else if(t<=prof.tAcc+prof.tCruise){ v=prof.peakVel; }
-      else { var tr=t-prof.tAcc-prof.tCruise; v=prof.peakVel*(1-tr/Math.max(prof.tDec,0.0001)); }
-      pos+=sign*v*dt;
-      pts.push([t, pos]);
-    }
-    return pts;
+  function drawVelTZ(id,p,col){
+    var pL=45,pB=20,pT=10,w=570,h=100;
+    function x(t){return pL+(p.tT>0?(t/p.tT)*w:0);}
+    function y(v){return pT+h-(p.pv>0?(v/p.pv)*h:0);}
+    var d='M '+x(0)+' '+y(0)+' L '+x(p.tA)+' '+y(p.pv)+' L '+x(p.tA+p.tC)+' '+y(p.pv)+' L '+x(p.tT)+' '+y(0);
+    document.getElementById(id).innerHTML='<line x1="'+pL+'" y1="'+(pT+h)+'" x2="'+(pL+w)+'" y2="'+(pT+h)+'" stroke="#7D868C" stroke-width="1"/><line x1="'+pL+'" y1="'+pT+'" x2="'+pL+'" y2="'+(pT+h)+'" stroke="#7D868C" stroke-width="1"/><path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="3"/>';
   }
 
-  function drawPosSvg(svgId, offset, stroke, maskWidth, extPts, retPts, extTotal, retTotal){
-    var padL=55,padR=30,padT=20,padB=40;
-    var W=640,H=200;
-    var w=W-padL-padR, h=H-padT-padB;
-    var tTotal=extTotal+retTotal;
-
-    // X = position: offset at left, offset+stroke at right
-    function x(pos){ return padL+((pos-offset)/stroke)*w; }
-    // Y = time: 0 at bottom, tTotal at top
-    function y(t){ return padT+h-(t/tTotal)*h; }
-
-    // MASK vertical band parallel to X axis (spans full Y range)
-    var maskCenter=offset+stroke/2;
-    var mx1=x(maskCenter-maskWidth/2);
-    var mx2=x(maskCenter+maskWidth/2);
-
-    // Extend path: [time,pos] -> x(pos), y(time)
-    var ePath='M '+x(extPts[0][1])+' '+y(extPts[0][0]);
-    extPts.forEach(function(p){ ePath+=' L '+x(p[1])+' '+y(p[0]); });
-
-    // Return path: time offset by extTotal
-    var rPath='M '+x(retPts[0][1])+' '+y(extTotal+retPts[0][0]);
-    retPts.forEach(function(p){ rPath+=' L '+x(p[1])+' '+y(extTotal+p[0]); });
-
-    // Y axis tick marks for time
-    var yBottom=padT+h; // t=0
-    var yTop=padT;      // t=tTotal
-    var yMid=padT+h/2;  // t=tTotal/2
-
-    document.getElementById(svgId).innerHTML=
-      // MASK band
-      '<rect x="'+mx1+'" y="'+padT+'" width="'+(mx2-mx1)+'" height="'+h+'" fill="#F36C23" opacity="0.12"/>'+
-      '<line x1="'+mx1+'" y1="'+padT+'" x2="'+mx1+'" y2="'+(padT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
-      '<line x1="'+mx2+'" y1="'+padT+'" x2="'+mx2+'" y2="'+(padT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
-      '<text x="'+((mx1+mx2)/2)+'" y="'+(padT+12)+'" text-anchor="middle" font-size="10" fill="#F36C23" font-family="Arial">MASK</text>'+
-      // Axes
-      '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      // X axis labels
-      '<text x="'+x(offset)+'" y="'+(padT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">OFFSET</text>'+
-      '<text x="'+x(offset+stroke)+'" y="'+(padT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">END</text>'+
-      '<text x="'+(padL+w/2)+'" y="'+(padT+h+28)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">Position (in)</text>'+
-      // Y axis labels
-      '<text x="'+(padL-4)+'" y="'+(yBottom+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=0</text>'+
-      '<line x1="'+(padL-3)+'" y1="'+yBottom+'" x2="'+padL+'" y2="'+yBottom+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<text x="'+(padL-4)+'" y="'+(yTop+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=end</text>'+
-      '<line x1="'+(padL-3)+'" y1="'+yTop+'" x2="'+padL+'" y2="'+yTop+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<text x="12" y="'+(padT+h/2)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial" transform="rotate(-90 12 '+(padT+h/2)+')">Time</text>'+
-      // Traces
-      '<path d="'+ePath+'" fill="none" stroke="#F36C23" stroke-width="2.5"/>'+
-      '<path d="'+rPath+'" fill="none" stroke="#24211C" stroke-width="2.5" stroke-dasharray="5,3"/>'+
-      // Legend
-      '<rect x="'+(padL+10)+'" y="'+(padT+6)+'" width="10" height="3" fill="#F36C23"/>'+
-      '<text x="'+(padL+24)+'" y="'+(padT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Extend</text>'+
-      '<rect x="'+(padL+80)+'" y="'+(padT+6)+'" width="10" height="3" fill="#24211C"/>'+
-      '<text x="'+(padL+94)+'" y="'+(padT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Return</text>';
+  function drawPos(id,offset,stroke,mw,eP,rP){
+    var pL=55,pR=30,pT=20,pB=40,w=555,h=140,tT=eP.tT+rP.tT;
+    function x(pos){return pL+((pos-offset)/stroke)*w;}
+    function y(t){return pT+(t/tT)*h;}
+    var mc=offset+stroke/2,mx1=x(mc-mw/2),mx2=x(mc+mw/2);
+    // Build extend points
+    var N=80,ep=[],pos=offset;ep.push([0,offset]);
+    for(var i=1;i<=N;i++){var t=(i/N)*eP.tT,tp=((i-1)/N)*eP.tT,dt=t-tp;pos+=((tzVelAt(t,eP)+tzVelAt(tp,eP))/2)*dt;ep.push([t,Math.min(pos,offset+stroke)]);}
+    // Build return points
+    var rp=[],rpos=offset+stroke;rp.push([0,offset+stroke]);
+    for(var i=1;i<=N;i++){var t=(i/N)*rP.tT,tp=((i-1)/N)*rP.tT,dt=t-tp;rpos-=((tzVelAt(t,rP)+tzVelAt(tp,rP))/2)*dt;rp.push([t,Math.max(rpos,offset)]);}
+    var ed='M '+x(ep[0][1])+' '+y(ep[0][0]);ep.forEach(function(p){ed+=' L '+x(p[1])+' '+y(p[0]);});
+    var rd='M '+x(rp[0][1])+' '+y(eP.tT+rp[0][0]);rp.forEach(function(p){rd+=' L '+x(p[1])+' '+y(eP.tT+p[0]);});
+    document.getElementById(id).innerHTML=
+      '<rect x="'+mx1+'" y="'+pT+'" width="'+(mx2-mx1)+'" height="'+h+'" fill="#F36C23" opacity="0.12"/>'+
+      '<line x1="'+mx1+'" y1="'+pT+'" x2="'+mx1+'" y2="'+(pT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
+      '<line x1="'+mx2+'" y1="'+pT+'" x2="'+mx2+'" y2="'+(pT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
+      '<text x="'+((mx1+mx2)/2)+'" y="'+(pT+12)+'" text-anchor="middle" font-size="10" fill="#F36C23" font-family="Arial">MASK</text>'+
+      '<line x1="'+pL+'" y1="'+(pT+h)+'" x2="'+(pL+w)+'" y2="'+(pT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<line x1="'+pL+'" y1="'+pT+'" x2="'+pL+'" y2="'+(pT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<text x="'+x(offset)+'" y="'+(pT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">OFFSET</text>'+
+      '<text x="'+x(offset+stroke)+'" y="'+(pT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">END</text>'+
+      '<text x="'+(pL+w/2)+'" y="'+(pT+h+28)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">Position (in)</text>'+
+      '<text x="'+(pL-4)+'" y="'+(pT+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=0</text>'+
+      '<text x="'+(pL-4)+'" y="'+(pT+h+14)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=end</text>'+
+      '<text x="12" y="'+(pT+h/2)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial" transform="rotate(-90 12 '+(pT+h/2)+')">Time</text>'+
+      '<path d="'+ed+'" fill="none" stroke="#F36C23" stroke-width="2.5"/>'+
+      '<path d="'+rd+'" fill="none" stroke="#24211C" stroke-width="2.5" stroke-dasharray="5,3"/>'+
+      '<rect x="'+(pL+10)+'" y="'+(pT+6)+'" width="10" height="3" fill="#F36C23"/><text x="'+(pL+24)+'" y="'+(pT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Extend</text>'+
+      '<rect x="'+(pL+80)+'" y="'+(pT+6)+'" width="10" height="3" fill="#24211C"/><text x="'+(pL+94)+'" y="'+(pT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Return</text>';
   }
 
   function tzDraw(){
-    var offset=+document.getElementById('tz-offset').value;
-    var stroke=+document.getElementById('tz-stroke').value;
-    var maskW=+document.getElementById('tz-mask').value;
-    var convFpm=+document.getElementById('tz-conv').value;
-    var ratio=+document.getElementById('tz-ratio').value;
-    var acc=+document.getElementById('tz-acc').value;
-    var dec=+document.getElementById('tz-dec').value;
-    var racc=+document.getElementById('tz-racc').value;
-    var rdec=+document.getElementById('tz-rdec').value;
-
-    document.getElementById('tz-offset-v').textContent=offset.toFixed(1);
-    document.getElementById('tz-stroke-v').textContent=stroke.toFixed(1);
-    document.getElementById('tz-mask-v').textContent=maskW.toFixed(1);
-    document.getElementById('tz-conv-v').textContent=convFpm;
-    document.getElementById('tz-ratio-v').textContent=ratio.toFixed(2);
-    document.getElementById('tz-acc-v').textContent=acc;
-    document.getElementById('tz-dec-v').textContent=dec;
-    document.getElementById('tz-racc-v').textContent=racc;
-    document.getElementById('tz-rdec-v').textContent=rdec;
-
-    var extVel=convFpm*0.2*ratio;
-    var retVel=extVel*3;
-    document.getElementById('tz-vel-v').textContent=extVel.toFixed(1)+' in/s';
-    document.getElementById('tz-rvel-v').textContent=retVel.toFixed(1)+' in/s';
-
-    var extProf=trapProfile(extVel,acc,dec,stroke);
-    var retProf=trapProfile(retVel,racc,rdec,stroke);
-
-    drawVelSvg('tz-ext-svg',extProf,'#F36C23');
-    drawVelSvg('tz-ret-svg',retProf,'#24211C');
-
-    var extPts=tzPosSamples(offset,1,extProf,60);
-    var retPts=tzPosSamples(offset+stroke,-1,retProf,60);
-    drawPosSvg('tz-pos-svg',offset,stroke,maskW,extPts,retPts,extProf.tTotal,retProf.tTotal);
-
-    var warns=[];
-    if(!extProf.achievable) warns.push('Stroke too short for extend velocity. Peak: '+extProf.peakVel.toFixed(1)+' in/s.');
-    if(!retProf.achievable) warns.push('Stroke too short for return velocity. Peak: '+retProf.peakVel.toFixed(1)+' in/s.');
-    var bc=warns.length?'#D94F3D':'rgba(0,0,0,0.12)', bg=warns.length?'#FFEEEE':'#f9f9f9';
+    var off=+document.getElementById('tz-offset').value,str=+document.getElementById('tz-stroke').value,mw=+document.getElementById('tz-mask').value;
+    var cf=+document.getElementById('tz-conv').value,ra=+document.getElementById('tz-ratio').value;
+    var ac=+document.getElementById('tz-acc').value,dc=+document.getElementById('tz-dec').value;
+    var rac=+document.getElementById('tz-racc').value,rdc=+document.getElementById('tz-rdec').value;
+    document.getElementById('tz-offset-v').textContent=off.toFixed(1);
+    document.getElementById('tz-stroke-v').textContent=str.toFixed(1);
+    document.getElementById('tz-mask-v').textContent=mw.toFixed(1);
+    document.getElementById('tz-conv-v').textContent=cf;
+    document.getElementById('tz-ratio-v').textContent=ra.toFixed(2);
+    document.getElementById('tz-acc-v').textContent=ac;
+    document.getElementById('tz-dec-v').textContent=dc;
+    document.getElementById('tz-racc-v').textContent=rac;
+    document.getElementById('tz-rdec-v').textContent=rdc;
+    var ev=cf*0.2*ra,rv=ev*3;
+    document.getElementById('tz-vel-v').textContent=ev.toFixed(1)+' in/s';
+    document.getElementById('tz-rvel-v').textContent=rv.toFixed(1)+' in/s';
+    var eP=trapProfile(ev,ac,dc,str),rP=trapProfile(rv,rac,rdc,str);
+    drawVelTZ('tz-ext-svg',eP,'#F36C23');
+    drawVelTZ('tz-ret-svg',rP,'#24211C');
+    drawPos('tz-pos-svg',off,str,mw,eP,rP);
+    var w=[];if(!eP.ok)w.push('Stroke too short for extend velocity. Peak: '+eP.pv.toFixed(1)+' in/s.');
+    if(!rP.ok)w.push('Stroke too short for return velocity. Peak: '+rP.pv.toFixed(1)+' in/s.');
+    var bc=w.length?'#D94F3D':'rgba(0,0,0,0.12)',bg=w.length?'#FFEEEE':'#f9f9f9';
     document.getElementById('tz-status').style.cssText='border-radius:8px;padding:12px 16px;display:flex;gap:20px;flex-wrap:wrap;border:2px solid '+bc+';background:'+bg;
     document.getElementById('tz-status').innerHTML=
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Extend Peak</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+extProf.peakVel.toFixed(1)+' in/s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Extend Time</div><div style="font-size:16px;font-weight:700;color:#24211C">'+extProf.tTotal.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Return Peak</div><div style="font-size:16px;font-weight:700;color:#24211C">'+retProf.peakVel.toFixed(1)+' in/s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Return Time</div><div style="font-size:16px;font-weight:700;color:#24211C">'+retProf.tTotal.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Cycle Time</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+(extProf.tTotal+retProf.tTotal).toFixed(2)+' s</div></div>'+
-      (warns.length?'<div style="font-size:13px;color:#D94F3D;font-weight:700;width:100%">'+warns.join(' ')+'</div>':'');
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Extend Peak</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+eP.pv.toFixed(1)+' in/s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Extend Time</div><div style="font-size:16px;font-weight:700;color:#24211C">'+eP.tT.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Return Peak</div><div style="font-size:16px;font-weight:700;color:#24211C">'+rP.pv.toFixed(1)+' in/s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Return Time</div><div style="font-size:16px;font-weight:700;color:#24211C">'+rP.tT.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Cycle Time</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+(eP.tT+rP.tT).toFixed(2)+' s</div></div>'+
+      (w.length?'<div style="font-size:13px;color:#D94F3D;font-weight:700;width:100%">'+w.join(' ')+'</div>':'');
   }
-
-  ['tz-offset','tz-stroke','tz-mask','tz-conv','tz-ratio','tz-acc','tz-dec','tz-racc','tz-rdec'].forEach(function(id){
-    var el=document.getElementById(id);
-    el.addEventListener('input',function(){ updateSliderFill(this); tzDraw(); });
-    updateSliderFill(el);
-  });
+  ['tz-offset','tz-stroke','tz-mask','tz-conv','tz-ratio','tz-acc','tz-dec','tz-racc','tz-rdec'].forEach(function(id){var el=document.getElementById(id);el.addEventListener('input',function(){slFill(this);tzDraw();});slFill(el);});
   tzDraw();
 })();
 </script>
@@ -1205,7 +1114,6 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 
   <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px">
     <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">Extend Profile</div>
-
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">ACCEL RATE (in/sec²) <span id="sc-acc-v" style="font-weight:700;color:#24211C">300</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1214,7 +1122,6 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
         <button onclick="scNudge('sc-acc',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
-
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">DECEL RATE (in/sec²) <span id="sc-dec-v" style="font-weight:700;color:#24211C">300</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1223,7 +1130,6 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
         <button onclick="scNudge('sc-dec',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
-
     <div style="margin-bottom:16px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">JERK (in/sec³) <span id="sc-jerk-v" style="font-weight:700;color:#24211C">800</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1233,9 +1139,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
       </div>
       <div style="font-size:11px;color:#7D868C;margin-top:3px">Low JERK = rounded ramp &nbsp;|&nbsp; High JERK = approaches trapezoidal</div>
     </div>
-
     <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#24211C;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.12)">Return Profile</div>
-
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">ACCEL RATE (in/sec²) <span id="sc-racc-v" style="font-weight:700;color:#24211C">500</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1244,7 +1148,6 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
         <button onclick="scNudge('sc-racc',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
-
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">DECEL RATE (in/sec²) <span id="sc-rdec-v" style="font-weight:700;color:#24211C">500</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1253,7 +1156,6 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
         <button onclick="scNudge('sc-rdec',25)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9654;</button>
       </div>
     </div>
-
     <div style="margin-bottom:0">
       <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">JERK (in/sec³) <span id="sc-rjerk-v" style="font-weight:700;color:#24211C">800</span></div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1270,198 +1172,171 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
   <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Extend — Velocity vs Time</div>
   <svg id="sc-ext-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
 </div>
-
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:8px">
   <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Return — Velocity vs Time</div>
   <svg id="sc-ret-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
 </div>
-
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
   <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Position vs Time</div>
   <svg id="sc-pos-svg" viewBox="0 0 640 200" style="width:100%;height:auto;display:block"></svg>
 </div>
-
 <div id="sc-status" style="border-radius:8px;padding:12px 16px;display:flex;gap:20px;flex-wrap:wrap;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9"></div>
 
 </div>
 
 <script>
 (function(){
-  var TRACK_ORANGE='#F36C23', TRACK_DARK='#3a3733';
-
-  function updateSliderFill(el){
-    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
-    var pct=((val-min)/(max-min))*100;
-    el.style.background='linear-gradient(to right,'+TRACK_ORANGE+' 0%,'+TRACK_ORANGE+' '+pct+'%,'+TRACK_DARK+' '+pct+'%,'+TRACK_DARK+' 100%)';
-  }
-
-  function scNudge(id,step){
-    var el=document.getElementById(id);
-    var val=parseFloat(el.value)+step;
-    val=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat(val.toFixed(10))));
-    el.value=val;
-    updateSliderFill(el);
-    scDraw();
-  }
+  var TO='#F36C23',TD='#3a3733';
+  function slFill(el){var mn=parseFloat(el.min),mx=parseFloat(el.max),v=parseFloat(el.value),p=((v-mn)/(mx-mn))*100;el.style.background='linear-gradient(to right,'+TO+' 0%,'+TO+' '+p+'%,'+TD+' '+p+'%,'+TD+' 100%)';}
+  function scNudge(id,s){var el=document.getElementById(id);var v=Math.min(parseFloat(el.max),Math.max(parseFloat(el.min),parseFloat((parseFloat(el.value)+s).toFixed(10))));el.value=v;slFill(el);scDraw();}
   window.scNudge=scNudge;
 
+  // S-curve phase: returns t1 (jerk ramp), t2 (const accel), aPeak, and accel-phase distance
   function scPhase(vel,aMax,jerk){
-    if(vel<=0||aMax<=0||jerk<=0) return {t1:0.0001,t2:0,aPeak:0};
-    var t1=aMax/jerk;
-    var vRamp=0.5*aMax*t1;
-    if(2*vRamp>=vel){ t1=Math.sqrt(vel/jerk); return {t1:t1,t2:0,aPeak:jerk*t1}; }
-    return {t1:t1,t2:(vel-2*vRamp)/aMax,aPeak:aMax};
+    if(vel<=0||aMax<=0||jerk<=0)return{t1:0.0001,t2:0,aPeak:0,dist:0};
+    var t1=aMax/jerk, vRamp=0.5*aMax*t1;
+    if(2*vRamp>=vel){t1=Math.sqrt(vel/jerk);var ap=jerk*t1;return{t1:t1,t2:0,aPeak:ap,dist:numericalDist(vel,t1,0,ap,jerk,2*t1)};}
+    var t2=(vel-2*vRamp)/aMax;
+    return{t1:t1,t2:t2,aPeak:aMax,dist:numericalDist(vel,t1,t2,aMax,jerk,2*t1+t2)};
   }
 
-  // Sample velocity at time t for s-curve phase
-  function scVelAt(t, vel, accPh, decPh, jerk){
-    var t1=accPh.t1, t2=accPh.t2, tAcc=2*t1+t2;
-    var td1=decPh.t1, td2=decPh.t2;
-    if(t<=t1) return 0.5*jerk*t*t;
-    if(t<=t1+t2){ var dt=t-t1; return 0.5*jerk*t1*t1+accPh.aPeak*dt; }
-    if(t<=tAcc){ var dt=t-t1-t2; var v0=0.5*jerk*t1*t1+accPh.aPeak*t2; return v0+accPh.aPeak*dt-0.5*jerk*dt*dt; }
-    var tDecStart=tAcc;
-    var dt=t-tDecStart;
-    if(dt<=td1) return vel-0.5*jerk*dt*dt;
-    if(dt<=td1+td2){ var dt2=dt-td1; return vel-0.5*jerk*td1*td1-decPh.aPeak*dt2; }
-    var dt3=dt-td1-td2;
-    var vd2=vel-0.5*jerk*td1*td1-decPh.aPeak*td2;
-    return Math.max(vd2-decPh.aPeak*dt3+0.5*jerk*dt3*dt3,0);
-  }
-
-  function scTotalTime(accPh,decPh){ return 2*accPh.t1+accPh.t2+2*decPh.t1+decPh.t2; }
-
-  function scPosSamples(startPos,sign,vel,accPh,decPh,jerk,N){
-    var tTotal=scTotalTime(accPh,decPh);
-    var pts=[[0,startPos]], pos=startPos;
+  function numericalDist(vel,t1,t2,aMax,jerk,tEnd){
+    var N=100,pos=0;
     for(var i=1;i<=N;i++){
-      var t=(i/N)*tTotal;
-      var tp=((i-1)/N)*tTotal;
-      var dt=t-tp;
-      var v=(scVelAt(t,vel,accPh,decPh,jerk)+scVelAt(tp,vel,accPh,decPh,jerk))/2;
-      pos+=sign*v*dt;
-      pts.push([t,pos]);
+      var t=(i/N)*tEnd,tp=((i-1)/N)*tEnd,dt=t-tp;
+      var v=(scVelAccel(t,t1,t2,aMax,jerk)+scVelAccel(tp,t1,t2,aMax,jerk))/2;
+      pos+=v*dt;
     }
-    return pts;
+    return pos;
   }
 
-  function drawScVelSvg(svgId,vel,accPh,decPh,jerk,color){
-    var tTotal=scTotalTime(accPh,decPh);
-    var N=60, pts=[];
-    for(var i=0;i<=N;i++){
-      var t=(i/N)*tTotal;
-      pts.push([t,scVelAt(t,vel,accPh,decPh,jerk)]);
-    }
-    var padL=45,padB=20,padT=10,w=640-padL-15,h=130-padT-padB;
-    function x(t){ return padL+(tTotal>0?(t/tTotal)*w:0); }
-    function y(v){ return padT+h-(vel>0?(v/vel)*h:0); }
-    var d='M '+x(pts[0][0])+' '+y(pts[0][1]);
-    pts.forEach(function(p){ d+=' L '+x(p[0])+' '+y(p[1]); });
-    document.getElementById(svgId).innerHTML=
-      '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="3"/>';
+  // velocity at time t within the accel phase
+  function scVelAccel(t,t1,t2,aMax,jerk){
+    if(t<=t1)return 0.5*jerk*t*t;
+    if(t<=t1+t2){var dt=t-t1;return 0.5*jerk*t1*t1+aMax*dt;}
+    var dt=t-t1-t2,v0=0.5*jerk*t1*t1+aMax*t2;return v0+aMax*dt-0.5*jerk*dt*dt;
   }
 
-  function drawPosSvg(svgId,offset,stroke,maskWidth,extPts,retPts,extTotal,retTotal){
-    var padL=55,padR=30,padT=20,padB=40;
-    var W=640,H=200;
-    var w=W-padL-padR, h=H-padT-padB;
-    var tTotal=extTotal+retTotal;
-    function x(pos){ return padL+((pos-offset)/stroke)*w; }
-    function y(t){ return padT+h-(t/tTotal)*h; }
+  // velocity at time t within the decel phase (mirror of accel)
+  function scVelDecel(t,vel,t1,t2,aMax,jerk){
+    if(t<=t1)return vel-0.5*jerk*t*t;
+    if(t<=t1+t2){var dt=t-t1;return vel-0.5*jerk*t1*t1-aMax*dt;}
+    var dt=t-t1-t2,vd=vel-0.5*jerk*t1*t1-aMax*t2;return Math.max(vd-aMax*dt+0.5*jerk*dt*dt,0);
+  }
 
-    var maskCenter=offset+stroke/2;
-    var mx1=x(maskCenter-maskWidth/2);
-    var mx2=x(maskCenter+maskWidth/2);
+  // velocity at any absolute time in the full move
+  function scVelAt(t,vel,accPh,tCruise,decPh,jerk,rjerk){
+    var tA=2*accPh.t1+accPh.t2;
+    if(t<=tA)return scVelAccel(t,accPh.t1,accPh.t2,accPh.aPeak,jerk);
+    if(t<=tA+tCruise)return vel;
+    return scVelDecel(t-tA-tCruise,vel,decPh.t1,decPh.t2,decPh.aPeak,rjerk||jerk);
+  }
 
-    var ePath='M '+x(extPts[0][1])+' '+y(extPts[0][0]);
-    extPts.forEach(function(p){ ePath+=' L '+x(p[1])+' '+y(p[0]); });
-    var rPath='M '+x(retPts[0][1])+' '+y(extTotal+retPts[0][0]);
-    retPts.forEach(function(p){ rPath+=' L '+x(p[1])+' '+y(extTotal+p[0]); });
+  function scProfile(vel,acc,dec,jerk,rjerk,stroke){
+    if(vel<=0)return{vel:0,accPh:{t1:0.0001,t2:0,aPeak:0,dist:0},decPh:{t1:0.0001,t2:0,aPeak:0,dist:0},tCruise:0,tTotal:0.001,jerk:jerk,rjerk:rjerk||jerk};
+    var accPh=scPhase(vel,acc,jerk);
+    var rj=rjerk||jerk;
+    var decPh=scPhase(vel,dec,rj);
+    var cruiseDist=stroke-accPh.dist-decPh.dist;
+    var tCruise=cruiseDist>0?cruiseDist/vel:0;
+    var tA=2*accPh.t1+accPh.t2, tD=2*decPh.t1+decPh.t2;
+    return{vel:vel,accPh:accPh,decPh:decPh,tCruise:tCruise,tTotal:tA+tCruise+tD,jerk:jerk,rjerk:rj,achievable:cruiseDist>=0};
+  }
 
-    document.getElementById(svgId).innerHTML=
-      '<rect x="'+mx1+'" y="'+padT+'" width="'+(mx2-mx1)+'" height="'+h+'" fill="#F36C23" opacity="0.12"/>'+
-      '<line x1="'+mx1+'" y1="'+padT+'" x2="'+mx1+'" y2="'+(padT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
-      '<line x1="'+mx2+'" y1="'+padT+'" x2="'+mx2+'" y2="'+(padT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
-      '<text x="'+((mx1+mx2)/2)+'" y="'+(padT+12)+'" text-anchor="middle" font-size="10" fill="#F36C23" font-family="Arial">MASK</text>'+
-      '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<text x="'+x(offset)+'" y="'+(padT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">OFFSET</text>'+
-      '<text x="'+x(offset+stroke)+'" y="'+(padT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">END</text>'+
-      '<text x="'+(padL+w/2)+'" y="'+(padT+h+28)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">Position (in)</text>'+
-      '<text x="'+(padL-4)+'" y="'+(padT+h+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=0</text>'+
-      '<text x="'+(padL-4)+'" y="'+(padT+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=end</text>'+
-      '<text x="12" y="'+(padT+h/2)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial" transform="rotate(-90 12 '+(padT+h/2)+')">Time</text>'+
-      '<path d="'+ePath+'" fill="none" stroke="#F36C23" stroke-width="2.5"/>'+
-      '<path d="'+rPath+'" fill="none" stroke="#24211C" stroke-width="2.5" stroke-dasharray="5,3"/>'+
-      '<rect x="'+(padL+10)+'" y="'+(padT+6)+'" width="10" height="3" fill="#F36C23"/>'+
-      '<text x="'+(padL+24)+'" y="'+(padT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Extend</text>'+
-      '<rect x="'+(padL+80)+'" y="'+(padT+6)+'" width="10" height="3" fill="#24211C"/>'+
-      '<text x="'+(padL+94)+'" y="'+(padT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Return</text>';
+  function drawVelSC(id,prof,col){
+    var N=80,pts=[];
+    for(var i=0;i<=N;i++){var t=(i/N)*prof.tTotal;pts.push([t,scVelAt(t,prof.vel,prof.accPh,prof.tCruise,prof.decPh,prof.jerk,prof.rjerk)]);}
+    var pv=prof.vel>0?prof.vel:1;
+    var pL=45,pB=20,pT=10,w=570,h=100;
+    function x(t){return pL+(prof.tTotal>0?(t/prof.tTotal)*w:0);}
+    function y(v){return pT+h-(v/pv)*h;}
+    var d='M '+x(pts[0][0])+' '+y(pts[0][1]);pts.forEach(function(p){d+=' L '+x(p[0])+' '+y(p[1]);});
+    document.getElementById(id).innerHTML='<line x1="'+pL+'" y1="'+(pT+h)+'" x2="'+(pL+w)+'" y2="'+(pT+h)+'" stroke="#7D868C" stroke-width="1"/><line x1="'+pL+'" y1="'+pT+'" x2="'+pL+'" y2="'+(pT+h)+'" stroke="#7D868C" stroke-width="1"/><path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="3"/>';
+  }
+
+  function drawPosSC(id,offset,stroke,mw,eProf,rProf){
+    var N=80,pos,pts;
+    // Extend: integrate
+    var ep=[[0,offset]];pos=offset;
+    for(var i=1;i<=N;i++){
+      var t=(i/N)*eProf.tTotal,tp=((i-1)/N)*eProf.tTotal,dt=t-tp;
+      var v=(scVelAt(t,eProf.vel,eProf.accPh,eProf.tCruise,eProf.decPh,eProf.jerk,eProf.rjerk)+scVelAt(tp,eProf.vel,eProf.accPh,eProf.tCruise,eProf.decPh,eProf.jerk,eProf.rjerk))/2;
+      pos=Math.min(pos+v*dt,offset+stroke);ep.push([t,pos]);
+    }
+    // Return: integrate (decrementing)
+    var rp=[[0,offset+stroke]];pos=offset+stroke;
+    for(var i=1;i<=N;i++){
+      var t=(i/N)*rProf.tTotal,tp=((i-1)/N)*rProf.tTotal,dt=t-tp;
+      var v=(scVelAt(t,rProf.vel,rProf.accPh,rProf.tCruise,rProf.decPh,rProf.jerk,rProf.rjerk)+scVelAt(tp,rProf.vel,rProf.accPh,rProf.tCruise,rProf.decPh,rProf.jerk,rProf.rjerk))/2;
+      pos=Math.max(pos-v*dt,offset);rp.push([t,pos]);
+    }
+    var tT=eProf.tTotal+rProf.tTotal;
+    var pL=55,pR=30,pT=20,pB=40,w=555,h=140;
+    function x(p2){return pL+((p2-offset)/stroke)*w;}
+    function y(t){return pT+(t/tT)*h;}
+    var mc=offset+stroke/2,mx1=x(mc-mw/2),mx2=x(mc+mw/2);
+    var ed='M '+x(ep[0][1])+' '+y(ep[0][0]);ep.forEach(function(p){ed+=' L '+x(p[1])+' '+y(p[0]);});
+    var rd='M '+x(rp[0][1])+' '+y(eProf.tTotal+rp[0][0]);rp.forEach(function(p){rd+=' L '+x(p[1])+' '+y(eProf.tTotal+p[0]);});
+    document.getElementById(id).innerHTML=
+      '<rect x="'+mx1+'" y="'+pT+'" width="'+(mx2-mx1)+'" height="'+h+'" fill="#F36C23" opacity="0.12"/>'+
+      '<line x1="'+mx1+'" y1="'+pT+'" x2="'+mx1+'" y2="'+(pT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
+      '<line x1="'+mx2+'" y1="'+pT+'" x2="'+mx2+'" y2="'+(pT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
+      '<text x="'+((mx1+mx2)/2)+'" y="'+(pT+12)+'" text-anchor="middle" font-size="10" fill="#F36C23" font-family="Arial">MASK</text>'+
+      '<line x1="'+pL+'" y1="'+(pT+h)+'" x2="'+(pL+w)+'" y2="'+(pT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<line x1="'+pL+'" y1="'+pT+'" x2="'+pL+'" y2="'+(pT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<text x="'+x(offset)+'" y="'+(pT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">OFFSET</text>'+
+      '<text x="'+x(offset+stroke)+'" y="'+(pT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">END</text>'+
+      '<text x="'+(pL+w/2)+'" y="'+(pT+h+28)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">Position (in)</text>'+
+      '<text x="'+(pL-4)+'" y="'+(pT+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=0</text>'+
+      '<text x="'+(pL-4)+'" y="'+(pT+h+14)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=end</text>'+
+      '<text x="12" y="'+(pT+h/2)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial" transform="rotate(-90 12 '+(pT+h/2)+')">Time</text>'+
+      '<path d="'+ed+'" fill="none" stroke="#F36C23" stroke-width="2.5"/>'+
+      '<path d="'+rd+'" fill="none" stroke="#24211C" stroke-width="2.5" stroke-dasharray="5,3"/>'+
+      '<rect x="'+(pL+10)+'" y="'+(pT+6)+'" width="10" height="3" fill="#F36C23"/><text x="'+(pL+24)+'" y="'+(pT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Extend</text>'+
+      '<rect x="'+(pL+80)+'" y="'+(pT+6)+'" width="10" height="3" fill="#24211C"/><text x="'+(pL+94)+'" y="'+(pT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Return</text>';
   }
 
   function scDraw(){
-    var offset=+document.getElementById('sc-offset').value;
-    var stroke=+document.getElementById('sc-stroke').value;
-    var maskW=+document.getElementById('sc-mask').value;
-    var convFpm=+document.getElementById('sc-conv').value;
-    var ratio=+document.getElementById('sc-ratio').value;
-    var acc=+document.getElementById('sc-acc').value;
-    var dec=+document.getElementById('sc-dec').value;
-    var jerk=+document.getElementById('sc-jerk').value;
-    var racc=+document.getElementById('sc-racc').value;
-    var rdec=+document.getElementById('sc-rdec').value;
-    var rjerk=+document.getElementById('sc-rjerk').value;
+    var off=+document.getElementById('sc-offset').value,str=+document.getElementById('sc-stroke').value,mw=+document.getElementById('sc-mask').value;
+    var cf=+document.getElementById('sc-conv').value,ra=+document.getElementById('sc-ratio').value;
+    var ac=+document.getElementById('sc-acc').value,dc=+document.getElementById('sc-dec').value,jk=+document.getElementById('sc-jerk').value;
+    var rac=+document.getElementById('sc-racc').value,rdc=+document.getElementById('sc-rdec').value,rjk=+document.getElementById('sc-rjerk').value;
 
-    document.getElementById('sc-offset-v').textContent=offset.toFixed(1);
-    document.getElementById('sc-stroke-v').textContent=stroke.toFixed(1);
-    document.getElementById('sc-mask-v').textContent=maskW.toFixed(1);
-    document.getElementById('sc-conv-v').textContent=convFpm;
-    document.getElementById('sc-ratio-v').textContent=ratio.toFixed(2);
-    document.getElementById('sc-acc-v').textContent=acc;
-    document.getElementById('sc-dec-v').textContent=dec;
-    document.getElementById('sc-jerk-v').textContent=jerk;
-    document.getElementById('sc-racc-v').textContent=racc;
-    document.getElementById('sc-rdec-v').textContent=rdec;
-    document.getElementById('sc-rjerk-v').textContent=rjerk;
+    document.getElementById('sc-offset-v').textContent=off.toFixed(1);
+    document.getElementById('sc-stroke-v').textContent=str.toFixed(1);
+    document.getElementById('sc-mask-v').textContent=mw.toFixed(1);
+    document.getElementById('sc-conv-v').textContent=cf;
+    document.getElementById('sc-ratio-v').textContent=ra.toFixed(2);
+    document.getElementById('sc-acc-v').textContent=ac;
+    document.getElementById('sc-dec-v').textContent=dc;
+    document.getElementById('sc-jerk-v').textContent=jk;
+    document.getElementById('sc-racc-v').textContent=rac;
+    document.getElementById('sc-rdec-v').textContent=rdc;
+    document.getElementById('sc-rjerk-v').textContent=rjk;
 
-    var extVel=convFpm*0.2*ratio;
-    var retVel=extVel*3;
-    document.getElementById('sc-vel-v').textContent=extVel.toFixed(1)+' in/s';
-    document.getElementById('sc-rvel-v').textContent=retVel.toFixed(1)+' in/s';
+    var ev=cf*0.2*ra,rv=ev*3;
+    document.getElementById('sc-vel-v').textContent=ev.toFixed(1)+' in/s';
+    document.getElementById('sc-rvel-v').textContent=rv.toFixed(1)+' in/s';
 
-    if(extVel<=0){
-      document.getElementById('sc-status').innerHTML='<div style="font-size:14px;color:#7D868C">No velocity at this CONV SPEED and EXTEND RATIO.</div>';
-      return;
-    }
+    if(ev<=0){document.getElementById('sc-status').innerHTML='<div style="font-size:14px;color:#7D868C">No velocity at this CONV SPEED and EXTEND RATIO.</div>';return;}
 
-    var eAccPh=scPhase(extVel,acc,jerk), eDecPh=scPhase(extVel,dec,jerk);
-    var rAccPh=scPhase(retVel,racc,rjerk), rDecPh=scPhase(retVel,rdec,rjerk);
-    var eTotal=scTotalTime(eAccPh,eDecPh);
-    var rTotal=scTotalTime(rAccPh,rDecPh);
+    var eProf=scProfile(ev,ac,dc,jk,jk,str);
+    var rProf=scProfile(rv,rac,rdc,rjk,rjk,str);
 
-    drawScVelSvg('sc-ext-svg',extVel,eAccPh,eDecPh,jerk,'#F36C23');
-    drawScVelSvg('sc-ret-svg',retVel,rAccPh,rDecPh,rjerk,'#24211C');
+    drawVelSC('sc-ext-svg',eProf,'#F36C23');
+    drawVelSC('sc-ret-svg',rProf,'#24211C');
+    drawPosSC('sc-pos-svg',off,str,mw,eProf,rProf);
 
-    var extPts=scPosSamples(offset,1,extVel,eAccPh,eDecPh,jerk,60);
-    var retPts=scPosSamples(offset+stroke,-1,retVel,rAccPh,rDecPh,rjerk,60);
-    drawPosSvg('sc-pos-svg',offset,stroke,maskW,extPts,retPts,eTotal,rTotal);
-
-    var tAccE=2*eAccPh.t1+eAccPh.t2, tAccR=2*rAccPh.t1+rAccPh.t2;
+    var tAccE=2*eProf.accPh.t1+eProf.accPh.t2,tAccR=2*rProf.accPh.t1+rProf.accPh.t2;
     document.getElementById('sc-status').innerHTML=
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Extend Accel Phase</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+tAccE.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Extend Total</div><div style="font-size:16px;font-weight:700;color:#24211C">'+eTotal.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Return Accel Phase</div><div style="font-size:16px;font-weight:700;color:#24211C">'+tAccR.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Return Total</div><div style="font-size:16px;font-weight:700;color:#24211C">'+rTotal.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Cycle Time</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+(eTotal+rTotal).toFixed(2)+' s</div></div>';
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Extend Accel Phase</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+tAccE.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Extend Total</div><div style="font-size:16px;font-weight:700;color:#24211C">'+eProf.tTotal.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Return Accel Phase</div><div style="font-size:16px;font-weight:700;color:#24211C">'+tAccR.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Return Total</div><div style="font-size:16px;font-weight:700;color:#24211C">'+rProf.tTotal.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase">Cycle Time</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+(eProf.tTotal+rProf.tTotal).toFixed(2)+' s</div></div>';
   }
 
-  ['sc-offset','sc-stroke','sc-mask','sc-conv','sc-ratio','sc-acc','sc-dec','sc-jerk','sc-racc','sc-rdec','sc-rjerk'].forEach(function(id){
-    var el=document.getElementById(id);
-    el.addEventListener('input',function(){ updateSliderFill(this); scDraw(); });
-    updateSliderFill(el);
-  });
+  ['sc-offset','sc-stroke','sc-mask','sc-conv','sc-ratio','sc-acc','sc-dec','sc-jerk','sc-racc','sc-rdec','sc-rjerk'].forEach(function(id){var el=document.getElementById(id);el.addEventListener('input',function(){slFill(this);scDraw();});slFill(el);});
   scDraw();
 })();
 </script>
