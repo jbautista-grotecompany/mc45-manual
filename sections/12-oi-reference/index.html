@@ -715,6 +715,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="12.7 Motor Setup Screens">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portion-conveyor-feed-conveyor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PORTION CONVEYOR / FEED CONVEYOR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carpet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CARPET
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -725,6 +753,67 @@
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#129-depositor-status-banner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.9 Depositor Status Banner
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1210-stacklight-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.10 STACKLIGHT Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1211-machine-options-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.11 MACHINE OPTIONS Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.11 MACHINE OPTIONS Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#toggle-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Toggle Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -872,6 +961,12 @@ remain visible on every screen.</p>
   </p>
 <figcaption>Figure 12.1  OI screen navigation overview</figcaption>
 </figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Items shown in gray are accessible to all operators (DEFAULT login).
+Items shown in orange require a Maintenance login (GROTE). See
+<a href="#126-maint-screen">Section 12.6: MAINT Screen</a>.</p>
+</div>
 <h3 id="121a-header">12.1a Header<a class="headerlink" href="#121a-header" title="Permanent link">&para;</a></h3>
 <figure>
 <p><img alt="OI header overview" src="../../assets/images/fig_12_02_header.png" width="700" />
@@ -952,6 +1047,12 @@ remain visible on every screen.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The active screen button turns yellow.</p>
+<p>The ALARM ACTIVE button flashes red when any alarm is present and
+returns to normal when all alarms are cleared.</p>
+</div>
 <hr />
 <h2 id="122-home-screen">12.2 HOME Screen<a class="headerlink" href="#122-home-screen" title="Permanent link">&para;</a></h2>
 <p>The HOME screen is the primary operating screen. It provides Depositor
@@ -1009,19 +1110,49 @@ yellow background with green text. See
 </thead>
 <tbody>
 <tr>
-<td><strong>RECIPE FIELDS</strong></td>
-<td>All production parameters. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1: Recipe Screen Field Reference</a>.</td>
+<td><strong>PORTION SETTINGS</strong></td>
+<td>PORTION CONVEYOR move and timing setpoints. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1</a>.</td>
+</tr>
+<tr>
+<td><strong>HOPPER SETTINGS</strong></td>
+<td>HOPPER weight thresholds. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1</a>.</td>
+</tr>
+<tr>
+<td><strong>CARPET SETTINGS</strong></td>
+<td>CARPET travel and timing setpoints. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1</a>.</td>
+</tr>
+<tr>
+<td><strong>BUCKET SETTINGS</strong></td>
+<td>BUCKET timing setpoints. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1</a>.</td>
+</tr>
+<tr>
+<td><strong>RAKE/SPINNER SETTINGS</strong></td>
+<td>RAKE and SPINNER speed setpoints. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1</a>.</td>
+</tr>
+<tr>
+<td><strong>CONVEYOR SPEED SETTINGS</strong></td>
+<td>PRODUCT CONVEYOR speed setpoint. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1</a>.</td>
+</tr>
+<tr>
+<td><strong>FEED HOPPER SETTINGS</strong> (Option)</td>
+<td>FEED CONVEYOR weight thresholds, when equipped. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1</a>.</td>
+</tr>
+<tr>
+<td><strong>SKIP MODE</strong> (Option)</td>
+<td>Enables or disables Skip Mode. See <a href="../05-recipe-setup/#53-skip-mode">Section 5.3</a>.</td>
 </tr>
 <tr>
 <td><strong>RECIPE MANAGEMENT</strong></td>
-<td>Load and save recipes. See <a href="../05-recipe-setup/#52-loading-and-saving-recipes">Section 5.2: Loading and Saving Recipes</a>.</td>
+<td>Load and save recipes. See <a href="../05-recipe-setup/#52-loading-and-saving-recipes">Section 5.2</a>.</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2 id="124-manual-screen">12.4 MANUAL Screen<a class="headerlink" href="#124-manual-screen" title="Permanent link">&para;</a></h2>
-<p>The MANUAL screen provides access to individual drive service screens,
-diagnostic screens, direct equipment controls, and the WIPEDOWN screen.</p>
+<p>The MANUAL screen provides manual controls for the SOLENOID and
+STACKLIGHT, navigation to the conveyor and motor manual controls, the
+TARGET PHOTO EYE remote teach functions, SAFETY PLC, the I/O display,
+and WIPEDOWN.</p>
 <figure>
 <p><img alt="MANUAL screen menu" src="../../assets/images/fig_12_06_manual_menu.png" width="500" />
   </p>
@@ -1045,11 +1176,11 @@ diagnostic screens, direct equipment controls, and the WIPEDOWN screen.</p>
 </tr>
 <tr>
 <td><strong>DIAGNOSTIC NAVIGATION</strong></td>
-<td>Navigation to the TARGET PHOTO EYE remote setup, SAFETY PLC, and I/O STATUS screens.</td>
+<td>Navigation to the TARGET PHOTO EYE remote teach, SAFETY PLC, and I/O STATUS screens.</td>
 </tr>
 <tr>
 <td><strong>BUCKET</strong></td>
-<td>Direct manual toggle for the BUCKET.</td>
+<td>Direct manual toggle for the BUCKET solenoid.</td>
 </tr>
 <tr>
 <td><strong>STACKLIGHT</strong></td>
@@ -1077,14 +1208,19 @@ diagnostic screens, direct equipment controls, and the WIPEDOWN screen.</p>
 <figcaption>Figure 12.12  CARPET detail screen (Linmot)</figcaption>
 </figure>
 <figure>
-<p><img alt="TARGET PHOTO EYE remote setup screen" src="../../assets/images/fig_12_07_target_pe_setup.png" width="500" />
+<p><img alt="TARGET PHOTO EYE remote teach screen" src="../../assets/images/fig_12_07_target_pe_setup.png" width="500" />
   </p>
-<figcaption>Figure 12.7  TARGET PHOTO EYE remote setup screen</figcaption>
+<figcaption>Figure 12.7  TARGET PHOTO EYE remote teach screen</figcaption>
 </figure>
 <figure>
 <p><img alt="SAFETY PLC screen" src="../../assets/images/fig_12_08_safety_plc.png" width="500" />
   </p>
 <figcaption>Figure 12.8  SAFETY PLC screen</figcaption>
+</figure>
+<figure>
+<p><img alt="I/O STATUS screen" src="../../assets/images/fig_12_19_io_screen.png" width="500" />
+  </p>
+<figcaption>Figure 12.19  I/O STATUS screen</figcaption>
 </figure>
 <figure>
 <p><img alt="WIPEDOWN screen" src="../../assets/images/fig_12_09_wipedown.png" width="500" />
@@ -1155,7 +1291,7 @@ descriptions and corrective actions, see
 <hr />
 <h2 id="126-maint-screen">12.6 MAINT Screen<a class="headerlink" href="#126-maint-screen" title="Permanent link">&para;</a></h2>
 <p>The MAINT screen provides access to drive configuration, calibration, and
-system settings.</p>
+system settings. A GROTE login is required to access this screen.</p>
 <figure>
 <p><img alt="MAINT screen" src="../../assets/images/fig_12_14_maintenance.png" width="500" />
   </p>
@@ -1178,8 +1314,8 @@ system settings.</p>
 <td>Load cell calibration. See <a href="#128-calibration-screens">Section 12.8: Calibration Screens</a>.</td>
 </tr>
 <tr>
-<td><strong>MACHINE OPTION</strong></td>
-<td>LEFT-RIGHT HAND sets the Depositor's feed orientation. FEED-Z / NO FEED-Z enables or disables the FEED-Z CONVEYOR option. SKIP MODE ENABLE / DISABLE enables or disables Skip Mode. RESET HISTORY clears stored production history. DATE/TIME sets the system clock.</td>
+<td><strong>MACHINE OPTIONS</strong></td>
+<td>Machine configuration options. See <a href="#1211-machine-options-reference">Section 12.11: MACHINE OPTIONS Reference</a>.</td>
 </tr>
 <tr>
 <td><strong>TRACKING MODE</strong></td>
@@ -1187,59 +1323,80 @@ system settings.</p>
 </tr>
 <tr>
 <td><strong>SPARE OUTPUT SELECTION</strong></td>
-<td>Assigns spare output points.</td>
+<td>Redirects a failed output to a spare terminal. If a primary output fails, the operator selects the spare output on this screen, then moves the field wire from the failed terminal to the spare terminal per the electrical schematic.</td>
 </tr>
 <tr>
 <td><strong>TARGET TEST MODE</strong></td>
 <td>Runs the deposit cycle automatically without a TARGET SENSOR input, for testing without product on the conveyor.</td>
 </tr>
+<tr>
+<td><strong>LOGIN/LOGOUT</strong></td>
+<td>User login and logout controls.</td>
+</tr>
 </tbody>
 </table>
 <hr />
 <h2 id="127-motor-setup-screens">12.7 Motor Setup Screens<a class="headerlink" href="#127-motor-setup-screens" title="Permanent link">&para;</a></h2>
-<p>Each drive has a dedicated Motor Setup screen. See
-<a href="../07-motor-speed-scaling/">Section 7: Motor Speed Scaling</a>,
-<a href="../08-kollmorgen-servo-setup/">Section 8: Kollmorgen Servo Setup</a>, and
-<a href="../09-linmot-servo-setup/">Section 9: Linmot Servo Setup</a>.</p>
+<p>Each drive has a dedicated Motor Setup screen, reached from
+MAINT → MOTOR SETUP → [drive name].</p>
 <figure>
 <p><img alt="Motor Setup screen: RAKE" src="../../assets/images/fig_12_15_rake_maint.png" width="500" />
   </p>
-<figcaption>Figure 12.15  Motor Setup screen: RAKE</figcaption>
+<figcaption>Figure 12.15  Motor Setup screen: RAKE (representative)</figcaption>
 </figure>
+<p>All Motor Setup screens for the VFD drives share the following fields:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Group</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MOTOR SCALING</strong></td>
+<td>Sets MIN and MAX operating speed.</td>
+</tr>
+<tr>
+<td><strong>CUSTOMER ENTRY LIMITS</strong></td>
+<td>Sets the MIN and MAX speed values operators can enter on recipe and manual control screens.</td>
+</tr>
+<tr>
+<td><strong>MANUAL FUNCTIONS</strong></td>
+<td>Manual drive control. Enter speed in Hz and press RUN FORWARD.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These fields apply to the PRODUCT CONVEYOR, AUX 1 CONVEYOR, AUX 2
+CONVEYOR (when equipped), RAKE, SPINNER, and FEED-Z CONVEYOR (Option).</p>
+</div>
+<p>See <a href="../07-motor-speed-scaling/">Section 7: Motor Speed Scaling</a> for
+scaling calculations.</p>
+<h3 id="portion-conveyor-feed-conveyor">PORTION CONVEYOR / FEED CONVEYOR<a class="headerlink" href="#portion-conveyor-feed-conveyor" title="Permanent link">&para;</a></h3>
 <figure>
 <p><img alt="Motor Setup screen: PORTION CONVEYOR" src="../../assets/images/fig_12_16_portion_maint.png" width="500" />
   </p>
 <figcaption>Figure 12.16  Motor Setup screen: PORTION CONVEYOR</figcaption>
 </figure>
+<p>The PORTION CONVEYOR and FEED CONVEYOR use Kollmorgen AKD servo drives.
+Their Motor Setup fields are documented in
+<a href="../08-kollmorgen-servo-setup/">Section 8: Kollmorgen Servo Setup</a>.</p>
+<h3 id="carpet">CARPET<a class="headerlink" href="#carpet" title="Permanent link">&para;</a></h3>
 <figure>
 <p><img alt="Motor Setup screen: CARPET" src="../../assets/images/fig_12_17_carpet_maint.png" width="500" />
   </p>
 <figcaption>Figure 12.17  Motor Setup screen: CARPET</figcaption>
 </figure>
-<table>
-<thead>
-<tr>
-<th><strong>Drive</strong></th>
-<th><strong>Reference</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>PRODUCT CONVEYOR / RAKE / SPINNER</strong> (FEED-Z, AUX 1, AUX 2 when equipped)</td>
-<td><a href="../07-motor-speed-scaling/">Section 7</a></td>
-</tr>
-<tr>
-<td><strong>PORTION CONVEYOR / FEED CONVEYOR</strong></td>
-<td><a href="../08-kollmorgen-servo-setup/">Section 8</a></td>
-</tr>
-<tr>
-<td><strong>CARPET</strong></td>
-<td><a href="../09-linmot-servo-setup/">Section 9</a></td>
-</tr>
-</tbody>
-</table>
+<p>The CARPET uses a Linmot servo drive. Its Motor Setup fields are
+documented in <a href="../09-linmot-servo-setup/">Section 9: Linmot Servo Setup</a>.</p>
 <hr />
 <h2 id="128-calibration-screens">12.8 Calibration Screens<a class="headerlink" href="#128-calibration-screens" title="Permanent link">&para;</a></h2>
+<p>All calibration screens share a common button bar for switching between
+calibration types. See
+<a href="../10-load-cell-calibration/">Section 10: Load Cell Calibration</a> for
+step-by-step procedures.</p>
 <figure>
 <p><img alt="Calibration screen: HOPPER LOAD CELL" src="../../assets/images/fig_12_18_hopper_cal.png" width="500" />
   </p>
@@ -1255,15 +1412,219 @@ system settings.</p>
 <tbody>
 <tr>
 <td><strong>LOAD CELL SETUP</strong></td>
-<td>Captures MIN and MAX calibration points for the PORTION CONVEYOR HOPPER LOAD CELL and the FEED CONVEYOR HOPPER LOAD CELL (Option). See <a href="../10-load-cell-calibration/">Section 10: Load Cell Calibration</a>.</td>
+<td>Captures MIN and MAX calibration points. See <a href="../10-load-cell-calibration/">Section 10</a>.</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The CARPET is a servo actuator and does not require calibration. Its
-homed status appears on its MANUAL</p>
+homed status appears on its MANUAL screen. See
+<a href="../11-retractable-conveyor-limits/">Section 11: Carpet Limits</a>.</p>
 </div>
+<hr />
+<h2 id="129-depositor-status-banner">12.9 Depositor Status Banner<a class="headerlink" href="#129-depositor-status-banner" title="Permanent link">&para;</a></h2>
+<p>The Depositor Status Banner appears at the top of every screen and
+updates continuously to reflect the current Depositor state. For
+mode-by-mode behavior, see
+<a href="../04-operating-modes/">Section 4: Operating Modes</a>.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Banner Message</strong></th>
+<th><strong>Color</strong></th>
+<th><strong>Condition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MACHINE FAULTED<br>GO TO ALARMS SCREEN</td>
+<td>RED</td>
+<td>Active fault. Navigate to the <a href="#125-alarms-screen">ALARMS screen</a> and press FAULT RESET after correcting all conditions.</td>
+</tr>
+<tr>
+<td>MACHINE READY<br>HOLD START</td>
+<td>GREEN</td>
+<td>Depositor ready to start. Hold PRESS TO START.</td>
+</tr>
+<tr>
+<td>MACHINE RUNNING</td>
+<td>GREEN</td>
+<td>Depositor running in RUN mode.</td>
+</tr>
+<tr>
+<td>CONTROL POWER REQUIRES RESET<br>HOLD AND RELEASE MACHINE ENABLE BUTTON</td>
+<td>YELLOW</td>
+<td>Control power requires reset. Hold and release the MACHINE ENABLE button.</td>
+</tr>
+<tr>
+<td>MACHINE RUNNING<br>RECIPE VALUES CHANGED,<br>PLEASE SAVE RECIPE</td>
+<td>YELLOW</td>
+<td>The active recipe has unsaved changes. Save the recipe from the RECIPE screen.</td>
+</tr>
+<tr>
+<td>BYPASS MODE READY<br>HOLD START</td>
+<td>GREEN</td>
+<td>BYPASS mode selected and ready. Hold PRESS TO START.</td>
+</tr>
+<tr>
+<td>MACHINE RUNNING<br>REMOTE CONTROL ACTIVE</td>
+<td>GREEN</td>
+<td>Depositor running under REMOTE control.</td>
+</tr>
+<tr>
+<td>FEED-Z NOT ENABLED</td>
+<td>RED</td>
+<td>FEED-Z CONVEYOR is not enabled.</td>
+</tr>
+<tr>
+<td>MACHINE RUNNING<br>BYPASS MODE</td>
+<td>GREEN</td>
+<td>Depositor running in BYPASS mode.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following messages are planned for a future release and are not
+yet active on the Depositor.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Banner Message</strong></th>
+<th><strong>Color</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MACHINE RUNNING IN RUN MODE</td>
+<td>GREEN</td>
+</tr>
+<tr>
+<td>MACHINE RUNNING IN EMPTY MODE</td>
+<td>GREEN</td>
+</tr>
+<tr>
+<td>MACHINE RUNNING IN PRIME MODE</td>
+<td>GREEN</td>
+</tr>
+<tr>
+<td>CARPET HOMING IN PROGRESS</td>
+<td>YELLOW</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="1210-stacklight-reference">12.10 STACKLIGHT Reference<a class="headerlink" href="#1210-stacklight-reference" title="Permanent link">&para;</a></h2>
+<p>The STACKLIGHT provides an at-a-glance Depositor status visible from
+across the production floor. See
+<a href="../02-equipment-overview/">Section 2: Equipment Overview</a> or
+<a href="../appendix-b/#stacklight">Appendix B: Glossary</a>.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Indicator</strong></th>
+<th><strong>State</strong></th>
+<th><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HORN</td>
+<td>Pulsing</td>
+<td>Depositor starting</td>
+</tr>
+<tr>
+<td>RED</td>
+<td>Blinking</td>
+<td>Not enabled</td>
+</tr>
+<tr>
+<td>RED</td>
+<td>Solid</td>
+<td>Faulted</td>
+</tr>
+<tr>
+<td>YELLOW</td>
+<td>Blinking</td>
+<td>Low topping level</td>
+</tr>
+<tr>
+<td>YELLOW</td>
+<td>Solid</td>
+<td>Topping level empty</td>
+</tr>
+<tr>
+<td>GREEN</td>
+<td>Blinking</td>
+<td>Ready to run</td>
+</tr>
+<tr>
+<td>GREEN</td>
+<td>Solid</td>
+<td>Running</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1211-machine-options-reference">12.11 MACHINE OPTIONS Reference<a class="headerlink" href="#1211-machine-options-reference" title="Permanent link">&para;</a></h2>
+<p>MACHINE OPTIONS sets Depositor-wide configuration. A GROTE login is
+required.</p>
+<h3 id="toggle-options">Toggle Options<a class="headerlink" href="#toggle-options" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Option</strong></th>
+<th><strong>Function</strong></th>
+<th><strong>Default</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LEFT-RIGHT HAND</strong></td>
+<td>Sets the Depositor's feed orientation. Depends on the flow of the machine.</td>
+<td>LEFT HAND</td>
+</tr>
+<tr>
+<td><strong>FEED-Z / NO FEED-Z</strong></td>
+<td>Enables or disables the FEED-Z CONVEYOR option.</td>
+<td>NO FEED-Z</td>
+</tr>
+<tr>
+<td><strong>SKIP MODE ENABLE / DISABLE</strong></td>
+<td>Enables or disables Skip Mode.</td>
+<td>DISABLE</td>
+</tr>
+</tbody>
+</table>
+<h3 id="system-settings">System Settings<a class="headerlink" href="#system-settings" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Setting</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RESET HISTORY</strong></td>
+<td>Resets the statistics counter on the HOME screen.</td>
+</tr>
+<tr>
+<td><strong>DATE/TIME</strong></td>
+<td>Sets the system clock.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<!-- ============================================================
+OPEN ITEMS: Section 12
+==============================================================
+OI-12-01: Document-wide pass needed to standardize "(Option)" vs
+          "(when equipped)" usage for optional equipment across
+          all sections, not just Section 12.
+============================================================ -->
 
 
 
