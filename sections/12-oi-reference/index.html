@@ -89,6 +89,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#12-oi-reference" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -554,6 +559,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. OI Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -571,6 +596,141 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#121-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Navigation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.1 Navigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121a-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1a Header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#121b-navigation-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1b Navigation Bar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122-home-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 HOME Screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123-recipe-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 RECIPE Screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#124-manual-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 MANUAL Screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#125-alarms-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5 ALARMS Screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#126-maint-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.6 MAINT Screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#127-motor-setup-screens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.7 Motor Setup Screens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#128-calibration-screens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.8 Calibration Screens
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -701,9 +861,409 @@
 
 
 
-  <h1>12. OI Reference</h1>
-
-
+<h1 id="12-oi-reference">12  OI Reference<a class="headerlink" href="#12-oi-reference" title="Permanent link">&para;</a></h1>
+<h2 id="121-navigation">12.1 Navigation<a class="headerlink" href="#121-navigation" title="Permanent link">&para;</a></h2>
+<p>The Depositor OI presents information across three regions: a fixed header
+at the top, a fixed navigation bar at the bottom, and a main screen area
+that changes based on the selected button. The header and navigation bar
+remain visible on every screen.</p>
+<figure>
+<p><img alt="OI screen navigation overview" src="../../assets/images/fig_12_01_navigation_overview.svg" width="700" />
+  </p>
+<figcaption>Figure 12.1  OI screen navigation overview</figcaption>
+</figure>
+<h3 id="121a-header">12.1a Header<a class="headerlink" href="#121a-header" title="Permanent link">&para;</a></h3>
+<figure>
+<p><img alt="OI header overview" src="../../assets/images/fig_12_02_header.png" width="700" />
+  </p>
+<figcaption>Figure 12.2  Header overview</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Display</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ACTIVE RECIPE</strong></td>
+<td>Recipe number and name currently loaded.</td>
+</tr>
+<tr>
+<td><strong>CURRENT USER</strong></td>
+<td>Active login level.</td>
+</tr>
+<tr>
+<td><strong>STATUS BANNER</strong></td>
+<td>Banner reflecting the current Depositor state. See <a href="#129-depositor-status-banner">Section 12.9: Depositor Status Banner</a>.</td>
+</tr>
+<tr>
+<td><strong>DATE AND TIME</strong></td>
+<td>Current system date and time.</td>
+</tr>
+<tr>
+<td><strong>SCREEN TITLE</strong></td>
+<td>Text identifying the currently active screen.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="121b-navigation-bar">12.1b Navigation Bar<a class="headerlink" href="#121b-navigation-bar" title="Permanent link">&para;</a></h3>
+<figure>
+<p><img alt="OI navigation bar overview" src="../../assets/images/fig_12_03_navigation_bar.png" width="700" />
+  </p>
+<figcaption>Figure 12.3  Navigation bar overview</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Control</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HOME</strong></td>
+<td>Navigates to the HOME screen.</td>
+</tr>
+<tr>
+<td><strong>RECIPE</strong></td>
+<td>Navigates to the RECIPE screen.</td>
+</tr>
+<tr>
+<td><strong>MANUAL</strong></td>
+<td>Navigates to the MANUAL screen.</td>
+</tr>
+<tr>
+<td><strong>ALARMS</strong></td>
+<td>Navigates to the ALARMS screen.</td>
+</tr>
+<tr>
+<td><strong>MAINT</strong></td>
+<td>Navigates to the MAINT screen.</td>
+</tr>
+<tr>
+<td><strong>LANGUAGE SWITCH</strong></td>
+<td>Toggles the OI language between English and Spanish.</td>
+</tr>
+<tr>
+<td><strong>BACK</strong></td>
+<td>Returns to the previous screen.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="122-home-screen">12.2 HOME Screen<a class="headerlink" href="#122-home-screen" title="Permanent link">&para;</a></h2>
+<p>The HOME screen is the primary operating screen. It provides Depositor
+start and stop controls, operating mode selection, and target delay
+fine-tuning. See <a href="../04-operating-modes/">Section 4: Operating Modes</a> and
+<a href="../06-how-it-works/#63-target-tracking">Section 6.3: Target Tracking</a>.</p>
+<figure>
+<p><img alt="HOME screen" src="../../assets/images/fig_12_04_home.png" width="500" />
+  </p>
+<figcaption>Figure 12.4  HOME screen</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Group</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MACHINE CONTROL</strong></td>
+<td>MACHINE ENABLE is a physical pushbutton on the OI enclosure that arms the safety circuit. PRESS TO START and PRESS TO STOP are OI buttons that initiate and stop the selected operating mode. LOCAL / REMOTE selects the control source. See <a href="../03-startup/">Section 3: Startup</a>.</td>
+</tr>
+<tr>
+<td><strong>OPERATING MODE</strong></td>
+<td>Selects the operating mode. See <a href="../04-operating-modes/">Section 4: Operating Modes</a>.</td>
+</tr>
+<tr>
+<td><strong>TARGET DELAY ADJUST</strong></td>
+<td>FINE and COARSE buttons adjust TARGET DELAY in the active recipe. See <a href="../06-how-it-works/#63-target-tracking">Section 6.3</a>.</td>
+</tr>
+<tr>
+<td><strong>SKIP MODE</strong></td>
+<td>SKIP MODE indicator shows when active. SYNC shifts the skip phase by one target. See <a href="../05-recipe-setup/#53-skip-mode">Section 5.3: Skip Mode</a>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="123-recipe-screen">12.3 RECIPE Screen<a class="headerlink" href="#123-recipe-screen" title="Permanent link">&para;</a></h2>
+<p>The RECIPE screen provides recipe management. Editable fields have a
+yellow background with green text. See
+<a href="../05-recipe-setup/">Section 5: Recipe Setup</a> and
+<a href="../appendix-a/">Appendix A: Recipe Starting Points</a>.</p>
+<figure>
+<p><img alt="RECIPE screen" src="../../assets/images/fig_12_05_recipe.png" width="500" />
+  </p>
+<figcaption>Figure 12.5  RECIPE screen</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Group</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RECIPE FIELDS</strong></td>
+<td>All production parameters. See <a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1: Recipe Screen Field Reference</a>.</td>
+</tr>
+<tr>
+<td><strong>RECIPE MANAGEMENT</strong></td>
+<td>Load and save recipes. See <a href="../05-recipe-setup/#52-loading-and-saving-recipes">Section 5.2: Loading and Saving Recipes</a>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="124-manual-screen">12.4 MANUAL Screen<a class="headerlink" href="#124-manual-screen" title="Permanent link">&para;</a></h2>
+<p>The MANUAL screen provides access to individual drive service screens,
+diagnostic screens, direct equipment controls, and the WIPEDOWN screen.</p>
+<figure>
+<p><img alt="MANUAL screen menu" src="../../assets/images/fig_12_06_manual_menu.png" width="500" />
+  </p>
+<figcaption>Figure 12.6  MANUAL screen menu</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Group</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VFD DRIVES</strong></td>
+<td>PRODUCT CONVEYOR, RAKE, and SPINNER. FEED-Z, AUX 1, and AUX 2 when equipped. Each drive opens a detail screen showing manual control, current, and last fault.</td>
+</tr>
+<tr>
+<td><strong>SERVO DRIVES</strong></td>
+<td>CARPET, PORTION CONVEYOR, and FEED CONVEYOR (bidirectional, when equipped). Each drive opens a detail screen with JOG + and JOG -, fault info, current and position display, and status (READY, FAULTED, HOMED).</td>
+</tr>
+<tr>
+<td><strong>DIAGNOSTIC NAVIGATION</strong></td>
+<td>Navigation to the TARGET PHOTO EYE remote setup, SAFETY PLC, and I/O STATUS screens.</td>
+</tr>
+<tr>
+<td><strong>BUCKET</strong></td>
+<td>Direct manual toggle for the BUCKET.</td>
+</tr>
+<tr>
+<td><strong>STACKLIGHT</strong></td>
+<td>Direct manual toggle for the STACKLIGHT. See <a href="#1210-stacklight-reference">Section 12.10: STACKLIGHT Reference</a>.</td>
+</tr>
+<tr>
+<td><strong>WIPEDOWN</strong></td>
+<td>Opens a blank screen with no active buttons, so the operator can wipe down the OI without triggering a control.</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<p><img alt="VFD drive detail screen" src="../../assets/images/fig_12_10_ac_motor_manual.png" width="500" />
+  </p>
+<figcaption>Figure 12.10  VFD drive detail screen</figcaption>
+</figure>
+<figure>
+<p><img alt="AKD servo detail screen" src="../../assets/images/fig_12_11_akd_motor_manual.png" width="500" />
+  </p>
+<figcaption>Figure 12.11  AKD servo detail screen (PORTION CONVEYOR, FEED CONVEYOR)</figcaption>
+</figure>
+<figure>
+<p><img alt="CARPET (Linmot) detail screen" src="../../assets/images/fig_12_12_linmot_motor_manual.png" width="500" />
+  </p>
+<figcaption>Figure 12.12  CARPET detail screen (Linmot)</figcaption>
+</figure>
+<figure>
+<p><img alt="TARGET PHOTO EYE remote setup screen" src="../../assets/images/fig_12_07_target_pe_setup.png" width="500" />
+  </p>
+<figcaption>Figure 12.7  TARGET PHOTO EYE remote setup screen</figcaption>
+</figure>
+<figure>
+<p><img alt="SAFETY PLC screen" src="../../assets/images/fig_12_08_safety_plc.png" width="500" />
+  </p>
+<figcaption>Figure 12.8  SAFETY PLC screen</figcaption>
+</figure>
+<figure>
+<p><img alt="WIPEDOWN screen" src="../../assets/images/fig_12_09_wipedown.png" width="500" />
+  </p>
+<figcaption>Figure 12.9  WIPEDOWN screen</figcaption>
+</figure>
+<hr />
+<h2 id="125-alarms-screen">12.5 ALARMS Screen<a class="headerlink" href="#125-alarms-screen" title="Permanent link">&para;</a></h2>
+<p>The ALARMS screen logs active and historical alarm events. For fault
+descriptions and corrective actions, see
+<a href="../13-troubleshooting/">Section 13: Troubleshooting</a>.</p>
+<figure>
+<p><img alt="ALARMS screen" src="../../assets/images/fig_12_13_alarm.png" width="500" />
+  </p>
+<figcaption>Figure 12.13  ALARMS screen</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Group</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ALARM SUMMARY</strong></td>
+<td>Timestamped list of alarm events.</td>
+</tr>
+<tr>
+<td><strong>CLEAR ALARM LIST</strong></td>
+<td>Clears the alarms in the alarm banner.</td>
+</tr>
+<tr>
+<td><strong>FAULT RESET</strong></td>
+<td>Resets latched system faults.</td>
+</tr>
+<tr>
+<td><strong>UP/DOWN BUTTONS</strong></td>
+<td>Alarm banner up/down navigation.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<table>
+<thead>
+<tr>
+<th><strong>State</strong></th>
+<th><strong>Appearance</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Active</td>
+<td>Red background, white text.</td>
+</tr>
+<tr>
+<td>Inactive</td>
+<td>White background, black text.</td>
+</tr>
+<tr>
+<td>Selected</td>
+<td>White background, red text.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="126-maint-screen">12.6 MAINT Screen<a class="headerlink" href="#126-maint-screen" title="Permanent link">&para;</a></h2>
+<p>The MAINT screen provides access to drive configuration, calibration, and
+system settings.</p>
+<figure>
+<p><img alt="MAINT screen" src="../../assets/images/fig_12_14_maintenance.png" width="500" />
+  </p>
+<figcaption>Figure 12.14  MAINT screen</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Group</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MOTOR SETUP</strong></td>
+<td>Drive scaling and limit configuration. See <a href="#127-motor-setup-screens">Section 12.7: Motor Setup Screens</a>.</td>
+</tr>
+<tr>
+<td><strong>CALIBRATIONS</strong></td>
+<td>Load cell calibration. See <a href="#128-calibration-screens">Section 12.8: Calibration Screens</a>.</td>
+</tr>
+<tr>
+<td><strong>MACHINE OPTION</strong></td>
+<td>LEFT-RIGHT HAND sets the Depositor's feed orientation. FEED-Z / NO FEED-Z enables or disables the FEED-Z CONVEYOR option. SKIP MODE ENABLE / DISABLE enables or disables Skip Mode. RESET HISTORY clears stored production history. DATE/TIME sets the system clock.</td>
+</tr>
+<tr>
+<td><strong>TRACKING MODE</strong></td>
+<td>Selects Time-Based or Encoder-Based target tracking. See <a href="../06-how-it-works/#63-target-tracking">Section 6.3: Target Tracking</a>.</td>
+</tr>
+<tr>
+<td><strong>SPARE OUTPUT SELECTION</strong></td>
+<td>Assigns spare output points.</td>
+</tr>
+<tr>
+<td><strong>TARGET TEST MODE</strong></td>
+<td>Runs the deposit cycle automatically without a TARGET SENSOR input, for testing without product on the conveyor.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="127-motor-setup-screens">12.7 Motor Setup Screens<a class="headerlink" href="#127-motor-setup-screens" title="Permanent link">&para;</a></h2>
+<p>Each drive has a dedicated Motor Setup screen. See
+<a href="../07-motor-speed-scaling/">Section 7: Motor Speed Scaling</a>,
+<a href="../08-kollmorgen-servo-setup/">Section 8: Kollmorgen Servo Setup</a>, and
+<a href="../09-linmot-servo-setup/">Section 9: Linmot Servo Setup</a>.</p>
+<figure>
+<p><img alt="Motor Setup screen: RAKE" src="../../assets/images/fig_12_15_rake_maint.png" width="500" />
+  </p>
+<figcaption>Figure 12.15  Motor Setup screen: RAKE</figcaption>
+</figure>
+<figure>
+<p><img alt="Motor Setup screen: PORTION CONVEYOR" src="../../assets/images/fig_12_16_portion_maint.png" width="500" />
+  </p>
+<figcaption>Figure 12.16  Motor Setup screen: PORTION CONVEYOR</figcaption>
+</figure>
+<figure>
+<p><img alt="Motor Setup screen: CARPET" src="../../assets/images/fig_12_17_carpet_maint.png" width="500" />
+  </p>
+<figcaption>Figure 12.17  Motor Setup screen: CARPET</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Drive</strong></th>
+<th><strong>Reference</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PRODUCT CONVEYOR / RAKE / SPINNER</strong> (FEED-Z, AUX 1, AUX 2 when equipped)</td>
+<td><a href="../07-motor-speed-scaling/">Section 7</a></td>
+</tr>
+<tr>
+<td><strong>PORTION CONVEYOR / FEED CONVEYOR</strong></td>
+<td><a href="../08-kollmorgen-servo-setup/">Section 8</a></td>
+</tr>
+<tr>
+<td><strong>CARPET</strong></td>
+<td><a href="../09-linmot-servo-setup/">Section 9</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="128-calibration-screens">12.8 Calibration Screens<a class="headerlink" href="#128-calibration-screens" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="Calibration screen: HOPPER LOAD CELL" src="../../assets/images/fig_12_18_hopper_cal.png" width="500" />
+  </p>
+<figcaption>Figure 12.18  Calibration screen: PORTION CONVEYOR HOPPER LOAD CELL / FEED CONVEYOR HOPPER LOAD CELL</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>Group</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LOAD CELL SETUP</strong></td>
+<td>Captures MIN and MAX calibration points for the PORTION CONVEYOR HOPPER LOAD CELL and the FEED CONVEYOR HOPPER LOAD CELL (Option). See <a href="../10-load-cell-calibration/">Section 10: Load Cell Calibration</a>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The CARPET is a servo actuator and does not require calibration. Its
+homed status appears on its MANUAL</p>
+</div>
 
 
 
