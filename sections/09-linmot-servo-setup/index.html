@@ -927,8 +927,8 @@ CARPET belt and mounting hardware.</p>
 </div>
 
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
-  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Position vs Time — with MASK</div>
-  <svg id="tz-pos-svg" viewBox="0 0 640 180" style="width:100%;height:auto;display:block"></svg>
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Position vs Time</div>
+  <svg id="tz-pos-svg" viewBox="0 0 640 200" style="width:100%;height:auto;display:block"></svg>
 </div>
 
 <div id="tz-status" style="border-radius:8px;padding:12px 16px;display:flex;gap:20px;flex-wrap:wrap;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9"></div>
@@ -956,7 +956,7 @@ CARPET belt and mounting hardware.</p>
   window.tzNudge=tzNudge;
 
   function trapProfile(vel,acc,dec,stroke){
-    if(vel<=0) return {peakVel:0,tAcc:0,tCruise:0,tDec:0,tTotal:0,achievable:true};
+    if(vel<=0) return {peakVel:0,tAcc:0,tCruise:0,tDec:0,tTotal:0.001,achievable:true};
     var tAcc=vel/acc, tDec=vel/dec;
     var dAcc=0.5*acc*tAcc*tAcc, dDec=0.5*dec*tDec*tDec;
     if(dAcc+dDec<=stroke){
@@ -981,99 +981,80 @@ CARPET belt and mounting hardware.</p>
       '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="3"/>';
   }
 
-  function tzPosSvg(offset,stroke,maskWidth,extProf,retProf){
-    // X = time, Y = position (offset at bottom, offset+stroke at top)
-    // MASK = horizontal band at top of graph
-    var padL=50,padR=20,padT=40,padB=30,w=640-padL-padR,h=180-padT-padB;
-    var tTotal=extProf.tTotal+retProf.tTotal;
-    var posRange=stroke; // Y maps offset..offset+stroke
-
-    function x(t){ return padL+(tTotal>0?(t/tTotal)*w:0); }
-    function y(pos){ return padT+h-((pos-offset)/posRange)*h; }
-
-    // Build extend points by kinematics
-    var N=80, ePts=[], pos=offset;
-    ePts.push([0,offset]);
+  // Build trapezoidal position samples [time, position]
+  function tzPosSamples(startPos, sign, prof, N){
+    var pts=[], pos=startPos;
+    pts.push([0, startPos]);
     for(var i=1;i<=N;i++){
-      var t=(i/N)*extProf.tTotal;
-      var tp=((i-1)/N)*extProf.tTotal;
+      var t=(i/N)*prof.tTotal;
+      var tp=((i-1)/N)*prof.tTotal;
       var dt=t-tp;
       var v;
-      if(t<=extProf.tAcc){
-        v=extProf.peakVel*(t/extProf.tAcc);
-      } else if(t<=extProf.tAcc+extProf.tCruise){
-        v=extProf.peakVel;
-      } else {
-        var tr=t-extProf.tAcc-extProf.tCruise;
-        v=extProf.peakVel*(1-tr/extProf.tDec);
-      }
-      pos+=v*dt;
-      ePts.push([t, Math.min(pos, offset+stroke)]);
+      if(t<=prof.tAcc){ v=prof.peakVel*(t/Math.max(prof.tAcc,0.0001)); }
+      else if(t<=prof.tAcc+prof.tCruise){ v=prof.peakVel; }
+      else { var tr=t-prof.tAcc-prof.tCruise; v=prof.peakVel*(1-tr/Math.max(prof.tDec,0.0001)); }
+      pos+=sign*v*dt;
+      pts.push([t, pos]);
     }
+    return pts;
+  }
 
-    // Build return points
-    var rPts=[], rpos=offset+stroke;
-    rPts.push([extProf.tTotal, offset+stroke]);
-    for(var i=1;i<=N;i++){
-      var t=(i/N)*retProf.tTotal;
-      var tp=((i-1)/N)*retProf.tTotal;
-      var dt=t-tp;
-      var v;
-      if(t<=retProf.tAcc){
-        v=retProf.peakVel*(t/retProf.tAcc);
-      } else if(t<=retProf.tAcc+retProf.tCruise){
-        v=retProf.peakVel;
-      } else {
-        var tr=t-retProf.tAcc-retProf.tCruise;
-        v=retProf.peakVel*(1-tr/retProf.tDec);
-      }
-      rpos-=v*dt;
-      rPts.push([extProf.tTotal+t, Math.max(rpos, offset)]);
-    }
+  function drawPosSvg(svgId, offset, stroke, maskWidth, extPts, retPts, extTotal, retTotal){
+    var padL=55,padR=30,padT=20,padB=40;
+    var W=640,H=200;
+    var w=W-padL-padR, h=H-padT-padB;
+    var tTotal=extTotal+retTotal;
 
-    // MASK: horizontal band parallel to X axis
-    // Centered on stroke midpoint in Y (position)
+    // X = position: offset at left, offset+stroke at right
+    function x(pos){ return padL+((pos-offset)/stroke)*w; }
+    // Y = time: 0 at bottom, tTotal at top
+    function y(t){ return padT+h-(t/tTotal)*h; }
+
+    // MASK vertical band parallel to X axis (spans full Y range)
     var maskCenter=offset+stroke/2;
-    var maskTop=y(maskCenter+maskWidth/2);
-    var maskBot=y(maskCenter-maskWidth/2);
-    var maskHeight=maskBot-maskTop;
+    var mx1=x(maskCenter-maskWidth/2);
+    var mx2=x(maskCenter+maskWidth/2);
 
-    // Reference lines
-    var yOffset=y(offset);
-    var yEnd=y(offset+stroke);
+    // Extend path: [time,pos] -> x(pos), y(time)
+    var ePath='M '+x(extPts[0][1])+' '+y(extPts[0][0]);
+    extPts.forEach(function(p){ ePath+=' L '+x(p[1])+' '+y(p[0]); });
 
-    var ePath='M '+x(ePts[0][0])+' '+y(ePts[0][1]);
-    ePts.forEach(function(p){ ePath+=' L '+x(p[0])+' '+y(p[1]); });
-    var rPath='M '+x(rPts[0][0])+' '+y(rPts[0][1]);
-    rPts.forEach(function(p){ rPath+=' L '+x(p[0])+' '+y(p[1]); });
+    // Return path: time offset by extTotal
+    var rPath='M '+x(retPts[0][1])+' '+y(extTotal+retPts[0][0]);
+    retPts.forEach(function(p){ rPath+=' L '+x(p[1])+' '+y(extTotal+p[0]); });
 
-    var svg=document.getElementById('tz-pos-svg');
-    svg.innerHTML=
-      // MASK band (drawn first so traces appear on top)
-      '<rect x="'+padL+'" y="'+maskTop+'" width="'+w+'" height="'+maskHeight+'" fill="#F36C23" opacity="0.12"/>'+
-      '<line x1="'+padL+'" y1="'+maskTop+'" x2="'+(padL+w)+'" y2="'+maskTop+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
-      '<line x1="'+padL+'" y1="'+maskBot+'" x2="'+(padL+w)+'" y2="'+maskBot+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
-      '<text x="'+(padL+w-4)+'" y="'+(maskTop-4)+'" text-anchor="end" font-size="10" fill="#F36C23" font-family="Arial">MASK</text>'+
+    // Y axis tick marks for time
+    var yBottom=padT+h; // t=0
+    var yTop=padT;      // t=tTotal
+    var yMid=padT+h/2;  // t=tTotal/2
+
+    document.getElementById(svgId).innerHTML=
+      // MASK band
+      '<rect x="'+mx1+'" y="'+padT+'" width="'+(mx2-mx1)+'" height="'+h+'" fill="#F36C23" opacity="0.12"/>'+
+      '<line x1="'+mx1+'" y1="'+padT+'" x2="'+mx1+'" y2="'+(padT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
+      '<line x1="'+mx2+'" y1="'+padT+'" x2="'+mx2+'" y2="'+(padT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
+      '<text x="'+((mx1+mx2)/2)+'" y="'+(padT+12)+'" text-anchor="middle" font-size="10" fill="#F36C23" font-family="Arial">MASK</text>'+
       // Axes
       '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
       '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      // OFFSET label
-      '<text x="'+(padL-4)+'" y="'+(yOffset+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">OFFSET</text>'+
-      '<line x1="'+padL+'" y1="'+yOffset+'" x2="'+(padL-3)+'" y2="'+yOffset+'" stroke="#7D868C" stroke-width="1"/>'+
-      // END label
-      '<text x="'+(padL-4)+'" y="'+(yEnd+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">END</text>'+
-      '<line x1="'+padL+'" y1="'+yEnd+'" x2="'+(padL-3)+'" y2="'+yEnd+'" stroke="#7D868C" stroke-width="1"/>'+
-      // Axis labels
-      '<text x="'+(padL+w/2)+'" y="'+(padT+h+22)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">Time</text>'+
-      '<text x="12" y="'+(padT+h/2)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial" transform="rotate(-90 12 '+(padT+h/2)+')">Position</text>'+
+      // X axis labels
+      '<text x="'+x(offset)+'" y="'+(padT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">OFFSET</text>'+
+      '<text x="'+x(offset+stroke)+'" y="'+(padT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">END</text>'+
+      '<text x="'+(padL+w/2)+'" y="'+(padT+h+28)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">Position (in)</text>'+
+      // Y axis labels
+      '<text x="'+(padL-4)+'" y="'+(yBottom+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=0</text>'+
+      '<line x1="'+(padL-3)+'" y1="'+yBottom+'" x2="'+padL+'" y2="'+yBottom+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<text x="'+(padL-4)+'" y="'+(yTop+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=end</text>'+
+      '<line x1="'+(padL-3)+'" y1="'+yTop+'" x2="'+padL+'" y2="'+yTop+'" stroke="#7D868C" stroke-width="1"/>'+
+      '<text x="12" y="'+(padT+h/2)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial" transform="rotate(-90 12 '+(padT+h/2)+')">Time</text>'+
       // Traces
       '<path d="'+ePath+'" fill="none" stroke="#F36C23" stroke-width="2.5"/>'+
       '<path d="'+rPath+'" fill="none" stroke="#24211C" stroke-width="2.5" stroke-dasharray="5,3"/>'+
       // Legend
-      '<rect x="'+(padL+10)+'" y="'+(padT-28)+'" width="10" height="3" fill="#F36C23"/>'+
-      '<text x="'+(padL+24)+'" y="'+(padT-23)+'" font-size="10" fill="#7D868C" font-family="Arial">Extend</text>'+
-      '<rect x="'+(padL+80)+'" y="'+(padT-28)+'" width="10" height="3" fill="#24211C"/>'+
-      '<text x="'+(padL+94)+'" y="'+(padT-23)+'" font-size="10" fill="#7D868C" font-family="Arial">Return</text>';
+      '<rect x="'+(padL+10)+'" y="'+(padT+6)+'" width="10" height="3" fill="#F36C23"/>'+
+      '<text x="'+(padL+24)+'" y="'+(padT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Extend</text>'+
+      '<rect x="'+(padL+80)+'" y="'+(padT+6)+'" width="10" height="3" fill="#24211C"/>'+
+      '<text x="'+(padL+94)+'" y="'+(padT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Return</text>';
   }
 
   function tzDraw(){
@@ -1107,7 +1088,10 @@ CARPET belt and mounting hardware.</p>
 
     drawVelSvg('tz-ext-svg',extProf,'#F36C23');
     drawVelSvg('tz-ret-svg',retProf,'#24211C');
-    tzPosSvg(offset,stroke,maskW,extProf,retProf);
+
+    var extPts=tzPosSamples(offset,1,extProf,60);
+    var retPts=tzPosSamples(offset+stroke,-1,retProf,60);
+    drawPosSvg('tz-pos-svg',offset,stroke,maskW,extPts,retPts,extProf.tTotal,retProf.tTotal);
 
     var warns=[];
     if(!extProf.achievable) warns.push('Stroke too short for extend velocity. Peak: '+extProf.peakVel.toFixed(1)+' in/s.');
@@ -1293,8 +1277,8 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 </div>
 
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
-  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Position vs Time — with MASK</div>
-  <svg id="sc-pos-svg" viewBox="0 0 640 180" style="width:100%;height:auto;display:block"></svg>
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Position vs Time</div>
+  <svg id="sc-pos-svg" viewBox="0 0 640 200" style="width:100%;height:auto;display:block"></svg>
 </div>
 
 <div id="sc-status" style="border-radius:8px;padding:12px 16px;display:flex;gap:20px;flex-wrap:wrap;border:2px solid rgba(0,0,0,0.12);background:#f9f9f9"></div>
@@ -1322,38 +1306,55 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
   window.scNudge=scNudge;
 
   function scPhase(vel,aMax,jerk){
-    if(vel<=0||aMax<=0||jerk<=0) return {t1:0,t2:0,aPeak:0};
+    if(vel<=0||aMax<=0||jerk<=0) return {t1:0.0001,t2:0,aPeak:0};
     var t1=aMax/jerk;
     var vRamp=0.5*aMax*t1;
     if(2*vRamp>=vel){ t1=Math.sqrt(vel/jerk); return {t1:t1,t2:0,aPeak:jerk*t1}; }
     return {t1:t1,t2:(vel-2*vRamp)/aMax,aPeak:aMax};
   }
 
-  function scSample(vel,accPh,decPh,jerk,n){
-    var pts=[],t=0;
-    if(vel<=0) return {pts:[[0,0]],total:0.01};
-
-    for(var i=0;i<=n;i++){var tt=(i/n)*accPh.t1; pts.push([t+tt,0.5*jerk*tt*tt]);}
-    t+=accPh.t1; var v1=0.5*jerk*accPh.t1*accPh.t1;
-    if(accPh.t2>0){for(var i=1;i<=n;i++){var tt=(i/n)*accPh.t2; pts.push([t+tt,v1+accPh.aPeak*tt]);} t+=accPh.t2;}
-    var v2=v1+accPh.aPeak*accPh.t2;
-    for(var i=1;i<=n;i++){var tt=(i/n)*accPh.t1; pts.push([t+tt,v2+accPh.aPeak*tt-0.5*jerk*tt*tt]);} t+=accPh.t1;
-    for(var i=1;i<=n;i++){var tt=(i/n)*decPh.t1; pts.push([t+tt,vel-0.5*jerk*tt*tt]);} t+=decPh.t1;
-    var vd1=vel-0.5*jerk*decPh.t1*decPh.t1;
-    if(decPh.t2>0){for(var i=1;i<=n;i++){var tt=(i/n)*decPh.t2; pts.push([t+tt,vd1-decPh.aPeak*tt]);} t+=decPh.t2;}
-    var vd2=vd1-decPh.aPeak*decPh.t2;
-    for(var i=1;i<=n;i++){var tt=(i/n)*decPh.t1; pts.push([t+tt,Math.max(vd2-decPh.aPeak*tt+0.5*jerk*tt*tt,0)]);} t+=decPh.t1;
-    return {pts:pts,total:t};
+  // Sample velocity at time t for s-curve phase
+  function scVelAt(t, vel, accPh, decPh, jerk){
+    var t1=accPh.t1, t2=accPh.t2, tAcc=2*t1+t2;
+    var td1=decPh.t1, td2=decPh.t2;
+    if(t<=t1) return 0.5*jerk*t*t;
+    if(t<=t1+t2){ var dt=t-t1; return 0.5*jerk*t1*t1+accPh.aPeak*dt; }
+    if(t<=tAcc){ var dt=t-t1-t2; var v0=0.5*jerk*t1*t1+accPh.aPeak*t2; return v0+accPh.aPeak*dt-0.5*jerk*dt*dt; }
+    var tDecStart=tAcc;
+    var dt=t-tDecStart;
+    if(dt<=td1) return vel-0.5*jerk*dt*dt;
+    if(dt<=td1+td2){ var dt2=dt-td1; return vel-0.5*jerk*td1*td1-decPh.aPeak*dt2; }
+    var dt3=dt-td1-td2;
+    var vd2=vel-0.5*jerk*td1*td1-decPh.aPeak*td2;
+    return Math.max(vd2-decPh.aPeak*dt3+0.5*jerk*dt3*dt3,0);
   }
 
-  function drawScVelSvg(svgId,result,color){
-    var pts=result.pts, tTotal=result.total;
-    var peakVel=0;
-    pts.forEach(function(p){ if(p[1]>peakVel) peakVel=p[1]; });
-    if(peakVel<=0) peakVel=1;
+  function scTotalTime(accPh,decPh){ return 2*accPh.t1+accPh.t2+2*decPh.t1+decPh.t2; }
+
+  function scPosSamples(startPos,sign,vel,accPh,decPh,jerk,N){
+    var tTotal=scTotalTime(accPh,decPh);
+    var pts=[[0,startPos]], pos=startPos;
+    for(var i=1;i<=N;i++){
+      var t=(i/N)*tTotal;
+      var tp=((i-1)/N)*tTotal;
+      var dt=t-tp;
+      var v=(scVelAt(t,vel,accPh,decPh,jerk)+scVelAt(tp,vel,accPh,decPh,jerk))/2;
+      pos+=sign*v*dt;
+      pts.push([t,pos]);
+    }
+    return pts;
+  }
+
+  function drawScVelSvg(svgId,vel,accPh,decPh,jerk,color){
+    var tTotal=scTotalTime(accPh,decPh);
+    var N=60, pts=[];
+    for(var i=0;i<=N;i++){
+      var t=(i/N)*tTotal;
+      pts.push([t,scVelAt(t,vel,accPh,decPh,jerk)]);
+    }
     var padL=45,padB=20,padT=10,w=640-padL-15,h=130-padT-padB;
     function x(t){ return padL+(tTotal>0?(t/tTotal)*w:0); }
-    function y(v){ return padT+h-(v/peakVel)*h; }
+    function y(v){ return padT+h-(vel>0?(v/vel)*h:0); }
     var d='M '+x(pts[0][0])+' '+y(pts[0][1]);
     pts.forEach(function(p){ d+=' L '+x(p[0])+' '+y(p[1]); });
     document.getElementById(svgId).innerHTML=
@@ -1362,60 +1363,42 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
       '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="3"/>';
   }
 
-  function integratePos(startPos,sign,pts){
-    var posPts=[[pts[0][0],startPos]];
-    var pos=startPos;
-    for(var i=1;i<pts.length;i++){
-      var dt=pts[i][0]-pts[i-1][0];
-      pos+=sign*((pts[i][1]+pts[i-1][1])/2)*dt;
-      posPts.push([pts[i][0],pos]);
-    }
-    return posPts;
-  }
-
-  function scPosSvg(offset,stroke,maskWidth,extResult,retResult){
-    var padL=50,padR=20,padT=40,padB=30,w=640-padL-padR,h=180-padT-padB;
-    var tTotal=extResult.total+retResult.total;
-    var posRange=stroke;
-
-    function x(t){ return padL+(tTotal>0?(t/tTotal)*w:0); }
-    function y(pos){ return padT+h-((pos-offset)/posRange)*h; }
-
-    var ePts=integratePos(offset,1,extResult.pts);
-    var rRaw=integratePos(offset+stroke,-1,retResult.pts);
-    // Offset return time by extend total
-    var rPts=rRaw.map(function(p){ return [p[0]+extResult.total, p[1]]; });
+  function drawPosSvg(svgId,offset,stroke,maskWidth,extPts,retPts,extTotal,retTotal){
+    var padL=55,padR=30,padT=20,padB=40;
+    var W=640,H=200;
+    var w=W-padL-padR, h=H-padT-padB;
+    var tTotal=extTotal+retTotal;
+    function x(pos){ return padL+((pos-offset)/stroke)*w; }
+    function y(t){ return padT+h-(t/tTotal)*h; }
 
     var maskCenter=offset+stroke/2;
-    var maskTop=y(maskCenter+maskWidth/2);
-    var maskBot=y(maskCenter-maskWidth/2);
-    var yOffset=y(offset);
-    var yEnd=y(offset+stroke);
+    var mx1=x(maskCenter-maskWidth/2);
+    var mx2=x(maskCenter+maskWidth/2);
 
-    var ePath='M '+x(ePts[0][0])+' '+y(ePts[0][1]);
-    ePts.forEach(function(p){ ePath+=' L '+x(p[0])+' '+y(p[1]); });
-    var rPath='M '+x(rPts[0][0])+' '+y(rPts[0][1]);
-    rPts.forEach(function(p){ rPath+=' L '+x(p[0])+' '+y(p[1]); });
+    var ePath='M '+x(extPts[0][1])+' '+y(extPts[0][0]);
+    extPts.forEach(function(p){ ePath+=' L '+x(p[1])+' '+y(p[0]); });
+    var rPath='M '+x(retPts[0][1])+' '+y(extTotal+retPts[0][0]);
+    retPts.forEach(function(p){ rPath+=' L '+x(p[1])+' '+y(extTotal+p[0]); });
 
-    document.getElementById('sc-pos-svg').innerHTML=
-      '<rect x="'+padL+'" y="'+maskTop+'" width="'+w+'" height="'+(maskBot-maskTop)+'" fill="#F36C23" opacity="0.12"/>'+
-      '<line x1="'+padL+'" y1="'+maskTop+'" x2="'+(padL+w)+'" y2="'+maskTop+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
-      '<line x1="'+padL+'" y1="'+maskBot+'" x2="'+(padL+w)+'" y2="'+maskBot+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
-      '<text x="'+(padL+w-4)+'" y="'+(maskTop-4)+'" text-anchor="end" font-size="10" fill="#F36C23" font-family="Arial">MASK</text>'+
+    document.getElementById(svgId).innerHTML=
+      '<rect x="'+mx1+'" y="'+padT+'" width="'+(mx2-mx1)+'" height="'+h+'" fill="#F36C23" opacity="0.12"/>'+
+      '<line x1="'+mx1+'" y1="'+padT+'" x2="'+mx1+'" y2="'+(padT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
+      '<line x1="'+mx2+'" y1="'+padT+'" x2="'+mx2+'" y2="'+(padT+h)+'" stroke="#F36C23" stroke-width="1.5" stroke-dasharray="4,3"/>'+
+      '<text x="'+((mx1+mx2)/2)+'" y="'+(padT+12)+'" text-anchor="middle" font-size="10" fill="#F36C23" font-family="Arial">MASK</text>'+
       '<line x1="'+padL+'" y1="'+(padT+h)+'" x2="'+(padL+w)+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
       '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(padT+h)+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<text x="'+(padL-4)+'" y="'+(yOffset+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">OFFSET</text>'+
-      '<line x1="'+padL+'" y1="'+yOffset+'" x2="'+(padL-3)+'" y2="'+yOffset+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<text x="'+(padL-4)+'" y="'+(yEnd+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">END</text>'+
-      '<line x1="'+padL+'" y1="'+yEnd+'" x2="'+(padL-3)+'" y2="'+yEnd+'" stroke="#7D868C" stroke-width="1"/>'+
-      '<text x="'+(padL+w/2)+'" y="'+(padT+h+22)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">Time</text>'+
-      '<text x="12" y="'+(padT+h/2)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial" transform="rotate(-90 12 '+(padT+h/2)+')">Position</text>'+
+      '<text x="'+x(offset)+'" y="'+(padT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">OFFSET</text>'+
+      '<text x="'+x(offset+stroke)+'" y="'+(padT+h+14)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">END</text>'+
+      '<text x="'+(padL+w/2)+'" y="'+(padT+h+28)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial">Position (in)</text>'+
+      '<text x="'+(padL-4)+'" y="'+(padT+h+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=0</text>'+
+      '<text x="'+(padL-4)+'" y="'+(padT+4)+'" text-anchor="end" font-size="10" fill="#7D868C" font-family="Arial">t=end</text>'+
+      '<text x="12" y="'+(padT+h/2)+'" text-anchor="middle" font-size="10" fill="#7D868C" font-family="Arial" transform="rotate(-90 12 '+(padT+h/2)+')">Time</text>'+
       '<path d="'+ePath+'" fill="none" stroke="#F36C23" stroke-width="2.5"/>'+
       '<path d="'+rPath+'" fill="none" stroke="#24211C" stroke-width="2.5" stroke-dasharray="5,3"/>'+
-      '<rect x="'+(padL+10)+'" y="'+(padT-28)+'" width="10" height="3" fill="#F36C23"/>'+
-      '<text x="'+(padL+24)+'" y="'+(padT-23)+'" font-size="10" fill="#7D868C" font-family="Arial">Extend</text>'+
-      '<rect x="'+(padL+80)+'" y="'+(padT-28)+'" width="10" height="3" fill="#24211C"/>'+
-      '<text x="'+(padL+94)+'" y="'+(padT-23)+'" font-size="10" fill="#7D868C" font-family="Arial">Return</text>';
+      '<rect x="'+(padL+10)+'" y="'+(padT+6)+'" width="10" height="3" fill="#F36C23"/>'+
+      '<text x="'+(padL+24)+'" y="'+(padT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Extend</text>'+
+      '<rect x="'+(padL+80)+'" y="'+(padT+6)+'" width="10" height="3" fill="#24211C"/>'+
+      '<text x="'+(padL+94)+'" y="'+(padT+11)+'" font-size="10" fill="#7D868C" font-family="Arial">Return</text>';
   }
 
   function scDraw(){
@@ -1455,20 +1438,23 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 
     var eAccPh=scPhase(extVel,acc,jerk), eDecPh=scPhase(extVel,dec,jerk);
     var rAccPh=scPhase(retVel,racc,rjerk), rDecPh=scPhase(retVel,rdec,rjerk);
-    var eResult=scSample(extVel,eAccPh,eDecPh,jerk,20);
-    var rResult=scSample(retVel,rAccPh,rDecPh,rjerk,20);
+    var eTotal=scTotalTime(eAccPh,eDecPh);
+    var rTotal=scTotalTime(rAccPh,rDecPh);
 
-    drawScVelSvg('sc-ext-svg',eResult,'#F36C23');
-    drawScVelSvg('sc-ret-svg',rResult,'#24211C');
-    scPosSvg(offset,stroke,maskW,eResult,rResult);
+    drawScVelSvg('sc-ext-svg',extVel,eAccPh,eDecPh,jerk,'#F36C23');
+    drawScVelSvg('sc-ret-svg',retVel,rAccPh,rDecPh,rjerk,'#24211C');
+
+    var extPts=scPosSamples(offset,1,extVel,eAccPh,eDecPh,jerk,60);
+    var retPts=scPosSamples(offset+stroke,-1,retVel,rAccPh,rDecPh,rjerk,60);
+    drawPosSvg('sc-pos-svg',offset,stroke,maskW,extPts,retPts,eTotal,rTotal);
 
     var tAccE=2*eAccPh.t1+eAccPh.t2, tAccR=2*rAccPh.t1+rAccPh.t2;
     document.getElementById('sc-status').innerHTML=
       '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Extend Accel Phase</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+tAccE.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Extend Total</div><div style="font-size:16px;font-weight:700;color:#24211C">'+eResult.total.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Extend Total</div><div style="font-size:16px;font-weight:700;color:#24211C">'+eTotal.toFixed(2)+' s</div></div>'+
       '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Return Accel Phase</div><div style="font-size:16px;font-weight:700;color:#24211C">'+tAccR.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Return Total</div><div style="font-size:16px;font-weight:700;color:#24211C">'+rResult.total.toFixed(2)+' s</div></div>'+
-      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Cycle Time</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+(eResult.total+rResult.total).toFixed(2)+' s</div></div>';
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Return Total</div><div style="font-size:16px;font-weight:700;color:#24211C">'+rTotal.toFixed(2)+' s</div></div>'+
+      '<div><div style="font-size:11px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em">Cycle Time</div><div style="font-size:16px;font-weight:700;color:#F36C23">'+(eTotal+rTotal).toFixed(2)+' s</div></div>';
   }
 
   ['sc-offset','sc-stroke','sc-mask','sc-conv','sc-ratio','sc-acc','sc-dec','sc-jerk','sc-racc','sc-rdec','sc-rjerk'].forEach(function(id){
