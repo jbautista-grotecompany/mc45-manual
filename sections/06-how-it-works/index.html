@@ -534,10 +534,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#65-feed-z-conveyor-two-machine-configuration-option" class="md-nav__link">
+  <a href="#65-feed-z-conveyor-two-machine-configuration-optional" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.5 FEED-Z CONVEYOR: Two-Machine Configuration (Option)
+        6.5 FEED-Z CONVEYOR: Two-Machine Configuration (Optional)
       
     </span>
   </a>
@@ -880,9 +880,8 @@ every other target. On a skipped target, the CARPET stays at the MASK
 OFFSET position, the BUCKET stays closed, and the PORTION CONVEYOR does
 not advance.</p>
 <p>If the skip phase drifts out of alignment with the line (for example,
-when an operator removes a target to check deposit quality), press SYNC
-on the OI. Each press shifts the skip phase by one target, realigning
-the deposit pattern with the correct targets.</p>
+when an operator removes a target to check deposit quality), press SYNC.
+See <a href="../05-recipe-setup/#53-skip-mode">Section 5.3: Skip Mode</a>.</p>
 <figure>
 <div class="figure-placeholder">Figure 6.1  Deposit cycle sequence diagram</div>
 <figcaption>Figure 6.1  Deposit cycle sequence diagram</figcaption>
@@ -915,8 +914,9 @@ occurs without operator action.</p>
 <hr />
 <h2 id="63-target-tracking">6.3 Target Tracking<a class="headerlink" href="#63-target-tracking" title="Permanent link">&para;</a></h2>
 <p>The Depositor tracks each target from the moment the TARGET SENSOR detects
-it through the deposit cycle. Three tracking modes are available, selected
-from the service screen on the OI.</p>
+it through the deposit cycle. Tracking mode is selected from the MAINT
+screen. See <a href="../12-oi-reference/">Section 12: OI Reference</a> for screen
+layout.</p>
 <h3 id="time-based-tracking">Time-Based Tracking<a class="headerlink" href="#time-based-tracking" title="Permanent link">&para;</a></h3>
 <p>The PLC uses a five-timer memory chain to track the target's position after
 detection. Each timer represents a fixed time segment of the target's travel
@@ -935,10 +935,11 @@ TARGET DELAY.</p>
 <p>This mode compensates for line speed variations automatically. It is the
 preferred mode when conveyor speed changes frequently during production.</p>
 <h3 id="test-mode">Test Mode<a class="headerlink" href="#test-mode" title="Permanent link">&para;</a></h3>
-<p>Test Mode fires the CARPET trigger on a repeating timer interval set by
-TARGET MODE PRESET on the service screen. No TARGET SENSOR input is required.
-The CARPET cycles continuously at the set interval regardless of whether
-targets are present on the PRODUCT CONVEYOR.</p>
+<p>Test Mode toggles independently of the tracking mode selected. When active,
+Test Mode fires the CARPET trigger on a repeating interval set by TARGET
+SIMULATION INTERVAL (750–10000 ms), located below the Test Mode toggle. No
+TARGET SENSOR input is required. The CARPET cycles continuously at the set
+interval regardless of whether targets are present on the PRODUCT CONVEYOR.</p>
 <p>Test Mode is used during commissioning and mechanical setup to verify CARPET
 motion and deposit placement without running product.</p>
 <figure>
@@ -964,17 +965,16 @@ HIGH WEIGHT, the FEED-Z CONVEYOR stops.</p>
 <figcaption>Figure 6.4  HOPPER fill control diagram</figcaption>
 </figure>
 <hr />
-<h2 id="65-feed-z-conveyor-two-machine-configuration-option">6.5 FEED-Z CONVEYOR: Two-Machine Configuration (Option)<a class="headerlink" href="#65-feed-z-conveyor-two-machine-configuration-option" title="Permanent link">&para;</a></h2>
+<h2 id="65-feed-z-conveyor-two-machine-configuration-optional">6.5 FEED-Z CONVEYOR: Two-Machine Configuration (Optional)<a class="headerlink" href="#65-feed-z-conveyor-two-machine-configuration-optional" title="Permanent link">&para;</a></h2>
 <p>When two MC-45 Depositors share one FEED-Z CONVEYOR, the conveyor is
 bidirectional. Running forward feeds MC45 Machine 1. Running in reverse
 feeds MC45 Machine 2.</p>
 <p>Machine 1 takes priority. When both machines demand topping simultaneously,
 the FEED-Z CONVEYOR runs forward to serve Machine 1 first. Machine 2 waits
-until Machine 1 is satisfied or until the Machine 2 timeout expires. The
-timeout value is set from the OI.</p>
-<p>The FEED CONVEYOR has its own load cell. The FEED CONVEYOR weight thresholds
-in the active recipe control FEED-Z CONVEYOR start and stop independently
-of the HOPPER load cell.</p>
+until Machine 1 is satisfied.</p>
+<p>The FEED CONVEYOR has its own load cell. See
+<a href="../05-recipe-setup/#51-recipe-screen-field-reference">Section 5.1: Recipe Screen Field Reference</a>
+for the FEED CONVEYOR weight thresholds.</p>
 <hr />
 <h2 id="66-supply-and-demand-balance">6.6 Supply and Demand Balance<a class="headerlink" href="#66-supply-and-demand-balance" title="Permanent link">&para;</a></h2>
 <p>The FEED-Z CONVEYOR cycles on and off to maintain topping weight between
@@ -986,6 +986,17 @@ HOPPER thresholds, and FEED-Z CONVEYOR cycle behavior. The FEED-Z BELT
 LEVEL bar represents the observed topping depth on the incline belt.
 Keeping the belt well loaded produces consistent flight fill and stable
 supply.</p>
+<!-- ============================================================
+OPEN ITEMS: Section 6
+==============================================================
+D-6-04: Update Section 12.6's TARGET TEST MODE row to reflect that
+        Test Mode toggles independently of tracking mode and uses
+        TARGET SIMULATION INTERVAL (750-10000 ms), not "TARGET
+        MODE PRESET." Current 12.6 wording doesn't mention this.
+        [interactive widget block unchanged — Machine 2 gauge label reads
+        "HOPPER Weight: Machine 2 (Optional)"]
+============================================================ -->
+
 <div style="padding:1rem 0;max-width:680px;font-family:Arial,sans-serif">
 
 <div style="background:#24211C;border-radius:6px;padding:12px 16px;margin-bottom:14px">
