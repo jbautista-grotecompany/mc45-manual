@@ -767,56 +767,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#1210-stacklight-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        12.10 STACKLIGHT Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#1211-machine-options-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        12.11 MACHINE OPTIONS Reference
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="12.11 MACHINE OPTIONS Reference">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#toggle-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Toggle Options
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#system-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        System Settings
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1019,23 +969,23 @@ Items shown in orange require a Maintenance login (GROTE). See
 <tbody>
 <tr>
 <td><strong>HOME</strong></td>
-<td>Navigates to the HOME screen.</td>
+<td>Navigates to the Home screen.</td>
 </tr>
 <tr>
 <td><strong>RECIPE</strong></td>
-<td>Navigates to the RECIPE screen.</td>
+<td>Navigates to the Recipe screen.</td>
 </tr>
 <tr>
 <td><strong>MANUAL</strong></td>
-<td>Navigates to the MANUAL screen.</td>
+<td>Navigates to the Manual screen.</td>
 </tr>
 <tr>
 <td><strong>ALARMS</strong></td>
-<td>Navigates to the ALARMS screen.</td>
+<td>Navigates to the Alarms screen.</td>
 </tr>
 <tr>
 <td><strong>MAINT</strong></td>
-<td>Navigates to the MAINT screen.</td>
+<td>Navigates to the Maintenance screen.</td>
 </tr>
 <tr>
 <td><strong>LANGUAGE SWITCH</strong></td>
@@ -1056,8 +1006,9 @@ returns to normal when all alarms are cleared.</p>
 <hr />
 <h2 id="122-home-screen">12.2 HOME Screen<a class="headerlink" href="#122-home-screen" title="Permanent link">&para;</a></h2>
 <p>The HOME screen is the primary operating screen. It provides Depositor
-start and stop controls, operating mode selection, and target delay
-fine-tuning. See <a href="../04-operating-modes/">Section 4: Operating Modes</a> and
+start and stop controls, operating mode selection, target delay
+fine-tuning, and machine statistics. See
+<a href="../04-operating-modes/">Section 4: Operating Modes</a> and
 <a href="../06-how-it-works/#63-target-tracking">Section 6.3: Target Tracking</a>.</p>
 <figure>
 <p><img alt="HOME screen" src="../../assets/images/fig_12_04_home.png" width="500" />
@@ -1074,7 +1025,7 @@ fine-tuning. See <a href="../04-operating-modes/">Section 4: Operating Modes</a>
 <tbody>
 <tr>
 <td><strong>MACHINE CONTROL</strong></td>
-<td>MACHINE ENABLE is a physical pushbutton on the OI enclosure that arms the safety circuit. PRESS TO START and PRESS TO STOP are OI buttons that initiate and stop the selected operating mode. LOCAL / REMOTE selects the control source. See <a href="../03-startup/">Section 3: Startup</a>.</td>
+<td>This group contains the START and STOP buttons for the selected operating mode, and the LOCAL / REMOTE control source selection. See <a href="../03-startup/">Section 3: Startup</a>.</td>
 </tr>
 <tr>
 <td><strong>OPERATING MODE</strong></td>
@@ -1085,15 +1036,32 @@ fine-tuning. See <a href="../04-operating-modes/">Section 4: Operating Modes</a>
 <td>FINE and COARSE buttons adjust TARGET DELAY in the active recipe. See <a href="../06-how-it-works/#63-target-tracking">Section 6.3</a>.</td>
 </tr>
 <tr>
-<td><strong>SKIP MODE</strong></td>
-<td>SKIP MODE indicator shows when active. SYNC shifts the skip phase by one target. See <a href="../05-recipe-setup/#53-skip-mode">Section 5.3: Skip Mode</a>.</td>
+<td><strong>TARGET COUNT</strong></td>
+<td>Number of targets processed.</td>
+</tr>
+<tr>
+<td><strong>HOURS OF OPERATION</strong></td>
+<td>Total run time.</td>
+</tr>
+<tr>
+<td><strong>MACHINE RATE</strong></td>
+<td>Current production rate.</td>
+</tr>
+<tr>
+<td><strong>CONVEYOR SPEED</strong></td>
+<td>PRODUCT CONVEYOR speed.</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To reset the statistics, use RESET HISTORY on the MAINT screen. See
+<a href="#1211-machine-options-reference">Section 12.11: MACHINE OPTIONS Reference</a>.</p>
+</div>
 <hr />
 <h2 id="123-recipe-screen">12.3 RECIPE Screen<a class="headerlink" href="#123-recipe-screen" title="Permanent link">&para;</a></h2>
 <p>The RECIPE screen provides recipe management. Editable fields have a
-yellow background with green text. See
+yellow outline with green text. See
 <a href="../05-recipe-setup/">Section 5: Recipe Setup</a> and
 <a href="../appendix-a/">Appendix A: Recipe Starting Points</a>.</p>
 <figure>
@@ -1168,27 +1136,35 @@ and WIPEDOWN.</p>
 <tbody>
 <tr>
 <td><strong>VFD DRIVES</strong></td>
-<td>PRODUCT CONVEYOR, RAKE, and SPINNER. FEED-Z, AUX 1, and AUX 2 when equipped. Each drive opens a detail screen showing manual control, current, and last fault.</td>
+<td>PRODUCT CONVEYOR, RAKE, and SPINNER. FEED-Z, AUX 1, and AUX 2 when equipped. Manual control, current, and last fault per drive.</td>
 </tr>
 <tr>
 <td><strong>SERVO DRIVES</strong></td>
-<td>CARPET, PORTION CONVEYOR, and FEED CONVEYOR (bidirectional, when equipped). Each drive opens a detail screen with JOG + and JOG -, fault info, current and position display, and status (READY, FAULTED, HOMED).</td>
+<td>CARPET, PORTION CONVEYOR, and FEED CONVEYOR (bidirectional, when equipped). JOG, fault info, current, position, and status (READY, FAULTED, HOMED) per drive.</td>
 </tr>
 <tr>
-<td><strong>DIAGNOSTIC NAVIGATION</strong></td>
-<td>Navigation to the TARGET PHOTO EYE remote teach, SAFETY PLC, and I/O STATUS screens.</td>
+<td><strong>TARGET PHOTO EYE REMOTE TEACH</strong></td>
+<td>Navigation to the TARGET PHOTO EYE remote teach screen.</td>
+</tr>
+<tr>
+<td><strong>SAFETY PLC</strong></td>
+<td>Navigation to the SAFETY PLC screen.</td>
+</tr>
+<tr>
+<td><strong>I/O STATUS</strong></td>
+<td>Navigation to the I/O STATUS screen.</td>
 </tr>
 <tr>
 <td><strong>BUCKET</strong></td>
-<td>Direct manual toggle for the BUCKET solenoid.</td>
+<td>Manual toggle for the BUCKET solenoid.</td>
 </tr>
 <tr>
 <td><strong>STACKLIGHT</strong></td>
-<td>Direct manual toggle for the STACKLIGHT. See <a href="#1210-stacklight-reference">Section 12.10: STACKLIGHT Reference</a>.</td>
+<td>Manual toggle for the STACKLIGHT. See <a href="#1210-stacklight-reference">Section 12.10: STACKLIGHT Reference</a>.</td>
 </tr>
 <tr>
 <td><strong>WIPEDOWN</strong></td>
-<td>Opens a blank screen with no active buttons, so the operator can wipe down the OI without triggering a control.</td>
+<td>Opens a blank screen with no active buttons.</td>
 </tr>
 </tbody>
 </table>
@@ -1251,7 +1227,7 @@ descriptions and corrective actions, see
 </tr>
 <tr>
 <td><strong>CLEAR ALARM LIST</strong></td>
-<td>Clears the alarms in the alarm banner.</td>
+<td>Clears the alarms in the alarm banner ( GROTE login is required).</td>
 </tr>
 <tr>
 <td><strong>FAULT RESET</strong></td>
@@ -1315,7 +1291,7 @@ system settings. A GROTE login is required to access this screen.</p>
 </tr>
 <tr>
 <td><strong>MACHINE OPTIONS</strong></td>
-<td>Machine configuration options. See <a href="#1211-machine-options-reference">Section 12.11: MACHINE OPTIONS Reference</a>.</td>
+<td>Depositor-wide configuration. See <a href="#1211-machine-options-reference">Section 12.11: MACHINE OPTIONS Reference</a>.</td>
 </tr>
 <tr>
 <td><strong>TRACKING MODE</strong></td>
@@ -1327,7 +1303,7 @@ system settings. A GROTE login is required to access this screen.</p>
 </tr>
 <tr>
 <td><strong>TARGET TEST MODE</strong></td>
-<td>Runs the deposit cycle automatically without a TARGET SENSOR input, for testing without product on the conveyor.</td>
+<td>Runs the deposit cycle automatically without a TARGET SENSOR input.</td>
 </tr>
 <tr>
 <td><strong>LOGIN/LOGOUT</strong></td>
@@ -1359,7 +1335,7 @@ MAINT → MOTOR SETUP → [drive name].</p>
 </tr>
 <tr>
 <td><strong>CUSTOMER ENTRY LIMITS</strong></td>
-<td>Sets the MIN and MAX speed values operators can enter on recipe and manual control screens.</td>
+<td>Sets the MIN and MAX speed values operators can enter.</td>
 </tr>
 <tr>
 <td><strong>MANUAL FUNCTIONS</strong></td>
@@ -1380,8 +1356,7 @@ scaling calculations.</p>
   </p>
 <figcaption>Figure 12.16  Motor Setup screen: PORTION CONVEYOR</figcaption>
 </figure>
-<p>The PORTION CONVEYOR and FEED CONVEYOR use Kollmorgen AKD servo drives.
-Their Motor Setup fields are documented in
+<p>The PORTION CONVEYOR and FEED CONVEYOR Motors Setup fields are documented in
 <a href="../08-kollmorgen-servo-setup/">Section 8: Kollmorgen Servo Setup</a>.</p>
 <h3 id="carpet">CARPET<a class="headerlink" href="#carpet" title="Permanent link">&para;</a></h3>
 <figure>
@@ -1389,18 +1364,16 @@ Their Motor Setup fields are documented in
   </p>
 <figcaption>Figure 12.17  Motor Setup screen: CARPET</figcaption>
 </figure>
-<p>The CARPET uses a Linmot servo drive. Its Motor Setup fields are
-documented in <a href="../09-linmot-servo-setup/">Section 9: Linmot Servo Setup</a>.</p>
+<p>The CARPET Motor Setup fields are documented in
+<a href="../09-linmot-servo-setup/">Section 9: Linmot Servo Setup</a>.</p>
 <hr />
 <h2 id="128-calibration-screens">12.8 Calibration Screens<a class="headerlink" href="#128-calibration-screens" title="Permanent link">&para;</a></h2>
-<p>All calibration screens share a common button bar for switching between
-calibration types. See
-<a href="../10-load-cell-calibration/">Section 10: Load Cell Calibration</a> for
+<p>See <a href="../10-load-cell-calibration/">Section 10: Load Cell Calibration</a> for
 step-by-step procedures.</p>
 <figure>
 <p><img alt="Calibration screen: HOPPER LOAD CELL" src="../../assets/images/fig_12_18_hopper_cal.png" width="500" />
   </p>
-<figcaption>Figure 12.18  Calibration screen: PORTION CONVEYOR HOPPER LOAD CELL / FEED CONVEYOR HOPPER LOAD CELL</figcaption>
+<figcaption>Figure 12.18  Calibration screen: HOPPER LOAD CELL / FEED CONVEYOR HOPPER LOAD CELL</figcaption>
 </figure>
 <table>
 <thead>
@@ -1418,8 +1391,7 @@ step-by-step procedures.</p>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The CARPET is a servo actuator and does not require calibration. Its
-homed status appears on its MANUAL screen. See
+<p>The CARPET does not require calibration. See
 <a href="../11-retractable-conveyor-limits/">Section 11: Carpet Limits</a>.</p>
 </div>
 <hr />
@@ -1465,166 +1437,10 @@ mode-by-mode behavior, see
 <tr>
 <td>BYPASS MODE READY<br>HOLD START</td>
 <td>GREEN</td>
-<td>BYPASS mode selected and ready. Hold PRESS TO START.</td>
-</tr>
-<tr>
-<td>MACHINE RUNNING<br>REMOTE CONTROL ACTIVE</td>
-<td>GREEN</td>
-<td>Depositor running under REMOTE control.</td>
-</tr>
-<tr>
-<td>FEED-Z NOT ENABLED</td>
-<td>RED</td>
-<td>FEED-Z CONVEYOR is not enabled.</td>
-</tr>
-<tr>
-<td>MACHINE RUNNING<br>BYPASS MODE</td>
-<td>GREEN</td>
-<td>Depositor running in BYPASS mode.</td>
+<td>BYPASS</td>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The following messages are planned for a future release and are not
-yet active on the Depositor.</p>
-<table>
-<thead>
-<tr>
-<th><strong>Banner Message</strong></th>
-<th><strong>Color</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>MACHINE RUNNING IN RUN MODE</td>
-<td>GREEN</td>
-</tr>
-<tr>
-<td>MACHINE RUNNING IN EMPTY MODE</td>
-<td>GREEN</td>
-</tr>
-<tr>
-<td>MACHINE RUNNING IN PRIME MODE</td>
-<td>GREEN</td>
-</tr>
-<tr>
-<td>CARPET HOMING IN PROGRESS</td>
-<td>YELLOW</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr />
-<h2 id="1210-stacklight-reference">12.10 STACKLIGHT Reference<a class="headerlink" href="#1210-stacklight-reference" title="Permanent link">&para;</a></h2>
-<p>The STACKLIGHT provides an at-a-glance Depositor status visible from
-across the production floor. See
-<a href="../02-equipment-overview/">Section 2: Equipment Overview</a> or
-<a href="../appendix-b/#stacklight">Appendix B: Glossary</a>.</p>
-<table>
-<thead>
-<tr>
-<th><strong>Indicator</strong></th>
-<th><strong>State</strong></th>
-<th><strong>Meaning</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>HORN</td>
-<td>Pulsing</td>
-<td>Depositor starting</td>
-</tr>
-<tr>
-<td>RED</td>
-<td>Blinking</td>
-<td>Not enabled</td>
-</tr>
-<tr>
-<td>RED</td>
-<td>Solid</td>
-<td>Faulted</td>
-</tr>
-<tr>
-<td>YELLOW</td>
-<td>Blinking</td>
-<td>Low topping level</td>
-</tr>
-<tr>
-<td>YELLOW</td>
-<td>Solid</td>
-<td>Topping level empty</td>
-</tr>
-<tr>
-<td>GREEN</td>
-<td>Blinking</td>
-<td>Ready to run</td>
-</tr>
-<tr>
-<td>GREEN</td>
-<td>Solid</td>
-<td>Running</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="1211-machine-options-reference">12.11 MACHINE OPTIONS Reference<a class="headerlink" href="#1211-machine-options-reference" title="Permanent link">&para;</a></h2>
-<p>MACHINE OPTIONS sets Depositor-wide configuration. A GROTE login is
-required.</p>
-<h3 id="toggle-options">Toggle Options<a class="headerlink" href="#toggle-options" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th><strong>Option</strong></th>
-<th><strong>Function</strong></th>
-<th><strong>Default</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>LEFT-RIGHT HAND</strong></td>
-<td>Sets the Depositor's feed orientation. Depends on the flow of the machine.</td>
-<td>LEFT HAND</td>
-</tr>
-<tr>
-<td><strong>FEED-Z / NO FEED-Z</strong></td>
-<td>Enables or disables the FEED-Z CONVEYOR option.</td>
-<td>NO FEED-Z</td>
-</tr>
-<tr>
-<td><strong>SKIP MODE ENABLE / DISABLE</strong></td>
-<td>Enables or disables Skip Mode.</td>
-<td>DISABLE</td>
-</tr>
-</tbody>
-</table>
-<h3 id="system-settings">System Settings<a class="headerlink" href="#system-settings" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th><strong>Setting</strong></th>
-<th><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>RESET HISTORY</strong></td>
-<td>Resets the statistics counter on the HOME screen.</td>
-</tr>
-<tr>
-<td><strong>DATE/TIME</strong></td>
-<td>Sets the system clock.</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<!-- ============================================================
-OPEN ITEMS: Section 12
-==============================================================
-OI-12-01: Document-wide pass needed to standardize "(Option)" vs
-          "(when equipped)" usage for optional equipment across
-          all sections, not just Section 12.
-============================================================ -->
 
 
 
