@@ -847,14 +847,14 @@ have a yellow background with green text. See
 <td>Target throughput in portions per minute. Used by the PLC to calculate PORTION CONVEYOR move speed.</td>
 </tr>
 <tr>
-<td><strong>FEED-Z CONV</strong></td>
+<td><strong>FEED-Z CONV</strong> (Optional)</td>
 <td>10–30 FPM</td>
-<td>FEED-Z CONVEYOR speed. (Option)</td>
+<td>FEED-Z CONVEYOR speed.</td>
 </tr>
 <tr>
-<td><strong>FEED CONV</strong></td>
+<td><strong>FEED CONV</strong> (Optional)</td>
 <td>0–100 FPM</td>
-<td>FEED CONVEYOR speed. (Option)</td>
+<td>FEED CONVEYOR speed.</td>
 </tr>
 <tr>
 <td><strong>HOPPER LOW WEIGHT</strong></td>
@@ -865,6 +865,16 @@ have a yellow background with green text. See
 <td><strong>HOPPER HIGH WEIGHT</strong></td>
 <td>0–40 lb</td>
 <td>PORTION CONVEYOR load cell upper threshold. FEED-Z CONVEYOR stops when weight exceeds this value.</td>
+</tr>
+<tr>
+<td><strong>FEED HOPPER LOW WEIGHT</strong> (Optional)</td>
+<td>0–40 lb</td>
+<td>FEED CONVEYOR load cell lower threshold. FEED-Z CONVEYOR starts when weight falls below this value, independent of the HOPPER load cell.</td>
+</tr>
+<tr>
+<td><strong>FEED HOPPER HIGH WEIGHT</strong> (Optional)</td>
+<td>0–40 lb</td>
+<td>FEED CONVEYOR load cell upper threshold. FEED-Z CONVEYOR stops when weight exceeds this value, independent of the HOPPER load cell.</td>
 </tr>
 <tr>
 <td><strong>BUCKET OPEN TIME</strong></td>
@@ -934,9 +944,8 @@ before saving.</p>
 alternates between depositing and skipping each successive target.</p>
 <p>To enable Skip Mode, set the SKIP MODE field to ON in the active recipe and
 save. The SKIP MODE indicator on the OI illuminates when active.</p>
-<p>If the skip phase is out of sync with the line — depositing on targets that
-should be skipped — press SYNC on the OI. Each press shifts the skip phase
-by one target.</p>
+<p>If the skip phase is out of sync with the line, press SYNC on the OI. Each
+press shifts the skip phase by one target.</p>
 <hr />
 <h2 id="54-rake-height-setup">5.4 Rake Height Setup<a class="headerlink" href="#54-rake-height-setup" title="Permanent link">&para;</a></h2>
 <p>RAKE HEIGHT is set manually using the hand-crank adjustment on the machine
@@ -1009,6 +1018,13 @@ HEIGHT can run lower.</p>
 <p>Repeat the assessment when the topping lot changes, after extended idle
 periods, or when ambient conditions differ significantly from normal.</p>
 </div>
+<!-- ============================================================
+OPEN ITEMS: Section 5
+==============================================================
+R-5-01: Confirm "Motor Setup" wording and "(Optional)" tagging for
+        PORTION CONVEYOR / FEED CONVEYOR consistency with Section 12
+        (carried from Section 12 review).
+============================================================ -->
 
 
 
