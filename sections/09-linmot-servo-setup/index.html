@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#9-linmot-carpet-servo-setup" class="md-skip">
+        <a href="#9-carpet-servo-setup" class="md-skip">
           Skip to content
         </a>
       
@@ -778,7 +778,7 @@
 
 
 
-<h1 id="9-linmot-carpet-servo-setup">9  Linmot Carpet Servo Setup<a class="headerlink" href="#9-linmot-carpet-servo-setup" title="Permanent link">&para;</a></h1>
+<h1 id="9-carpet-servo-setup">9  Carpet Servo Setup<a class="headerlink" href="#9-carpet-servo-setup" title="Permanent link">&para;</a></h1>
 <h2 id="91-overview">9.1 Overview<a class="headerlink" href="#91-overview" title="Permanent link">&para;</a></h2>
 <p>The CARPET is driven by a Linmot C1250 linear servo. Its setup screen is
 reached from MAINT → MOTOR SETUP → CARPET and allows the operator to adjust
@@ -789,11 +789,12 @@ the extend move is set by EXTEND RATIO, a multiplier applied to PRODUCT
 CONVEYOR speed. An EXTEND RATIO of 1.0 moves the CARPET at the same speed
 as the PRODUCT CONVEYOR. An EXTEND RATIO of 2.0 moves the CARPET at twice
 that speed. The return stroke always runs at three times the extend velocity.</p>
-<p>Four parameters are adjustable from the extend profile: EXTEND RATIO, ACCEL
-RATE, and DECEL RATE. The return profile has its own ACCEL RATE and DECEL
-RATE. MOVE TYPE selects between a TRAPEZOIDAL move and an S-CURVE move for
-both strokes. When S-CURVE is selected, a fifth parameter, JERK, becomes
-available.</p>
+<p>The extend and return profiles are each set independently. Each profile
+has its own MOVE TYPE (TRAPEZOIDAL or S-CURVE), ACCEL RATE, and DECEL RATE.
+EXTEND RATIO sets the extend velocity relative to PRODUCT CONV speed; the
+return velocity is fixed at three times the extend velocity. When a
+profile's MOVE TYPE is set to S-CURVE, that profile's JERK parameter
+becomes available.</p>
 <p>ACCEL RATE and DECEL RATE are limited to a range of 50 to 1500 in/sec².
 JERK is limited to a range of 50 to 1500 in/sec³. Values outside these
 ranges are rejected by the OI.</p>
@@ -845,7 +846,7 @@ CARPET belt and mounting hardware.</p>
     </div>
 
     <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">CONV SPEED (FPM) <span id="tz-conv-v" style="font-weight:700;color:#24211C">100</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">PRODUCT CONV (FPM) <span id="tz-conv-v" style="font-weight:700;color:#24211C">100</span></div>
       <div style="display:flex;align-items:center;gap:6px">
         <button onclick="tzNudge('tz-conv',-5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
         <input type="range" id="tz-conv" min="10" max="120" step="5" value="100" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
@@ -912,11 +913,11 @@ CARPET belt and mounting hardware.</p>
 </div>
 
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:8px">
-  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Extend — Velocity vs Time</div>
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Extend Velocity vs Time</div>
   <svg id="tz-ext-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
 </div>
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:8px">
-  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Return — Velocity vs Time</div>
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Return Velocity vs Time</div>
   <svg id="tz-ret-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
 </div>
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
@@ -1085,7 +1086,7 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
     </div>
 
     <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">CONV SPEED (FPM) <span id="sc-conv-v" style="font-weight:700;color:#24211C">100</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#24211C;margin-bottom:5px">PRODUCT CONV (FPM) <span id="sc-conv-v" style="font-weight:700;color:#24211C">100</span></div>
       <div style="display:flex;align-items:center;gap:6px">
         <button onclick="scNudge('sc-conv',-5)" style="background:#F36C23;border:none;border-radius:4px;width:26px;height:26px;font-size:12px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;line-height:1">&#9664;</button>
         <input type="range" id="sc-conv" min="10" max="120" step="5" value="100" style="flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;border:none">
@@ -1169,11 +1170,11 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 </div>
 
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:8px">
-  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Extend — Velocity vs Time</div>
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Extend Velocity vs Time</div>
   <svg id="sc-ext-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
 </div>
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:8px">
-  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Return — Velocity vs Time</div>
+  <div style="font-size:12px;color:#7D868C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Return Velocity vs Time</div>
   <svg id="sc-ret-svg" viewBox="0 0 640 130" style="width:100%;height:auto;display:block"></svg>
 </div>
 <div style="background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:12px;margin-bottom:12px">
@@ -1345,6 +1346,13 @@ MOVE TYPE is set to TRAPEZOIDAL, JERK has no effect.</p>
 <div class="figure-placeholder">Figure 9.3  CARPET S-curve move setup screen</div>
 <figcaption>Figure 9.3  CARPET S-curve move setup screen</figcaption>
 </figure>
+<!-- ============================================================
+OPEN ITEMS: Section 9
+==============================================================
+S-9-01: Confirm whether "Linmot Servo Setup" cross-references in
+        Sections 6.2, 12.7, and 12.8 should be updated to "Carpet
+        Servo Setup" to match this file's new title.
+============================================================ -->
 
 
 
